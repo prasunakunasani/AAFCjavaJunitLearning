@@ -1,5 +1,5 @@
 
-#Painfully detailed notes 
+# Painfully detailed notes 
 ###### Commit: S1 Section 4, Lecture 20, 21
 - Inversion of Control: The approach of outsourcing the construction and management of objects  
     - outsource to object factory
