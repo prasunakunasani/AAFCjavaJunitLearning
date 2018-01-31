@@ -1,6 +1,6 @@
 
-#Painfully detailed notes
-######Commit 2: S1 Section 4, Lecture 20, 21  
+#Painfully detailed notes#  
+######Commit 2: S1 Section 4, Lecture 20, 21######  
 - Inversion of Control: The approach of outsourcing the construction and management of objects  
     - outsource to object factory
     - Basically, the app will outsource creation and management of objects and this outsourcing will be handled by the object factory. 
@@ -15,7 +15,7 @@
     - Coach.java: interface after refactoring
     - TrackCoach.java: using it to switch to a dif coach to see if the app still works
 
-######Commit 2: S1 Section 4, Lecture 21
+######Commit 2: S1 Section 4, Lecture 21######
 - Software Engineering best Practice: Code to an interface
     - instead of coding to the baseball coach implementation, want to use something that all coaches can support
     - every coach will have a getDailyWorkout
@@ -24,14 +24,14 @@
             - what: method called getDailyWorkout and dif coaches will implement this method depending on the type of coach that they are
 - now, the output will still be the same but this handles the requirement of other coaches using it
 
-####Source: 
+####Source:#### 
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course
 
-####Shortcuts: 
+####Shortcuts:#### 
 - In Idea, 'psvm' + tab gives: public static void main function
 
-####Technical Stuff: 
+####Technical Stuff:#### 
 JDK: jdk1.8.0_112
 Spring: 
 Junit: 5
