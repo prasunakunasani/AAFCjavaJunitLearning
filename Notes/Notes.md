@@ -24,12 +24,27 @@
             - what: method called getDailyWorkout and dif coaches will implement this method depending on the type of coach that they are
 - now, the output will still be the same but this handles the requirement of other coaches using it
 
+###### Commit: S2 Section 3, Lecture 6 - Junit intro
+From: http://www.vogella.com/tutorials/JUnit/article.html  
+Where should the test be located?  
+Typical, unit tests are created in a separate project or separate source folder to keep the test code separate from the real code. The standard convention from the Maven and Gradle build tools is to use:
+
+src/main/java - for Java classes
+src/test/java - for test classes
+- See Shortcuts on how to run a test
+
+
+
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course
 
 #### Shortcuts:
 - In Idea, 'psvm' + tab gives: public static void main function
+- To create a test, go to the class for which you want to create the test. 
+          - On a Mac/PC, use 'Alt + Enter'
+          - Or, right click class, Go to -> Test, click on 'Create New Test', yes for same root source folder, select Junit5 (Fix if necessary), change the folder to where tests go
+          - If there are red text on the Junit lines, do 'Alt+Enter' again and click on 'Add Junit5 to classpath' or something similar 
 
 #### Technical Stuff:
 JDK: jdk1.8.0_112
