@@ -44,6 +44,12 @@ src/test/java - for test classes
     - assume the TodoService interfaces to more functions, then you'll have to add more functions in the stub
         - service definition - more maintenance 
 
+###### Commit: S3 Step 4
+- Static imports - Eg- assertEquals is a static method that's in org.junit.Assert class
+- Mocks
+    - mocking is creating objects that simulate the behaviour of real objects
+    - unlike stubs, mocks can be dynamically created from code - at runtime 
+    - frameworks like mockito allow one to create a dummy class 
 
 
 #### Source: 
@@ -57,6 +63,19 @@ S3 - YT 'Mockito Tutorial - Mocking with Junit and Maven' (https://github.com/in
           - On a Mac/PC, use 'Alt + Enter'
           - Or, right click class, Go to -> Test, click on 'Create New Test', yes for same root source folder, select Junit5 (Fix if necessary), change the folder to where tests go
           - If there are red text on the Junit lines, do 'Alt+Enter' again and click on 'Add Junit5 to classpath' or something similar 
+- In Eclipse, to add static imports, do 'Ctrl + 1' or 'Command + 1'
+- In Eclipse, To automatically add the static imports in Mockito to come up automatically : 
+    - Windows:  Windows -> Preferences, type 'Favorites', select Favorites in Java, add whatever classes (new type), apply, okay
+    - Mac:  Eclipse -> Preferences...rest as above
+        - Classes: starting typing in mockito and then: 
+            - org.mockito.Mockito.*
+            - org.mockito.BDDMockito.*
+            - org.hamcrest.Matchers.*
+            - org.hamcrest.CoreMatchers.*
+    - Now, as soon as you type in the methods, exclipse will automatically suggest the imports
+ - In Intellij,
+    - Go to Maven Repository, find Mockito, download Jar file, move to lib folder
+    - go to File->Project Structure->Dependencies->+->add Jar files, select the jar file
 
 #### Technical Stuff:
 JDK: jdk1.8.0_112
