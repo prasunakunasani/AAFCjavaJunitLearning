@@ -33,11 +33,23 @@ src/main/java - for Java classes
 src/test/java - for test classes
 - See Shortcuts on how to run a test
 
+###### Commit: S3 Step 1, 2, 3
+- TodoBusinessImpl is SUT - System Under test
+- TodoService is a dependency for TodoBusinessImpl
+- A stub: A class that returns dummy data
+- Stubs are not the right way to go because: 
+    - assume you want to test different output based on dif user, you'll have to add more logic to the stubs
+        - code becomes complex when you want to do dynamic conditions 
+            - wanting to get different values for dif scenarios
+    - assume the TodoService interfaces to more functions, then you'll have to add more functions in the stub
+        - service definition - more maintenance 
+
 
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course
+S3 - YT 'Mockito Tutorial - Mocking with Junit and Maven' (https://github.com/in28minutes/MockitoTutorialForBeginners) 
 
 #### Shortcuts:
 - In Idea, 'psvm' + tab gives: public static void main function
