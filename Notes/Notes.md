@@ -51,11 +51,13 @@ src/test/java - for test classes
     - unlike stubs, mocks can be dynamically created from code - at runtime 
     - frameworks like mockito allow one to create a dummy class 
 
+###### Commit: S3 Step 5
+- Building a mock for List in java - List in an interface 
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course
-S3 - YT 'Mockito Tutorial - Mocking with Junit and Maven' (https://github.com/in28minutes/MockitoTutorialForBeginners) 
+S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/MockitoTutorialForBeginners) 
 
 #### Shortcuts:
 - In Idea, 'psvm' + tab gives: public static void main function

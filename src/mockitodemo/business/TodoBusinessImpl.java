@@ -10,6 +10,8 @@ import mockitodemo.data.TodoService;
 public class TodoBusinessImpl {
     private TodoService todoService;
 
+
+    //whatif - this was a private constructor?
     public TodoBusinessImpl(TodoService todoService) {
         this.todoService = todoService;
     }
