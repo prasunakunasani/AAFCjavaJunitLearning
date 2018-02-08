@@ -53,6 +53,12 @@ src/test/java - for test classes
 
 ###### Commit: S3 Step 5
 - Building a mock for List in java - List in an interface 
+- ListTest.java code contains: 
+    - a minimum setup stuff needed to use @Mock annotation vs the one shown in the course using mock(blah.class)
+    - How to mock methods with or without parameters
+    - How to mock multiple responses for the same method
+    - How to use Argument Matchers
+    - How to mock ThrowException stuff - PS - the test for it doesn't work but may work for real life
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
