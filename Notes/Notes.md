@@ -96,10 +96,63 @@ And two black garments in stock
 - the other requirement - App should be configurable
     - the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
 
+###### Commit: S1 Section 4, Lecture 23 - Spring Inversion of Control 
+Spring Container: 
+![alt text](https://github.com/whereismybaymax/AAFCjavaJunitLearning\Notes\Images\2018-02-09 10_29_13-Spring & Hibernate for Beginners _ Udemy.png)
+- When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
+- Primary Functions of Spring Object Factory: 
+    - Create and manage objects (Inversion of Control (IoC))
+    - Inject object's dependencies (Dependency Injection)
+- 3 ways of Configuring Spring container: 
+    1) XML configuration file (legacy, but most legacy apps still use this)
+    2) Java Annotations (modern)
+    3) Java Source Code (modern)
+- Spring Development Process
+    - Configure your Spring Beans
+    - Create a Spring Container
+    - Retrieve Beans from Spring Container
+- **Step 1: Configure your Spring Beans** Eg: 
+```java
+<beans ...>
+    <bean id="myCoach"
+        class = "springdemo.BaseballCoach.java">
+    </bean>
+</beans>
+```
+- File: applicationContext.xml 
+    - The id is like an alias that java app will use to retreive a bean from the spring container
+    - class is the actual implementation for the app
+- **Step 2: Creating a Spring Container**
+- Spring container is generally known as *ApplicationContext*
+- These have specialized implementations: 
+    - ClassPathXmlApplicationContext
+    - AnnotationConfigApplicationContext
+    - GenericWebApplicationContext
+    - others...
+```java
+//create a spring container
+ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml"); 
+```
+- want to read the XML file in my class path so use the ClassPathXmlApplicationContext
+    - passing in the name of the configuration file (from step 1)
+        - can use any name as long as we're consistent  in step 1 and 2
+- **Step 3: Retrieve Beans from Container**: 
+- **Step 3: Retrieve Beans from Container**: 
+- So far, have the container created. Next step is retrieving beans from the container
+    - app will talk to Spring Container asking for the Coach object. And based on what's in the config file, you'll get an implementation of the given interface
+```java
+//retrieve bean from spring container
+Coach theCoach = context.getBean("myCoach",Coach.class); 
+```
+-  'myCoach' is the bean id defined in the configuration file
+- coach.class is the name of the interface that BaseballCoach implements
 
-
-
-
+- **What is a Spring Bean?**  
+A "Spring Bean" is simply a Java object.  
+- When Java objects are created by the Spring Container, then Spring refers to them as "Spring Beans".  
+- Spring Beans are created from normal Java classes .... just like Java objects.  
+- In the early days, there was a term called "Java Beans". Spring Beans have a similar concept but Spring Beans do not follow all of the rigorous requirements of Java Beans.
+- In summary, whenever you see "Spring Bean", just think Java object. ::):
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
