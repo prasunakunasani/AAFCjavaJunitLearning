@@ -43,6 +43,9 @@ src/test/java - for test classes
             - wanting to get different values for dif scenarios
     - assume the TodoService interfaces to more functions, then you'll have to add more functions in the stub
         - service definition - more maintenance 
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step01.md  
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step02.md  
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step03.md  
 
 ###### Commit: S3 Step 4
 - Static imports - Eg- assertEquals is a static method that's in org.junit.Assert class
@@ -50,6 +53,7 @@ src/test/java - for test classes
     - mocking is creating objects that simulate the behaviour of real objects
     - unlike stubs, mocks can be dynamically created from code - at runtime 
     - frameworks like mockito allow one to create a dummy class 
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step04.md  
 
 ###### Commit: S3 Step 5
 - Building a mock for List in java - List in an interface 
@@ -59,7 +63,8 @@ src/test/java - for test classes
     - How to mock multiple responses for the same method
     - How to use Argument Matchers
     - How to mock ThrowException stuff - PS - the test for it doesn't work but may work for real life
-    
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step05.md  
+
 ###### Commit: S3 Step 6 
 - BDD - Behaviour driven development (http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/BDDMockito.html)
 - Eg - Agile projects use user stories that are split to scenarios
@@ -89,6 +94,7 @@ And two black garments in stock
     - When is the actual method call
     - Then all the asserts show that something has happened
 - Mockito BDD has specific methods that help one to write tests in that particular
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step06.md  
 
 ###### Commit: S1 Section 4, Lecture 22
 - one requirement - The whole point of using interfaces is so one can easily change the coach for another sport: 
@@ -97,8 +103,8 @@ And two black garments in stock
     - the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
 
 ###### Commit: S1 Section 4, Lecture 23 - Spring Inversion of Control 
-Spring Container: 
-![alt text](https://github.com/whereismybaymax/AAFCjavaJunitLearning\Notes\Images\2018-02-09 10_29_13-Spring & Hibernate for Beginners _ Udemy.png)
+Spring Container:  
+![alt text](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-02-09%2010_29_13-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
 - Primary Functions of Spring Object Factory: 
     - Create and manage objects (Inversion of Control (IoC))
@@ -153,6 +159,18 @@ A "Spring Bean" is simply a Java object.
 - Spring Beans are created from normal Java classes .... just like Java objects.  
 - In the early days, there was a term called "Java Beans". Spring Beans have a similar concept but Spring Beans do not follow all of the rigorous requirements of Java Beans.
 - In summary, whenever you see "Spring Bean", just think Java object. ::):
+
+###### Commit: S3 Step 7 - Verify Calls on Mocks
+- May want to check if a method is called or not! and also how many times a method is called
+- until now, we used something like given(mockList.get(anyInt())).willReturn("Blah")
+    - but no idea if mockList.get(anyInt()) was called at all
+- Basically, we need to know how to test void functions
+    - verify methods in Mockito let you check if some method is called
+
+
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step07.md
+
+
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  

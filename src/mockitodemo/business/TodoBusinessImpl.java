@@ -8,12 +8,13 @@ import java.util.List;
 import mockitodemo.data.TodoService;
 
 public class TodoBusinessImpl {
+
     private TodoService todoService;
 
 
     //whatif - this was a private constructor?
     public TodoBusinessImpl(TodoService todoService) {
-        this.todoService = todoService;
+                this.todoService = todoService;
     }
 
     //This is the method we want to write tests for
@@ -33,5 +34,17 @@ public class TodoBusinessImpl {
             }
         }
         return filteredTodos;
+    }
+
+    public void deleteTodosNotRelatedToSpring(String user)
+    {
+        List<String> allTodos = todoService.retrieveTodos(user);
+
+        for (String todo : allTodos) {
+            //anything is unrelated to Spring, then it's deleted
+            if (!todo.contains("Spring")) {
+                todoService.deleteTodo(todo);
+            }
+        }
     }
 }
