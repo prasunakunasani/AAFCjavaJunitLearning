@@ -166,11 +166,13 @@ A "Spring Bean" is simply a Java object.
     - but no idea if mockList.get(anyInt()) was called at all
 - Basically, we need to know how to test void functions
     - verify methods in Mockito let you check if some method is called
-
-
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step07.md
 
-
+###### Commit: S3 Step 7 - Capturing Arguments passed to a Mock
+- How to capture an argument that's passed to a mock?
+- Side note: Before, used verify but for BDD, can use then(mockedObjectInstance).should(never()).method("argument");
+- Argument Capture can be used to capture more complex objects 
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step08.md
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
