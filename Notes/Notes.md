@@ -90,13 +90,28 @@ And two black garments in stock
     - Then all the asserts show that something has happened
 - Mockito BDD has specific methods that help one to write tests in that particular
 
+###### Commit: S1 Section 4, Lecture 22
+- one requirement - The whole point of using interfaces is so one can easily change the coach for another sport: 
+        - Hockey, Cricket, Tennis, Gymnastics, etc...
+- the other requirement - App should be configurable
+    - the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
+
+
+
+
+
+
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course
 S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/MockitoTutorialForBeginners) 
 
 #### Shortcuts:
-- In Idea, 'psvm' + tab gives: public static void main function
+- In Idea, 
+    - 'psvm' + tab gives: public static void main function
+    - If implementing an interface in a class, do 'Ctrl + I' to automatically implement the methods
+    - If for a function, you want to see what parameters are accepted, do 'Ctrl + P'
+    - To commit, do 'Ctrl + K'
 - To create a test, go to the class for which you want to create the test. 
           - On a Mac/PC, use 'Alt + Enter'
           - Or, right click class, Go to -> Test, click on 'Create New Test', yes for same root source folder, select Junit5 (Fix if necessary), change the folder to where tests go
@@ -111,11 +126,12 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
             - org.hamcrest.Matchers.*
             - org.hamcrest.CoreMatchers.*
     - Now, as soon as you type in the methods, eclipse will automatically suggest the imports
- - In Intellij,
+ - In Intelli to add a Maven jar file,
     - Go to Maven Repository, find Mockito, download Jar file, move to lib folder
     - go to File->Project Structure->Dependencies->+->add Jar files, select the jar file
+   
 
 #### Technical Stuff:
-JDK: jdk1.8.0_112
-Spring: 
-Junit: 5
+JDK: jdk1.8.0_112  
+Spring:   
+Junit: 5  
