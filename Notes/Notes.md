@@ -59,6 +59,36 @@ src/test/java - for test classes
     - How to mock multiple responses for the same method
     - How to use Argument Matchers
     - How to mock ThrowException stuff - PS - the test for it doesn't work but may work for real life
+    
+###### Commit: S3 Step 6 
+- BDD - Behaviour driven development (http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/BDDMockito.html)
+- Eg - Agile projects use user stories that are split to scenarios
+    - A user story is a very high-level definition of a requirement, containing just enough information so that the developers can produce a reasonable estimate of the effort to implement it and test it. 
+> Story: Returns go to Stock   
+In order to keep track of stock   
+As a store owner
+I want to add items back to stock when they're returned
+
+> Scenario 1: Refunded items should be returned to stock    
+Given that a customer previously bought a black sweater from me  
+And I have three black sweaters in stock.   
+When he returns the black sweater for a refund  
+Then I should have four black sweater in stock  
+
+> Scenario 2: Replaced items should be returned to stock  
+Given that a customer previously bought a blue garment from me  
+And I have two blue garments in stock  
+And three black garments in stock  
+When he returns the blue garments for a replacement in black  
+Then I should have three blue garments in stock   
+And two black garments in stock  
+
+- Tests should be written in a *Given, When, Then*  
+- At the beginning of the test, 
+    - Given is the setup
+    - When is the actual method call
+    - Then all the asserts show that something has happened
+- Mockito BDD has specific methods that help one to write tests in that particular
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
@@ -80,7 +110,7 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
             - org.mockito.BDDMockito.*
             - org.hamcrest.Matchers.*
             - org.hamcrest.CoreMatchers.*
-    - Now, as soon as you type in the methods, exclipse will automatically suggest the imports
+    - Now, as soon as you type in the methods, eclipse will automatically suggest the imports
  - In Intellij,
     - Go to Maven Repository, find Mockito, download Jar file, move to lib folder
     - go to File->Project Structure->Dependencies->+->add Jar files, select the jar file

@@ -7,10 +7,13 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.springframework.test.util.MatcherAssertionErrors.assertThat;
 
 public class ListTest{
 
@@ -72,6 +75,25 @@ public class ListTest{
 
         mockList.get(0);
 
+    }
+
+    @Test
+    public void letsMockListGetUsingBDD()
+    {
+        //Given
+//Mocking but it's done up there. If you did List listMock = mock(List.class) , it would go here
+        //Instead of: doReturn("Blah").when(mockList).get(0);
+        //Instead of: doReturn("Blah").when(mockList).get(anyInt());
+       given(mockList.get(anyInt())).willReturn("Blah");
+
+        //When
+        String expected = "Blah";
+        Object actual = mockList.get(0);
+
+        //Then
+        //Instead of: assertEquals("Blah",mockList.get(0));
+        //Instead of: assertEquals("Blah",mockList.get(390485));
+        assertThat(expected,is(actual));
     }
 
 }
