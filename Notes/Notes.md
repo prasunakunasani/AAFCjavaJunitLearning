@@ -93,7 +93,12 @@ And two black garments in stock
     - Given is the setup
     - When is the actual method call
     - Then all the asserts show that something has happened
-- Mockito BDD has specific methods that help one to write tests in that particular
+- Mockito BDD has specific methods that help one to write tests in that particular manner
+- Egs in code: 
+    - given(mockList.get(anyInt())).willReturn("Blah"); 
+    - given(todoServiceMock.retrieveTodos("DummyName")).willReturn(todos); 
+    - assertThat(expected,is(actual)); 
+    - assertThat(filteredTodos.size(),is(2));
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step06.md  
 
 ###### Commit: S1 Section 4, Lecture 22
@@ -103,8 +108,11 @@ And two black garments in stock
     - the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
 
 ###### Commit: S1 Section 4, Lecture 23 - Spring Inversion of Control 
-Spring Container:  
-![alt text](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-02-09%2010_29_13-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
+![Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-02-09%2010_29_13-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
+- From: https://www.tutorialspoint.com/spring/spring_ioc_containers.htm
+    - Spring Container: Is the core of Spring Framework. 
+    - The container will create the objects, wire them together, configure them and manage their complete life cylce from creation till destruction 
+    - The container gets it's instructions on what objects to instantiate, configure and assemble by reading the configuration metadata.  
 - When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
 - Primary Functions of Spring Object Factory: 
     - Create and manage objects (Inversion of Control (IoC))
@@ -117,18 +125,18 @@ Spring Container:
     - Configure your Spring Beans
     - Create a Spring Container
     - Retrieve Beans from Spring Container
-- **Step 1: Configure your Spring Beans** Eg: 
+**Step 1: Configure your Spring Beans** Eg: 
 ```java
+//File: applicationContext.xml
 <beans ...>
     <bean id="myCoach"
         class = "springdemo.BaseballCoach.java">
     </bean>
 </beans>
 ```
-- File: applicationContext.xml 
-    - The id is like an alias that java app will use to retreive a bean from the spring container
-    - class is the actual implementation for the app
-- **Step 2: Creating a Spring Container**
+- The id is like an alias that java app will use to retrieve a bean from the spring container
+- class is the actual implementation for the app
+**Step 2: Creating a Spring Container**
 - Spring container is generally known as *ApplicationContext*
 - These have specialized implementations: 
     - ClassPathXmlApplicationContext
@@ -142,21 +150,20 @@ ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("app
 - want to read the XML file in my class path so use the ClassPathXmlApplicationContext
     - passing in the name of the configuration file (from step 1)
         - can use any name as long as we're consistent  in step 1 and 2
-- **Step 3: Retrieve Beans from Container**: 
-- **Step 3: Retrieve Beans from Container**: 
+**Step 3: Retrieve Beans from Container**: 
 - So far, have the container created. Next step is retrieving beans from the container
     - app will talk to Spring Container asking for the Coach object. And based on what's in the config file, you'll get an implementation of the given interface
 ```java
 //retrieve bean from spring container
 Coach theCoach = context.getBean("myCoach",Coach.class); 
 ```
--  'myCoach' is the bean id defined in the configuration file
-- coach.class is the name of the interface that BaseballCoach implements
+- 'myCoach' is the bean id defined in the configuration file
+- coach.class is the name of the interface that BaseballCoach implements  
 
-- **What is a Spring Bean?**  
-A "Spring Bean" is simply a Java object.  
-- When Java objects are created by the Spring Container, then Spring refers to them as "Spring Beans".  
-- Spring Beans are created from normal Java classes .... just like Java objects.  
+**What is a Spring Bean?**  
+- A "Spring Bean" is simply a Java object.
+- When Java objects are created by the Spring Container, then Spring refers to them as "Spring Beans".
+- Spring Beans are created from normal Java classes .... just like Java objects.
 - In the early days, there was a term called "Java Beans". Spring Beans have a similar concept but Spring Beans do not follow all of the rigorous requirements of Java Beans.
 - In summary, whenever you see "Spring Bean", just think Java object. ::):
 
@@ -166,18 +173,34 @@ A "Spring Bean" is simply a Java object.
     - but no idea if mockList.get(anyInt()) was called at all
 - Basically, we need to know how to test void functions
     - verify methods in Mockito let you check if some method is called
+- Egs in Code: 
+    - verify(todoServiceMock).deleteTodo("Learn Mockito");
+    - verify(todoServiceMock, never()).deleteTodo("Learn Spring");
+    - verify(todoServiceMock, times(2)).deleteTodo("Learn Junit");
+    - verify(todoServiceMock, atLeastOnce()).deleteTodo("Learn Junit");
+    - verify(todoServiceMock, atLeast(5)).deleteTodo("Learn Mockito");
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step07.md
 
-###### Commit: S3 Step 7 - Capturing Arguments passed to a Mock
+###### Commit: S3 Step 8 - Capturing Arguments passed to a Mock
 - How to capture an argument that's passed to a mock?
 - Side note: Before, used verify but for BDD, can use then(mockedObjectInstance).should(never()).method("argument");
 - Argument Capture can be used to capture more complex objects 
+- Egs in code: 
+    - given(todoServiceMock.retrieveTodos("DummyName")).willReturn(todos);
+    - then(todoServiceMock).should().deleteTodo("Learn Mockito");
+    - then(todoServiceMock).should(never()).deleteTodo("Learn Spring");
+    - ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+    - then(todoServiceMock).should(times(3)).deleteTodo(stringArgumentCaptor.capture());
+    - assertThat(stringArgumentCaptor.getAllValues().size(),is(3));
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step08.md
+
+###### Commit: S3 Step 9 - Hamcrest Matchers
+
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
-S2 - JUnit and Mockito Crash Course
-S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/MockitoTutorialForBeginners) 
+S2 - JUnit and Mockito Crash Course  
+S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/MockitoTutorialForBeginners)
 
 #### Shortcuts:
 - In Idea, 
@@ -199,7 +222,7 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
             - org.hamcrest.Matchers.*
             - org.hamcrest.CoreMatchers.*
     - Now, as soon as you type in the methods, eclipse will automatically suggest the imports
- - In Intelli to add a Maven jar file,
+ - In Intellij to add a Maven jar file,
     - Go to Maven Repository, find Mockito, download Jar file, move to lib folder
     - go to File->Project Structure->Dependencies->+->add Jar files, select the jar file
    
