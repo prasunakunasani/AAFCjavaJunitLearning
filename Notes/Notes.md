@@ -191,11 +191,36 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
     - then(todoServiceMock).should(never()).deleteTodo("Learn Spring");
     - ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
     - then(todoServiceMock).should(times(3)).deleteTodo(stringArgumentCaptor.capture());
-    - assertThat(stringArgumentCaptor.getAllValues().size(),is(3));
+    - assertThat(stringArgumentCaptor.getAllValues().size(),is(3)); 
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step08.md
 
-###### Commit: S3 Step 9 - Hamcrest Matchers
-
+###### S3 Step 9 - Hamcrest Matchers (skipped)
+###### Commit: S3 Step 10 - Mockito Annotations @Mock @InjectMocks @RunWith, @Captor
+- @Mock will make an mock
+    - can add @RunWith(MockitoJunitRunner.class) on top of the test class
+    - Needs to be placed just below the class
+- @InjectMock
+    - eg, in TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock), 
+        - we are creating a new instance of TodoBusinessImpl using the todoServiceMock as a constructor parameter. 
+            - So, we are trying to inject the todoServiceMock into the TodoBusinessImpl 
+                - instead of doing this manually, mockito can do it
+        - Mockito can look at look at all things declared as InjectMock 
+        - If you do: 
+            - @InjectMocks
+            - TodoBusinessImpl todoBusinessImpl
+                - Mokito will look at all things present in actual class todoBusinessImpl
+                    - in there, the things that are declared are todoService
+        - So, it will look at all the dependencies of todoBusinessImpl and see if there is a mock that matches it
+            - So, it will automatically inject the todoService so the original line can be removed
+    - Therefore, if there are 5 dependencies, can just mock them and using InjectMock then mockito will inject the dependencies.
+    - This makes the test more readable
+ - @Captor
+    - Before, to declare an argument captor, you did this: 
+        -  ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);  
+    - Now, can do: 
+        - @Captor
+        - ArgumentCaptor<String> stringArgumentCaptor
+            - this automatically creates a captor of a particular type
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  

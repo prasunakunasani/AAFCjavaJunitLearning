@@ -65,7 +65,6 @@ class TodoBusinessImplMockTest {
         //Insert of: assertEquals(2, filteredTodos.size()); could use:
         //Readable asserts - If the left value is the same as the right side value, test'll pass. Else it'll fail.
         assertThat(filteredTodos.size(), is(2));
-
     }
 
     @Test
@@ -81,12 +80,12 @@ class TodoBusinessImplMockTest {
         todoBusinessImpl.deleteTodosNotRelatedToSpring("DummyName");
 
         //Then
-        //want to check if deleteTodo was called with the parameter "Learn to Dance"
+        //want to check if deleteTodo was called with the parameter "Learn Mockito"
         verify(todoServiceMock).deleteTodo("Learn Mockito");
         //to check the second time this function is called by calling verify again
         //verify(todoServiceMock).deleteTodo("Learn Junit");
 
-//verify that something is never called
+        //verify that something is never called
         verify(todoServiceMock, never()).deleteTodo("Learn Spring");
 
         //verify that something was called specifically once (1) or twice(2)..etc
@@ -147,6 +146,5 @@ class TodoBusinessImplMockTest {
         //But of you use getAllValues, make sure than in the capture, you're capturing all values
         //Weird - won't the times() above and is() above match all the time?
         assertThat(stringArgumentCaptor.getAllValues().size(),is(3));
-
     }
 }
