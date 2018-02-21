@@ -19,8 +19,8 @@
 - Software Engineering best Practice: Code to an interface
     - instead of coding to the baseball coach implementation, want to use something that all coaches can support
     - every coach will have a getDailyWorkout
-    - any interface don't have any implementation code, only the specification 
-        - only say what's available and how it's implemented
+    - an interface doesn't have any implementation code; only the specification 
+        - it only says what's available and how it's implemented
             - what: method called getDailyWorkout and dif coaches will implement this method depending on the type of coach that they are
 - now, the output will still be the same but this handles the requirement of other coaches using it
 
@@ -111,7 +111,7 @@ And two black garments in stock
 ![Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-02-09%2010_29_13-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - From: https://www.tutorialspoint.com/spring/spring_ioc_containers.htm
     - Spring Container: Is the core of Spring Framework. 
-    - The container will create the objects, wire them together, configure them and manage their complete life cylce from creation till destruction 
+    - The container will create the objects, wire them together, configure them and manage their complete life cycle from creation till destruction 
     - The container gets it's instructions on what objects to instantiate, configure and assemble by reading the configuration metadata.  
 - When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
 - Primary Functions of Spring Object Factory: 
@@ -173,12 +173,21 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
     - but no idea if mockList.get(anyInt()) was called at all
 - Basically, we need to know how to test void functions
     - verify methods in Mockito let you check if some method is called
+        - It internally uses: verify(mock, times(1)).someMethod("was called once"); 
 - Egs in Code: 
     - verify(todoServiceMock).deleteTodo("Learn Mockito");
     - verify(todoServiceMock, never()).deleteTodo("Learn Spring");
     - verify(todoServiceMock, times(2)).deleteTodo("Learn Junit");
     - verify(todoServiceMock, atLeastOnce()).deleteTodo("Learn Junit");
     - verify(todoServiceMock, atLeast(5)).deleteTodo("Learn Mockito");
+- Just reference in general (https://stackoverflow.com/questions/27787487/java-verify-void-method-calls-n-times-with-mockito): 
+    - verify(mock, times(5)).someMethod("was called five times");
+    - verify(mock, never()).someMethod("was never called");
+    - verify(mock, atLeastOnce()).someMethod("was called at least once");
+    - verify(mock, atLeast(2)).someMethod("was called at least twice");
+    - verify(mock, atMost(3)).someMethod("was called at most 3 times");
+    - verify(mock, atLeast(0)).someMethod("was called any number of times"); // useful with captors
+    - verify(mock, only()).someMethod("no other method has been called on the mock");
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step07.md
 
 ###### Commit: S3 Step 8 - Capturing Arguments passed to a Mock
@@ -197,7 +206,7 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
 ###### S3 Step 9 - Hamcrest Matchers (skipped)
 ###### Commit: S3 Step 10 - Mockito Annotations @Mock @InjectMocks @RunWith, @Captor
 - @Mock will make an mock
-    - can add @RunWith(MockitoJunitRunner.class) on top of the test class
+    - ~~can add @RunWith(MockitoJunitRunner.class) on top of the test class~~ - Works with out. Don't know the details of what this is for. 
     - Needs to be placed just below the class
 - @InjectMock
     - eg, in TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock), 
@@ -208,7 +217,7 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
         - If you do: 
             - @InjectMocks
             - TodoBusinessImpl todoBusinessImpl
-                - Mokito will look at all things present in actual class todoBusinessImpl
+                - Mockito will look at all things present in actual class todoBusinessImpl
                     - in there, the things that are declared are todoService
         - So, it will look at all the dependencies of todoBusinessImpl and see if there is a mock that matches it
             - So, it will automatically inject the todoService so the original line can be removed
@@ -221,6 +230,36 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
         - @Captor
         - ArgumentCaptor<String> stringArgumentCaptor
             - this automatically creates a captor of a particular type
+
+###### S3 Step 11 - Mockito Junit Rules - Skipped cause' not in Junit 5
+###### S3 Step 12 - Real World Mockito example with Spring - No actual implementation. Just random notes: 
+- Eg - For a more complicated project, you might have components such as 'Data' and 'Business'
+    - Each of these might have 'api' and 'impl'
+        - API is the interface stuff while impl is the actual implementation
+    - Therefore, if the business has to talk to the database side, it will use the API part of it. 
+###### Commit - S3 Step 13 - Mockito Spy
+- With mocks, we don't care about the impl of class but sometimes might want to override specific functionality of class - then we need a spy
+- A Spy gets all logic from the class. 
+    - So, you can override specific methods (using stubbing (when().thenReturn()...))
+        - Only the overridden method changes. The rest of the methods are still working normally. 
+- With a spy, you let the real action happen while listening onto it
+    - Like a spy watching what's happening
+- Some takeaways 
+    - If you call verify on a mock, you can check what methods are being called related to the mocked class
+    - If you call verify on a spy, you can check what methods are being called related to the actually class which you are testing
+        - Probably more useful during Integration testing (Nvm...I don't know...)
+    - spies are apparently used usually when you don't have access to the code or dependencies in a legacy system
+        - in general, apparently stick to mocks since with spys, you're using a bit of actual logic and mocked methods where it can get confusing
+    - https://stackoverflow.com/questions/15052984/what-is-the-difference-between-mocking-and-spying-when-using-mockito 
+        - When Mockito creates a mock – it does so from the Class of a Type, not from an actual instance. The mock simply creates a bare-bones shell instance of the Class, entirely instrumented to track interactions with it. On the other hand, the spy will wrap an existing instance. It will still behave in the same way as the normal instance – the only difference is that it will also be instrumented to track all the interactions with it.
+        - If there is an object with 8 methods and you have a test where you want to call 7 real methods and stub one method you have two options:
+        - Using a mock you would have to set it up by invoking 7 callRealMethod and stub one method
+        - Using a spy you have to set it up by stubbing one method
+        - The official documentation on doCallRealMethod recommends using a spy for partial mocks.
+###### S3 Step 13 - Why does Mockito not allow stubbing final and private methods. Just random notes: 
+- With unit testing, we are suppose to test the public interfaces of the class
+    - Mockito wants to promote that and doesn't allow mocking of private methods
+- Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
@@ -250,7 +289,8 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
  - In Intellij to add a Maven jar file,
     - Go to Maven Repository, find Mockito, download Jar file, move to lib folder
     - go to File->Project Structure->Dependencies->+->add Jar files, select the jar file
-   
+ - Import a Maven project in Intellij
+    - File-> New -> Module from Existing Source -> navigate to where the folder with pom.xml file is-> OK -> Just use the default stuff -> should eventually see the packages as another project
 
 #### Technical Stuff:
 JDK: jdk1.8.0_112  
