@@ -1,5 +1,22 @@
-
 # Painfully detailed notes 
+
+Spring Learning:   
+[Spring Inversion of Control](#commit-s1-section-4-lecture-20-21)  
+[Baseball Coach eg setup](#commit-s1-section-4-lecture-21)  
+[Configuring IoC, What is a Spring Bean](#commit-s1-section-4-lecture-23---spring-inversion-of-control)
+
+Mockito Learning:  
+[Mockito Intro - Stubbing](#commit-s3-step-1-2-3)
+[Mocking](#commit-s3-step-4)
+[Mocking List interface](#commit-s3-step-5)
+[BDD Behaviour](#commit-s3-step-6)
+[Verify calls on Mocks](#commit-s3-step-7---verify-calls-on-mocks)
+[Capturing arguments passed to Mocks](#commit-s3-step-8---capturing-arguments-passed-to-a-mock)
+[Mockito Annotations @Mock @InjectMocks @RunWith, @Captor](#commit-s3-step-10---mockito-annotations-mock-injectmocks-runwith-captor)
+[Mockito Spy](#commit---s3-step-13---mockito-spy)
+Junit Learning:  
+[Junit Intro](#commit-s2-section-3-lecture-6---junit-intro)
+
 ###### Commit: S1 Section 4, Lecture 20, 21
 - Inversion of Control: The approach of outsourcing the construction and management of objects  
     - outsource to object factory
