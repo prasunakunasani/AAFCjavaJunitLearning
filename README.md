@@ -21,6 +21,8 @@ Mockito Learning:
 Junit Learning:    
 [Junit Intro](#commit-s2-section-3-lecture-6---junit-intro)  
 
+# Spring
+
 ###### Commit: S1 Section 4, Lecture 20, 21
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/316b77c98d22dbeea751792cae8c579bcde97e8b  
 - Inversion of Control: The approach of outsourcing the construction and management of objects  
@@ -47,6 +49,81 @@ Junit Learning:
             - what: method called getDailyWorkout and dif coaches will implement this method depending on the type of coach that they are
 - now, the output will still be the same but this handles the requirement of other coaches using it
 
+
+###### Commit: S1 Section 4, Lecture 23 - Spring Inversion of Control 
+![Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-02-09%2010_29_13-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
+- From: https://www.tutorialspoint.com/spring/spring_ioc_containers.htm
+    - Spring Container: Is the core of Spring Framework. 
+    - The container will create the objects, wire them together, configure them and manage their complete life cycle from creation till destruction 
+    - The container gets it's instructions on what objects to instantiate, configure and assemble by reading the configuration metadata.  
+- When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
+- Primary Functions of Spring Object Factory: 
+    - Create and manage objects (Inversion of Control (IoC))
+    - Inject object's dependencies (Dependency Injection)
+- 3 ways of Configuring Spring container: 
+    1) XML configuration file (legacy, but most legacy apps still use this)
+    2) Java Annotations (modern)
+    3) Java Source Code (modern)
+- Spring Development Process
+    - Configure your Spring Beans
+    - Create a Spring Container
+    - Retrieve Beans from Spring Container  
+**Step 1: Configure your Spring Beans - XML Configuration file way** Eg: 
+```java
+//File: applicationContext.xml
+<beans ...>
+    <bean id="myCoach"
+        class = "springdemo.BaseballCoach.java">
+    </bean>
+</beans>
+```
+- The id is like an alias that java app will use to retrieve a bean from the spring container
+- class is the actual implementation for the app  
+**Step 2: Creating a Spring Container**
+- Spring container is generally known as *ApplicationContext*
+- These have specialized implementations: 
+    - ClassPathXmlApplicationContext
+    - AnnotationConfigApplicationContext
+    - GenericWebApplicationContext
+    - others...
+```java
+//create a spring container
+ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml"); 
+```
+- want to read the XML file in my class path so use the ClassPathXmlApplicationContext
+    - passing in the name of the configuration file (from step 1)
+        - can use any name as long as we're consistent  in step 1 and 2  
+**Step 3: Retrieve Beans from Container**: 
+- So far, have the container created. Next step is retrieving beans from the container
+    - app will talk to Spring Container asking for the Coach object. And based on what's in the config file, you'll get an implementation of the given interface
+```java
+//retrieve bean from spring container
+Coach theCoach = context.getBean("myCoach",Coach.class); 
+```
+- 'myCoach' is the bean id defined in the configuration file
+- coach.class is the name of the interface that BaseballCoach implements  
+
+**What is a Spring Bean?**  
+- A "Spring Bean" is simply a Java object.
+- When Java objects are created by the Spring Container, then Spring refers to them as "Spring Beans".
+- Spring Beans are created from normal Java classes .... just like Java objects.
+- In the early days, there was a term called "Java Beans". Spring Beans have a similar concept but Spring Beans do not follow all of the rigorous requirements of Java Beans.
+- In summary, whenever you see "Spring Bean", just think Java object. ::):
+
+
+###### Commit: S1 Section 4, Lecture 25 - Spring Inversion of Control cont.
+- Here: 
+- Download starter files from: http://www.luv2code.com/downloads/udemy-spring-hibernate/spring-hibernate-source-code-v18.zip 
+- Unzip, copy file :spring-core->spring-demo-one->starter-files->applicationContext.xml , paste in src folder
+    - If in Intellij, a pop-up with ask for the app Context to be configured. Just go through it. 
+- Used the file to configure the spring bean (step 1), used HelloSpringApp.java for doing step 2 and 3
+    - Run HelloSpringApp.java to see results (Yay! First spring app)
+![]()
+- Now, have have app that is configurable! 
+
+
+# Jnit
+
 ###### Commit: S2 Section 3, Lecture 6 - Junit intro
 From: http://www.vogella.com/tutorials/JUnit/article.html  
 Where should the test be located?  
@@ -55,6 +132,8 @@ Typical, unit tests are created in a separate project or separate source folder 
 src/main/java - for Java classes
 src/test/java - for test classes
 - See Shortcuts on how to run a test
+
+# Mockito
 
 ###### Commit: S3 Step 1, 2, 3
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/d62b14117679c0fe427f097b3b0f1f0cdc21ff9e 
@@ -133,67 +212,7 @@ And two black garments in stock
 - one requirement - The whole point of using interfaces is so one can easily change the coach for another sport: 
         - Hockey, Cricket, Tennis, Gymnastics, etc...
 - the other requirement - App should be configurable
-    - the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
-
-###### Commit: S1 Section 4, Lecture 23 - Spring Inversion of Control 
-![Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-02-09%2010_29_13-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
-- From: https://www.tutorialspoint.com/spring/spring_ioc_containers.htm
-    - Spring Container: Is the core of Spring Framework. 
-    - The container will create the objects, wire them together, configure them and manage their complete life cycle from creation till destruction 
-    - The container gets it's instructions on what objects to instantiate, configure and assemble by reading the configuration metadata.  
-- When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
-- Primary Functions of Spring Object Factory: 
-    - Create and manage objects (Inversion of Control (IoC))
-    - Inject object's dependencies (Dependency Injection)
-- 3 ways of Configuring Spring container: 
-    1) XML configuration file (legacy, but most legacy apps still use this)
-    2) Java Annotations (modern)
-    3) Java Source Code (modern)
-- Spring Development Process
-    - Configure your Spring Beans
-    - Create a Spring Container
-    - Retrieve Beans from Spring Container
-**Step 1: Configure your Spring Beans** Eg: 
-```java
-//File: applicationContext.xml
-<beans ...>
-    <bean id="myCoach"
-        class = "springdemo.BaseballCoach.java">
-    </bean>
-</beans>
-```
-- The id is like an alias that java app will use to retrieve a bean from the spring container
-- class is the actual implementation for the app
-**Step 2: Creating a Spring Container**
-- Spring container is generally known as *ApplicationContext*
-- These have specialized implementations: 
-    - ClassPathXmlApplicationContext
-    - AnnotationConfigApplicationContext
-    - GenericWebApplicationContext
-    - others...
-```java
-//create a spring container
-ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml"); 
-```
-- want to read the XML file in my class path so use the ClassPathXmlApplicationContext
-    - passing in the name of the configuration file (from step 1)
-        - can use any name as long as we're consistent  in step 1 and 2
-**Step 3: Retrieve Beans from Container**: 
-- So far, have the container created. Next step is retrieving beans from the container
-    - app will talk to Spring Container asking for the Coach object. And based on what's in the config file, you'll get an implementation of the given interface
-```java
-//retrieve bean from spring container
-Coach theCoach = context.getBean("myCoach",Coach.class); 
-```
-- 'myCoach' is the bean id defined in the configuration file
-- coach.class is the name of the interface that BaseballCoach implements  
-
-**What is a Spring Bean?**  
-- A "Spring Bean" is simply a Java object.
-- When Java objects are created by the Spring Container, then Spring refers to them as "Spring Beans".
-- Spring Beans are created from normal Java classes .... just like Java objects.
-- In the early days, there was a term called "Java Beans". Spring Beans have a similar concept but Spring Beans do not follow all of the rigorous requirements of Java Beans.
-- In summary, whenever you see "Spring Bean", just think Java object. ::):
+    - not configurable yet since the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
 
 ###### Commit: S3 Step 7 - Verify Calls on Mocks
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/185d012e13ed194804573ff234466ed60345ece4
@@ -291,6 +310,7 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
 - With unit testing, we are suppose to test the public interfaces of the class
     - Mockito wants to promote that and doesn't allow mocking of private methods
 - Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
+
 
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
