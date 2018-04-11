@@ -68,6 +68,7 @@ Junit Learning:
     - Configure your Spring Beans
     - Create a Spring Container
     - Retrieve Beans from Spring Container  
+    
 **Step 1: Configure your Spring Beans - XML Configuration file way** Eg: 
 ```java
 //File: applicationContext.xml
@@ -79,6 +80,7 @@ Junit Learning:
 ```
 - The id is like an alias that java app will use to retrieve a bean from the spring container
 - class is the actual implementation for the app  
+
 **Step 2: Creating a Spring Container**
 - Spring container is generally known as *ApplicationContext*
 - These have specialized implementations: 
@@ -93,6 +95,7 @@ ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("app
 - want to read the XML file in my class path so use the ClassPathXmlApplicationContext
     - passing in the name of the configuration file (from step 1)
         - can use any name as long as we're consistent  in step 1 and 2  
+
 **Step 3: Retrieve Beans from Container**: 
 - So far, have the container created. Next step is retrieving beans from the container
     - app will talk to Spring Container asking for the Coach object. And based on what's in the config file, you'll get an implementation of the given interface
@@ -111,18 +114,36 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
 - In summary, whenever you see "Spring Bean", just think Java object. ::):
 
 
-###### Commit: S1 Section 4, Lecture 25 - Spring Inversion of Control cont.
-- Here: 
+###### Commit: S1 Section 4, Lecture 25 - Practical Spring Inversion of Control
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/91047c9300adc5e43c9cf06640325da9751f9e25 
 - Download starter files from: http://www.luv2code.com/downloads/udemy-spring-hibernate/spring-hibernate-source-code-v18.zip 
 - Unzip, copy file :spring-core->spring-demo-one->starter-files->applicationContext.xml , paste in src folder
     - If in Intellij, a pop-up with ask for the app Context to be configured. Just go through it. 
 - Used the file to configure the spring bean (step 1), used HelloSpringApp.java for doing step 2 and 3
     - Run HelloSpringApp.java to see results (Yay! First spring app)
-![]()
+![Done Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-06%2016_30_24-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - Now, have have app that is configurable! 
 
-
-# Jnit
+###### Commit: S1 Section 4, Lecture 26, 27, 28 - Practical Spring Inversion of Control Cont.
+- Here: 
+- Now, in applicationContext.xml, you can just change the coach from TrackCoach to BaseballCoach
+    - Run HelloSpringApp.java and the different class will be run without having to change anything else
+- Question - Why do we specify the Coach interface in getBean()? {In HelloSpringApp.java}
+```java
+//Retrieve bean from spring container
+        Coach theCoach = context.getBean("myCoach", Coach.class);
+```
+- Answer - When we pass the interface to the method, behind teh Scenes, Spring wil cast the object for you
+    - However, there are some slight difference than normal casting. 
+    - From the Spring docs: 
+        - Behaves the same as getBean(String) but provides a measure of type safety by throwing a BeanNotOfRequiredTypeException if the bean is not of the required type. This means that ClassCastException can't be thrown on casting the result correctly, as can happen with getBean(String).
+        - Source:  http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/BeanFactory.html#getBean-java.lang.String-java.lang.Class-
+ - Practice 
+    1) Define a new implementation for the Coach interface. You can use whatever sport you like.
+    2) Reference your new implementation in the Spring config file
+    3) Test your application to verify you are retrieving information from your new Coach implementation
+    - Sample answer: http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
+# Junit
 
 ###### Commit: S2 Section 3, Lecture 6 - Junit intro
 From: http://www.vogella.com/tutorials/JUnit/article.html  
