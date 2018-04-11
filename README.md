@@ -7,6 +7,8 @@ Spring Learning:
 [Spring Inversion of Control](#commit-s1-section-4-lecture-20-21)  
 [Baseball Coach eg setup](#commit-s1-section-4-lecture-21)  
 [Configuring IoC, What is a Spring Bean](#commit-s1-section-4-lecture-23---spring-inversion-of-control)
+[Practical Spring IoC](#)
+[Dependency Injection](#)
 
 Mockito Learning:  
 [Mockito Intro - Stubbing](#commit-s3-step-1-2-3)  
@@ -143,6 +145,107 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
     2) Reference your new implementation in the Spring config file
     3) Test your application to verify you are retrieving information from your new Coach implementation
     - Sample answer: http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
+    
+###### Commit: S1 Section 5, Lecture 29 - Spring Dependency Injection
+- Here: 
+**What is Dependency Injection?**
+- Definition: The dependency inversion priciple. The client delegates to calls to another object the responsibility of providing its dependencies. 
+- ![Dependency Injection - Car Factory]()
+- If you want a car that gets built at the factory on demand
+    - Have to talk to the factory so they'll build the car for you 
+    - The factory will do the assemblying, etc, so they inject all the dependcies of the car
+        - will inject tires, seats, etc
+- You simply outsource the construction and injection of object to an external entity (Eg: Car factory)
+- Spring has an Object Factory
+    - ![Dependency Injection - Spring Factory]()
+    - When asking for a Coach object, this object may have additional dependencies (helper objects - other objects needed to perform an operation)
+        - Instead of having to build the coach object and all it's dependencies, Spring Framework/Factory will do this work for you
+        - Here, like a car object, you'll get a coach object
+- Spring Container: 
+    - *Primary Functions:*
+        - Create and manage objects (Inversion of Control) {gone through so far}
+        - Inject object's dependencies (Dependency Injection)
+- Demo Example: 
+    - ![FortuneService]()
+    - Our Coach already provides daily workouts ✔
+    - Now will provide daily fortunes
+        - New helper: **FortuneService**
+        - This is a **dependency**
+    - **_dependency = helper_** 
+    - Coach will make use of FortuneService(dependency)
+- Injection Types: 
+    - There are many types of injection with Spring
+    - Two most common: 
+        - Constructor Injection
+        - Setter Injection
+    - Later - "auto-wiring" of beans in the Annotations section later
+- Development Process - Constructor Injection
+1) Define the dependency interface and class
+2) Create a constructor in your class for injections
+3) Configure the dependency injection in Spring config file
+**Step 1: Define the dependency interface and class**
+```java
+//File: FortuneService.java
+public interface FortuneService{ 
+    public String getFortune();  
+}
+```
+- it's an interface that has a method called getFortune that returns a String
+```java
+//File: HappyFortuneService.java
+public class HappyFortuneService implements FortuneService{
+    public String getFortune(){
+        return "Today is your lucky day!"; 
+    }
+}
+```
+- It's the one that implements the method getFortune
+- Eg - Such a service can connect to database, etc
+
+**Step 2: Create a constructor in your class for injections**
+```java
+//File: BaseballCoach.java
+public class BaseballCoach implements Coach{
+    //Define Field
+    private FortuneService fortuneService; 
+    
+    //Define Constructor
+    public BaseballCoach(FortuneService theFortuneService){
+        fortuneService = theFortuneService; 
+    }
+    ...
+}
+``` 
+- Making use of constructor injection where the dependencies are injected by calling a constructor
+- So, creating a constructor Baseball Coach that will accept this dependency
+    - the private field is assinged in the constructor
+**Step 3: Configure the dependency injection in Spring config file**
+```java
+//File: applicationContext.xml
+//Define dependency/helper
+<bean id="myFortuneService" class="springdemo.HappyFortuneService">
+</bean>
+
+<bean id="myCoach" class="springdemo.BaseballCoach">
+//Inject the dependency/helper using constructor injection
+    <constructor-arg ref="myFortuneService" />
+</bean>
+``` 
+- At the top, define the bean 
+    - {Question - does order matter}
+- Next, inject dependency into BaseballCoach
+    - the 'myFortuneService' is the same id name in the bean of fortune service
+    - behind the scenes 
+        - Spring will look at Baseball coach, call it's constructor, and then pass in a reference of myFortuneService
+        - So Spring will construct the object and pass in the appropriate data into the constructor
+- Remember: Spring has a object factory so it's responsbile for creating objects and injecting their dependencies    
+
+        
+    
+    
+    
+    
+    
 # Junit
 
 ###### Commit: S2 Section 3, Lecture 6 - Junit intro
