@@ -6,9 +6,9 @@ Trying to figure out Java, Spring, Groovy, Grails, Junit and Mockito
 Spring Learning:   
 [Spring Inversion of Control](#commit-s1-section-4-lecture-20-21)  
 [Baseball Coach eg setup](#commit-s1-section-4-lecture-21)  
-[Configuring IoC, What is a Spring Bean](#commit-s1-section-4-lecture-23---spring-inversion-of-control)
-[Practical Spring IoC](#)
-[Dependency Injection](#)
+[Configuring IoC, What is a Spring Bean](#commit-s1-section-4-lecture-23---spring-inversion-of-control)  
+[Practical Spring IoC](#commit-s1-section-4-lecture-25---practical-spring-inversion-of-control)  
+[Dependency Injection](#)  
 
 Mockito Learning:  
 [Mockito Intro - Stubbing](#commit-s3-step-1-2-3)  
@@ -82,6 +82,7 @@ Junit Learning:
 ```
 - The id is like an alias that java app will use to retrieve a bean from the spring container
 - class is the actual implementation for the app  
+- More on applicationContext: https://stackoverflow.com/questions/19615972/application-context-what-is-this 
 
 **Step 2: Creating a Spring Container**
 - Spring container is generally known as *ApplicationContext*
@@ -116,6 +117,7 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
 - In summary, whenever you see "Spring Bean", just think Java object. ::):
 
 
+
 ###### Commit: S1 Section 4, Lecture 25 - Practical Spring Inversion of Control
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/91047c9300adc5e43c9cf06640325da9751f9e25 
 - Download starter files from: http://www.luv2code.com/downloads/udemy-spring-hibernate/spring-hibernate-source-code-v18.zip 
@@ -125,9 +127,34 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
     - Run HelloSpringApp.java to see results (Yay! First spring app)
 ![Done Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-06%2016_30_24-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - Now, have have app that is configurable! 
+- In case of Java web applications using Spring MVC, the *DispatchServlet* will load the application context for you, so you only have to create a springapp-servlet.xml file in WEB-INF folder of the application. 
+
+**_More info on applicationContext_**
+- From: https://stackoverflow.com/questions/19615972/application-context-what-is-this
+- ApplicationContext is the context that loads the configuration (usually a XML file)
+    - Then Spring will start managing the beans. 
+- Manually loading the application context at the beginning of application (context= new C..) is usually for sample purposes or standalone applications
+- Note that **an application context is associated to a single configuration** (XML based or not). Period.
+- You can have more than one application context per application 
+```java
+public class Foo {
+    public static void main(String[] args) {
+        ApplicationContext context =
+            new ClassPathXmlApplicationContext("path/to/applicationContext.xml");
+        ApplicationContext context2 =
+            new ClassPathXmlApplicationContext("path/to/applicationContext.xml");
+        //use the context as you wish...
+    }
+}
+```
+- Note that we have two application contexts using the same XML configuration. Can you do this? 
+    - Yes, you're actually seeing it here. What's the difference, then? 
+    - The **main** difference is that Spring beans singleton scopes are singleton **per application context**
+        - This mean when retrieving a *Bar* bean that's configured in applicationContext.xml file from *context* will not be the same as retrieving it from *context2*, but several retrieves from *context* will return the same Bar bean instance.
+- But, not alway good practice and most people would recommend having all your beans configured in a single place (via XML or another) and loaded by a single application context.
 
 ###### Commit: S1 Section 4, Lecture 26, 27, 28 - Practical Spring Inversion of Control Cont.
-- Here: 
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/f3671bd6459da0d48691de1c9864bdef5504ad95
 - Now, in applicationContext.xml, you can just change the coach from TrackCoach to BaseballCoach
     - Run HelloSpringApp.java and the different class will be run without having to change anything else
 - Question - Why do we specify the Coach interface in getBean()? {In HelloSpringApp.java}
@@ -147,17 +174,17 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
     - Sample answer: http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
     
 ###### Commit: S1 Section 5, Lecture 29 - Spring Dependency Injection
-- Here: 
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7c4d3d0506820fea0b2986047f0218d14c7d6d84  
 **What is Dependency Injection?**
 - Definition: The dependency inversion priciple. The client delegates to calls to another object the responsibility of providing its dependencies. 
-- ![Dependency Injection - Car Factory]()
+- ![Dependency Injection - Car Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2014_55_47-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - If you want a car that gets built at the factory on demand
     - Have to talk to the factory so they'll build the car for you 
     - The factory will do the assemblying, etc, so they inject all the dependcies of the car
         - will inject tires, seats, etc
 - You simply outsource the construction and injection of object to an external entity (Eg: Car factory)
 - Spring has an Object Factory
-    - ![Dependency Injection - Spring Factory]()
+    - ![Dependency Injection - Spring Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2015_00_29-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
     - When asking for a Coach object, this object may have additional dependencies (helper objects - other objects needed to perform an operation)
         - Instead of having to build the coach object and all it's dependencies, Spring Framework/Factory will do this work for you
         - Here, like a car object, you'll get a coach object
@@ -166,7 +193,7 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
         - Create and manage objects (Inversion of Control) {gone through so far}
         - Inject object's dependencies (Dependency Injection)
 - Demo Example: 
-    - ![FortuneService]()
+    - ![FortuneService](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2015_09_51-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
     - Our Coach already provides daily workouts ✔
     - Now will provide daily fortunes
         - New helper: **FortuneService**
@@ -183,6 +210,7 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
 1) Define the dependency interface and class
 2) Create a constructor in your class for injections
 3) Configure the dependency injection in Spring config file
+
 **Step 1: Define the dependency interface and class**
 ```java
 //File: FortuneService.java
@@ -218,7 +246,8 @@ public class BaseballCoach implements Coach{
 ``` 
 - Making use of constructor injection where the dependencies are injected by calling a constructor
 - So, creating a constructor Baseball Coach that will accept this dependency
-    - the private field is assinged in the constructor
+    - the private field is assigned in the constructor
+
 **Step 3: Configure the dependency injection in Spring config file**
 ```java
 //File: applicationContext.xml
@@ -238,13 +267,54 @@ public class BaseballCoach implements Coach{
     - behind the scenes 
         - Spring will look at Baseball coach, call it's constructor, and then pass in a reference of myFortuneService
         - So Spring will construct the object and pass in the appropriate data into the constructor
-- Remember: Spring has a object factory so it's responsbile for creating objects and injecting their dependencies    
+- Remember: Spring has a object factory so it's responsible for creating objects and injecting their dependencies    
 
-        
-    
-    
-    
-    
+###### Commit: S1 Section 5, Lecture 20 - Behind the scene - Spring Dependency Injection + More on Dependency Injection        
+**How Spring Performs your Config file BTS**
+- In config file, you had the following: 
+```java
+//File: applicationContext.xml
+//Define dependency/helper
+<bean id="myFortuneService" class="springdemo.HappyFortuneService">
+</bean>
+
+<bean id="myCoach" class="springdemo.BaseballCoach">
+//Inject the dependency/helper using constructor injection
+    <constructor-arg ref="myFortuneService" />
+</bean>
+```     
+- In Spring Framework, it did: 
+```java
+HappyFortuneService myFortuneService = new HappyFortuneService(); 
+
+BaseballCoach myCoach = new BaseballCoach(myFortuneService); 
+```
+- Spring's Object Factory does this: 
+- when the first bean was created, it constructed the object for you
+- For the second bean myCoach, Spring creates a new Baseball Coach
+    - based on the config file, it will pass in a constructor argument of myFortuneService
+ 
+**_Dependency Injection - language agnostic explanation_**
+- Source: https://www.youtube.com/watch?v=IKD2-MAkXyQ
+![]()
+- Dependency: Just another object that your class needs to function
+- If you have a Model class that fetches data from a Database object, can say "Model has a dependency of the database object"
+**Meaning of Injecting Dependencies**
+![]()
+- Means the dependency is pushed into the class from the outside
+    - meaning, you shouldn't instantiate dependencies using the 'new' operator from inside of teh class
+        -instead, take it as a constructor parameter or via a setter  
+**Why Dependency Injection?**
+- Eg - You program a robot to use lumber to built walls
+    - Once you get to the Doorway, can program to build custom doors or program to use existing door
+    - Would just use a door from a supplier - This is Dependency Injection
+- DI decouples your class's instruction from the construction of it's dependencies
+    - Important cause of the *Dependency Inversion Principle*
+
+
+
+
+
     
 # Junit
 
