@@ -10,13 +10,24 @@
 
     <!-- Define your beans here -->
 
+
+    <!--define the dependency-->
+    <bean id="myFortune" class="springdemo.HappyFortuneService">
+
+    </bean>
+
+
+
     <!--Step 1 - This configures the spring bean-->
     <!--the "id" here is like an alias-->
     <!--the class is teh fully qualified class name of implementation class-->
     <!--the coach in class can be Track coach or Baseball couch, etc-->
-    <bean id="myCoach"
-          class = "springdemo.KickboxingCoach">
+    <bean id="myCoach" class = "springdemo.TrackCoach">
+        <!--Set up constructor injection-->
+        <constructor-arg ref="myFortune"/>
     </bean>
+
+
 
     
 </beans>

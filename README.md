@@ -175,11 +175,11 @@ public class Foo {
 
 **_Dependency Injection - language agnostic explanation_**
 - Source: https://www.youtube.com/watch?v=IKD2-MAkXyQ
-![Dependency Model](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/88dd1e0959423842dbb51905595fc1d76699509d/Notes/Images/2018-04-12%2016_10_42-Dependency%20Injection%20-%20YouTube.png)
+![Dependency Model](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-12%2016_10_42-Dependency%20Injection%20-%20YouTube.png)
 - Dependency: Just another object that your class needs to function
 - If you have a Model class that fetches data from a Database object, can say "Model has a dependency of the database object"
 **Meaning of Injecting Dependencies**
-![Injecting Dependency](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/88dd1e0959423842dbb51905595fc1d76699509d/Notes/Images/2018-04-12%2016_12_51-Dependency%20Injection%20-%20YouTube.png)
+![Injecting Dependency](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-12%2016_12_51-Dependency%20Injection%20-%20YouTube.png)
 - Means the dependency is pushed into the class from the outside
     - In image above, outside is the database
     - meaning, you shouldn't instantiate dependencies using the 'new' operator from inside of the class
@@ -193,35 +193,36 @@ public class Foo {
 - DI decouples your class's construction from the construction of it's dependencies
     - Important cause of the *Dependency Inversion Principle*
 **Dependency Inversion Principle*
-![Dependency Inversion]()
+![Dependency Inversion](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_08_08-Dependency%20Injection%20-%20YouTube.png)
 - Dependency inversion is the principle that code should depend upon abstractions. 
     - By depending on abstractions, we are decoupling our implementations f rom each other 
 - If we use interfaces, we can substitute different dependencies as long as they all satisfy the required interface.
 - By using DI, we decouple our code from the lower level implementation
     - making code cleaner, easier to modify and easier to re-use    
 *Extra:*
-![]()
+![Problem-Solution](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_15_07-Dependency%20Injection%20-%20YouTube.png)
 - Problem - Each of our classes require all the adopted dependencies
     - So, to construct each class, need to figure out what dependencies they need and how to instantiate those dependencies
 - Solution - Using a container: The container is a map of dependecies that your class needs with the logic to create those dependencies if they haven't been created yet
-![]()
+![Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_19_33-Dependency%20Injection%20-%20YouTube.png)
 - Everytime you ask for a dependency, the map will figure out which dependency to use and then the container will check to see if it created one of those dependencies already
     - If it has, it'll just use that one. 
     - Else, it'll create the dependency, store it and then return it. (Think Spring Container)
-![]()
+![Container DI](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_22_29-Dependency%20Injection%20-%20YouTube.png)
 - So, instead of constructing all the classes oneself, you ask the container and it will then resolve the dependencies, construct your object and return it to you
      - the container can resolve complex dependencies transparently
      - If you want to swap out a generic dependency, you only need to update the container
  - For cleaner and modular code, use DI.
 
 ###### Commit: S1 Section 5, Lecture 29 - Spring Dependency Injection
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7c4d3d0506820fea0b2986047f0218d14c7d6d84    
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7c4d3d0506820fea0b2986047f0218d14c7d6d84
+
 **What is Dependency Injection?**
-- Definition: The dependency inversion priciple. The client delegates to calls to another object the responsibility of providing its dependencies. 
+- Definition: The dependency inversion principle. The client delegates to calls to another object the responsibility of providing its dependencies. 
 ![Dependency Injection - Car Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2014_55_47-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - If you want a car that gets built at the factory on demand
     - Have to talk to the factory so they'll build the car for you 
-    - The factory will do the assemblying, etc, so they inject all the dependcies of the car
+    - The factory will do the assembling, etc, so they inject all the dependencies of the car
         - will inject tires, seats, etc
 - You simply outsource the construction and injection of object to an external entity (Eg: Car factory)
 - Spring has an Object Factory
@@ -234,7 +235,7 @@ public class Foo {
         - Create and manage objects (Inversion of Control) {gone through so far}
         - Inject object's dependencies (Dependency Injection)
 - Demo Example: 
-    - ![FortuneService](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2015_09_51-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
+  ![FortuneService](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2015_09_51-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
     - Our Coach already provides daily workouts ✔
     - Now will provide daily fortunes
         - New helper: **FortuneService**
@@ -247,10 +248,10 @@ public class Foo {
         - Constructor Injection
         - Setter Injection
     - Later - "auto-wiring" of beans in the Annotations section later
-- Development Process - Constructor Injection
-1) Define the dependency interface and class
-2) Create a constructor in your class for injections
-3) Configure the dependency injection in Spring config file
+- Development Process - *Constructor Injection*
+    1) Define the dependency interface and class
+    2) Create a constructor in your class for injections
+    3) Configure the dependency injection in Spring config file
 
 **Step 1: Define the dependency interface and class**
 ```java
@@ -310,7 +311,7 @@ public class BaseballCoach implements Coach{
         - So Spring will construct the object and pass in the appropriate data into the constructor
 - Remember: Spring has a object factory so it's responsible for creating objects and injecting their dependencies    
 
-###### Commit: S1 Section 5, Lecture 20 - Behind the scene - Spring Dependency Injection + More on Dependency Injection        
+###### Commit: S1 Section 5, Lecture 30 - Behind the scene - Spring Dependency Injection + More on Dependency Injection        
 **How Spring Performs your Config file BTS**
 - In config file, you had the following: 
 ```java
@@ -334,11 +335,24 @@ BaseballCoach myCoach = new BaseballCoach(myFortuneService);
 - when the first bean was created, it constructed the object for you
 - For the second bean myCoach, Spring creates a new Baseball Coach
     - based on the config file, it will pass in a constructor argument of myFortuneService
- 
 
+###### S1 Section 5, Lecture 31 - Practical Spring Dependency Injection
+- Here:
+- Create the interface FortuneService.java and class HappyFortuneService.java
+- add method from FortuneService.java to Coach.java interface
+- fix the unimplemented methods in all the classes that inherit the Coach interface 
+- In Baseball Coach, define private field and constructor for dependency injection 
+    - So, spring will construct our object, pass in a dependency and we accept it and assign it
+    - so, our class is ready to accept dependency injection from Spring framework
+- Add the dependency to container
+- Configure in HelloSpringApp.java
 
+###### S1 Section 5, Lecture 31 - Purpose of no arg constructor
+- Question - Why was a no arg constructor created? Aren't they implied by Java and only required when you also have an overloaded constructor? Or is this a Spring specific thing?
+- Answer - When you don’t define any constructor in your class, compiler defines default one for you, however when you declare any constructor (in your example you have already defined a parameterized constructor), compiler doesn’t do it for you.
+    - Since you have defined a constructor in class code, compiler didn’t create default one. While creating object you are invoking default one, which doesn’t exist in class code. Then the code gives an compilation error.
 
-
+placeholder
 
     
 # Junit
