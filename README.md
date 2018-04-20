@@ -172,19 +172,60 @@ public class Foo {
     2) Reference your new implementation in the Spring config file
     3) Test your application to verify you are retrieving information from your new Coach implementation
     - Sample answer: http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
-    
+
+**_Dependency Injection - language agnostic explanation_**
+- Source: https://www.youtube.com/watch?v=IKD2-MAkXyQ
+![Dependency Model](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/88dd1e0959423842dbb51905595fc1d76699509d/Notes/Images/2018-04-12%2016_10_42-Dependency%20Injection%20-%20YouTube.png)
+- Dependency: Just another object that your class needs to function
+- If you have a Model class that fetches data from a Database object, can say "Model has a dependency of the database object"
+**Meaning of Injecting Dependencies**
+![Injecting Dependency](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/88dd1e0959423842dbb51905595fc1d76699509d/Notes/Images/2018-04-12%2016_12_51-Dependency%20Injection%20-%20YouTube.png)
+- Means the dependency is pushed into the class from the outside
+    - In image above, outside is the database
+    - meaning, you shouldn't instantiate dependencies using the 'new' operator from inside of the class
+        -instead, take it as a constructor parameter or via a setter
+            - you don't need a fancy container, class or an object to do it. 
+                - may make your life easier but you don't need them
+**Why Dependency Injection?**
+- Eg - You program a robot to use lumber to built walls
+    - Once you get to the Doorway, can program to build custom doors or program to use existing door
+    - Would just use a door from a supplier - This is Dependency Injection
+- DI decouples your class's construction from the construction of it's dependencies
+    - Important cause of the *Dependency Inversion Principle*
+**Dependency Inversion Principle*
+![Dependency Inversion]()
+- Dependency inversion is the principle that code should depend upon abstractions. 
+    - By depending on abstractions, we are decoupling our implementations f rom each other 
+- If we use interfaces, we can substitute different dependencies as long as they all satisfy the required interface.
+- By using DI, we decouple our code from the lower level implementation
+    - making code cleaner, easier to modify and easier to re-use    
+*Extra:*
+![]()
+- Problem - Each of our classes require all the adopted dependencies
+    - So, to construct each class, need to figure out what dependencies they need and how to instantiate those dependencies
+- Solution - Using a container: The container is a map of dependecies that your class needs with the logic to create those dependencies if they haven't been created yet
+![]()
+- Everytime you ask for a dependency, the map will figure out which dependency to use and then the container will check to see if it created one of those dependencies already
+    - If it has, it'll just use that one. 
+    - Else, it'll create the dependency, store it and then return it. (Think Spring Container)
+![]()
+- So, instead of constructing all the classes oneself, you ask the container and it will then resolve the dependencies, construct your object and return it to you
+     - the container can resolve complex dependencies transparently
+     - If you want to swap out a generic dependency, you only need to update the container
+ - For cleaner and modular code, use DI.
+
 ###### Commit: S1 Section 5, Lecture 29 - Spring Dependency Injection
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7c4d3d0506820fea0b2986047f0218d14c7d6d84  
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7c4d3d0506820fea0b2986047f0218d14c7d6d84    
 **What is Dependency Injection?**
 - Definition: The dependency inversion priciple. The client delegates to calls to another object the responsibility of providing its dependencies. 
-- ![Dependency Injection - Car Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2014_55_47-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
+![Dependency Injection - Car Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2014_55_47-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - If you want a car that gets built at the factory on demand
     - Have to talk to the factory so they'll build the car for you 
     - The factory will do the assemblying, etc, so they inject all the dependcies of the car
         - will inject tires, seats, etc
 - You simply outsource the construction and injection of object to an external entity (Eg: Car factory)
 - Spring has an Object Factory
-    - ![Dependency Injection - Spring Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2015_00_29-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
+![Dependency Injection - Spring Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2015_00_29-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
     - When asking for a Coach object, this object may have additional dependencies (helper objects - other objects needed to perform an operation)
         - Instead of having to build the coach object and all it's dependencies, Spring Framework/Factory will do this work for you
         - Here, like a car object, you'll get a coach object
@@ -294,22 +335,6 @@ BaseballCoach myCoach = new BaseballCoach(myFortuneService);
 - For the second bean myCoach, Spring creates a new Baseball Coach
     - based on the config file, it will pass in a constructor argument of myFortuneService
  
-**_Dependency Injection - language agnostic explanation_**
-- Source: https://www.youtube.com/watch?v=IKD2-MAkXyQ
-![]()
-- Dependency: Just another object that your class needs to function
-- If you have a Model class that fetches data from a Database object, can say "Model has a dependency of the database object"
-**Meaning of Injecting Dependencies**
-![]()
-- Means the dependency is pushed into the class from the outside
-    - meaning, you shouldn't instantiate dependencies using the 'new' operator from inside of teh class
-        -instead, take it as a constructor parameter or via a setter  
-**Why Dependency Injection?**
-- Eg - You program a robot to use lumber to built walls
-    - Once you get to the Doorway, can program to build custom doors or program to use existing door
-    - Would just use a door from a supplier - This is Dependency Injection
-- DI decouples your class's instruction from the construction of it's dependencies
-    - Important cause of the *Dependency Inversion Principle*
 
 
 
@@ -522,7 +547,7 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
           - Or, right click class, Go to -> Test, click on 'Create New Test', yes for same root source folder, select Junit5 (Fix if necessary), change the folder to where tests go
           - If there are red text on the Junit lines, do 'Alt+Enter' again and click on 'Add Junit5 to classpath' or something similar 
 - In Eclipse, to add static imports, do 'Ctrl + 1' or 'Command + 1'
-- In Eclipse, To automatically add the static imports in Mockito to come up automatically : 
+- In Eclipse, To automatically add the static imports in Mockito to come up automatically: 
     - Windows:  Windows -> Preferences, type 'Favorites', select Favorites in Java, add whatever classes (new type), apply, okay
     - Mac:  Eclipse -> Preferences...rest as above
         - Classes: starting typing in mockito and then: 
