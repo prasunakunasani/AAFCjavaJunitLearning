@@ -437,10 +437,11 @@ myCricketCoach.setFortuneService(myFortuneService);
         - this is what happens BTS when Spring processes the configuration file
 
 ###### S1 Section 5, Lecture 36,37 - Practical Setter Injection - Write some code
-
-placeholder
+- Here: 
 
 ###### S1 Section 5, Lecture 38 - Injecting Literal Values - Overview
+
+placeholder
 
 ###### S1 Section 5, Lecture 39 - Injecting Literal Values - Write some code
 
