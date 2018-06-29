@@ -8,7 +8,7 @@ Spring Learning:
 [Baseball Coach eg setup](#commit-s1-section-4-lecture-21)  
 [Configuring IoC, What is a Spring Bean](#commit-s1-section-4-lecture-23---spring-inversion-of-control)  
 [Practical Spring IoC](#commit-s1-section-4-lecture-25---practical-spring-inversion-of-control)  
-[Dependency Injection](#)  
+[Dependency Injection](#commit-s1-section-5-lecture-29---spring-dependency-injection)
 
 Mockito Learning:  
 [Mockito Intro - Stubbing](#commit-s3-step-1-2-3)  
@@ -82,7 +82,7 @@ Junit Learning:
 ```
 - The id is like an alias that java app will use to retrieve a bean from the spring container
 - class is the actual implementation for the app  
-- More on applicationContext: https://stackoverflow.com/questions/19615972/application-context-what-is-this 
+- More on applicationContext below under 'More info on applicationContext'
 
 **Step 2: Creating a Spring Container**
 - Spring container is generally known as *ApplicationContext*
@@ -122,15 +122,15 @@ Coach theCoach = context.getBean("myCoach",Coach.class);
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/91047c9300adc5e43c9cf06640325da9751f9e25 
 - Download starter files from: http://www.luv2code.com/downloads/udemy-spring-hibernate/spring-hibernate-source-code-v18.zip 
 - Unzip, copy file :spring-core->spring-demo-one->starter-files->applicationContext.xml , paste in src folder
-    - If in Intellij, a pop-up with ask for the app Context to be configured. Just go through it. 
+    - In Intellij, a pop-up with ask for the app Context to be configured. Just go through it. 
 - Used the file to configure the spring bean (step 1), used HelloSpringApp.java for doing step 2 and 3
     - Run HelloSpringApp.java to see results (Yay! First spring app)
 ![Done Spring Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-06%2016_30_24-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
-- Now, have have app that is configurable! 
+- Now, have app that is configurable! 
 - In case of Java web applications using Spring MVC, the *DispatchServlet* will load the application context for you, so you only have to create a springapp-servlet.xml file in WEB-INF folder of the application. 
 
 **_More info on applicationContext_**
-- From: https://stackoverflow.com/questions/19615972/application-context-what-is-this
+- Source: https://stackoverflow.com/questions/19615972/application-context-what-is-this
 - ApplicationContext is the context that loads the configuration (usually a XML file)
     - Then Spring will start managing the beans. 
 - Manually loading the application context at the beginning of application (context= new C..) is usually for sample purposes or standalone applications
@@ -148,10 +148,10 @@ public class Foo {
 }
 ```
 - Note that we have two application contexts using the same XML configuration. Can you do this? 
-    - Yes, you're actually seeing it here. What's the difference, then? 
+    - Yes, as seen here. What's the difference, then? 
     - The **main** difference is that Spring beans singleton scopes are singleton **per application context**
         - This mean when retrieving a *Bar* bean that's configured in applicationContext.xml file from *context* will not be the same as retrieving it from *context2*, but several retrieves from *context* will return the same Bar bean instance.
-- But, not alway good practice and most people would recommend having all your beans configured in a single place (via XML or another) and loaded by a single application context.
+    - But, not always good practice and most people would recommend having all your beans configured in a single place (via XML or another) and loaded by a single application context.
 
 ###### Commit: S1 Section 4, Lecture 26, 27, 28 - Practical Spring Inversion of Control Cont.
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/f3671bd6459da0d48691de1c9864bdef5504ad95
@@ -162,7 +162,7 @@ public class Foo {
 //Retrieve bean from spring container
         Coach theCoach = context.getBean("myCoach", Coach.class);
 ```
-- Answer - When we pass the interface to the method, behind teh Scenes, Spring wil cast the object for you
+- Answer - When we pass the interface to the method, behind the Scenes, Spring wil cast the object for you
     - However, there are some slight difference than normal casting. 
     - From the Spring docs: 
         - Behaves the same as getBean(String) but provides a measure of type safety by throwing a BeanNotOfRequiredTypeException if the bean is not of the required type. This means that ClassCastException can't be thrown on casting the result correctly, as can happen with getBean(String).
@@ -177,7 +177,8 @@ public class Foo {
 - Source: https://www.youtube.com/watch?v=IKD2-MAkXyQ
 ![Dependency Model](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-12%2016_10_42-Dependency%20Injection%20-%20YouTube.png)
 - Dependency: Just another object that your class needs to function
-- If you have a Model class that fetches data from a Database object, can say "Model has a dependency of the database object"
+- If you have a Model class that fetches data from a Database object, can say "Model has a dependency of the database object"  
+
 **Meaning of Injecting Dependencies**
 ![Injecting Dependency](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-12%2016_12_51-Dependency%20Injection%20-%20YouTube.png)
 - Means the dependency is pushed into the class from the outside
@@ -185,17 +186,19 @@ public class Foo {
     - meaning, you shouldn't instantiate dependencies using the 'new' operator from inside of the class
         -instead, take it as a constructor parameter or via a setter
             - you don't need a fancy container, class or an object to do it. 
-                - may make your life easier but you don't need them
+                - may make your life easier but you don't need them  
+                                
 **Why Dependency Injection?**
 - Eg - You program a robot to use lumber to built walls
     - Once you get to the Doorway, can program to build custom doors or program to use existing door
     - Would just use a door from a supplier - This is Dependency Injection
 - DI decouples your class's construction from the construction of it's dependencies
-    - Important cause of the *Dependency Inversion Principle*
-**Dependency Inversion Principle*
+    - Important cause of the *Dependency Inversion Principle*  
+    
+**Dependency Inversion Principle**
 ![Dependency Inversion](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_08_08-Dependency%20Injection%20-%20YouTube.png)
 - Dependency inversion is the principle that code should depend upon abstractions. 
-    - By depending on abstractions, we are decoupling our implementations f rom each other 
+    - By depending on abstractions, we are decoupling our implementations from each other 
 - If we use interfaces, we can substitute different dependencies as long as they all satisfy the required interface.
 - By using DI, we decouple our code from the lower level implementation
     - making code cleaner, easier to modify and easier to re-use    
@@ -218,7 +221,7 @@ public class Foo {
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7c4d3d0506820fea0b2986047f0218d14c7d6d84
 
 **What is Dependency Injection?**
-- Definition: The dependency inversion principle. The client delegates to calls to another object the responsibility of providing its dependencies. 
+- Definition: The dependency inversion principle. The client delegates calls to another object the responsibility of providing its dependencies. 
 ![Dependency Injection - Car Factory](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-11%2014_55_47-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - If you want a car that gets built at the factory on demand
     - Have to talk to the factory so they'll build the car for you 
@@ -332,12 +335,12 @@ HappyFortuneService myFortuneService = new HappyFortuneService();
 BaseballCoach myCoach = new BaseballCoach(myFortuneService); 
 ```
 - Spring's Object Factory does this: 
-- when the first bean was created, it constructed the object for you
-- For the second bean myCoach, Spring creates a new Baseball Coach
-    - based on the config file, it will pass in a constructor argument of myFortuneService
+    - when the first bean was created, it constructed the object for you
+    - For the second bean myCoach, Spring creates a new Baseball Coach
+        - based on the config file, it will pass in a constructor argument of myFortuneService
 
-###### S1 Section 5, Lecture 31 - Practical Spring Dependency Injection
-- Here:
+###### S1 Section 5, Lecture 31, 32, 33 - Practical Spring Dependency Injection
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/98c22e5822dc5d2f616737af8c036a1ab79c2bf6 
 - Create the interface FortuneService.java and class HappyFortuneService.java
 - add method from FortuneService.java to Coach.java interface
 - fix the unimplemented methods in all the classes that inherit the Coach interface 
@@ -347,14 +350,170 @@ BaseballCoach myCoach = new BaseballCoach(myFortuneService);
 - Add the dependency to container
 - Configure in HelloSpringApp.java
 
-###### S1 Section 5, Lecture 31 - Purpose of no arg constructor
+###### S1 Section 5, Lecture 34 - Purpose of no arg constructor
 - Question - Why was a no arg constructor created? Aren't they implied by Java and only required when you also have an overloaded constructor? Or is this a Spring specific thing?
 - Answer - When you don’t define any constructor in your class, compiler defines default one for you, however when you declare any constructor (in your example you have already defined a parameterized constructor), compiler doesn’t do it for you.
     - Since you have defined a constructor in class code, compiler didn’t create default one. While creating object you are invoking default one, which doesn’t exist in class code. Then the code gives an compilation error.
 
+###### S1 Section 5, Lecture 35 - Setter Injection - Overview
+- Spring Injection Types
+    - Constructor Injection (done above)
+    - Setter Injection
+- Setter injection - Spring will inject dependencies by calling setter method(s) on your class
+- Development Process - Setter Injection
+    1) Create setter method(s) in your class for injections
+    2) Configure the dependency injection in Spring config file  
+**Step 1: Create setter method(s) in your class for injections**
+```java
+public class CricketCoach implements Coach{
+    private FortuneService fortuneService; 
+    
+    public CricketCoach(){
+    }
+    //This is the method called by Spring when it inject the dependency using the setter injection
+    public void setFortuneService(FortuneService fortuneService){
+        this.fortuneService = fortuneService; 
+    }
+    ...
+}
+```
+
+**Step 2: Configure the dependency injection in Spring config file**
+```java
+//File: applicationContext.xml
+<bean id="myFortuneService"
+    class = "com.springdemo.HappyFortuneService">
+</bean>
+
+<bean id="myCriketCoach"
+    class="com.springdemo.CricketCoach">
+    
+    <property name="fortuneService" ref="myFortuneService" />
+</bean>
+```
+- at bottom, the dependency is injecting using the propoerty name
+- the ref refers to the bean id above
+- property name="fortuneService" ref="myFortuneService"
+    - Spring will take the property name and call the setter method on your class for that giving property 
+        ```java
+        public void setFortuneService(...)
+        ```
+            - capitalize first letter of property name: setFortuneService
+        - So, it will look for a public method called setFortuneService
+            - Spring will call the setFortuneService and then pass in that value for that call
+- Call setter method on Java class: 
+    - In general, any property name you have, spring will attempt to make a call to the  setter method for a given property
+ - Eg: 
+ ```java
+<property name="bestAthlete" ref="" /> 
+//--------
+    public void setBestAthlete(...) 
+```  
+- Spring takes the property name, makes the first letter of that property Capital and then attempt to make a call to the setter method for that given property
+    - Spring will look for a public method called setBestAthlete and make the method call on the fly 
+
+**How Spring Processes your Config file**
+ ```java
+<bean id="myFortuneService"
+    class ="com.springdemo.HappyFortuneService">
+</bean>
+
+<bean id="myCricketCoach"
+    class="com.springdemo.CricketCoach">
+    
+    <property name="fortuneService" ref="myFortuneService"
+</bean>
+```
+    What Spring Framework does internally:
+```java
+HappyFortuneService myFortuneService = new HappyFortuneService();
+
+CricketCoach myCricketCoach = new CricketCoach(); 
+myCricketCoach.setFortuneService(myFortuneService); 
+``` 
+- Spring creates an instance of your fortune service using the new keyword for no-arg constructor
+- For cricket coach, Spring will create a new CricketCoach using the no-arg constructor and then it'll inject the dependency by calling the setter method using the property name
+    - In this case, the property name is fortuneService so spring will call setFortuneService and pass in a reference to that given bean
+        - this is what happens BTS when Spring processes the configuration file
+
+###### S1 Section 5, Lecture 36,37 - Practical Setter Injection - Write some code
+
 placeholder
 
-    
+###### S1 Section 5, Lecture 38 - Injecting Literal Values - Overview
+
+###### S1 Section 5, Lecture 39 - Injecting Literal Values - Write some code
+
+###### S1 Section 5, Lecture 40 - FAQ - Why use CricketCoach class instead of Coach Interface?
+
+###### S1 Section 5, Lecture 41 - Injecting Literal Values from a Properties File - Overview
+
+###### S1 Section 5, Lecture 42 - Injecting Literal Values from a Properties File - Write some code
+
+###### S1 Section 5, Lecture 43 - Practical Activity #2: Dependency Injection with XML Configuration
+
+###### S1 Section 6, Lecture 44 - Bean Scopes - Overview
+
+###### S1 Section 6, Lecture 45,46 - Bean Scopes - Write some Code  
+
+###### S1 Section 6, Lecture 47 - Bean Lifecycle - Overview
+
+###### S1 Section 6, Lecture 48 - Defining init and destroy methods - Method Signatures 
+
+###### S1 Section 6, Lecture 49 - Bean Lifecycle - Write some code
+
+###### S1 Section 6, Lecture 50 - Destroying Lifecycle and Prototype Scope
+
+###### S1 Section 6, Lecture 51 - Practical Activity #3 - Bean Scopes with XML Configuration  
+
+###### S1 Section 7, Lecture 52 - Spring configuration with Java Annotations Inversion of Control Overview - Component Scanning
+
+###### S1 Section 7, Lecture 53 - Annotations Project Setup
+
+###### S1 Section 7, Lecture 54,55 - Explicit Component Names - Write some code
+
+###### S1 Section 7, Lecture 56 - Default Component Names - Overview
+
+###### S1 Section 7, Lecture 57 - Default Component Names - Write some code
+
+###### S1 Section 7, Lecture 58 - Practical Activity #4 - Inversion of Control with Annotations
+
+###### S1 Section 8, Lecture 59 - Spring configuration with Java Annotations Dependency Injection - Constructor Injection - Overview
+
+###### S1 Section 8, Lecture 60 - FAQ - What if there are Multiple Implementations
+
+###### S1 Section 8, Lecture 61, 62 - Constructor Injection - Write some code
+
+###### S1 Section 8, Lecture 63 - FAQ - Constructor Injection - Autowired Optional? 
+
+###### S1 Section 8, Lecture 64 - Setter Injection - Overview
+
+###### S1 Section 8, Lecture 65 - Setter Injection - Write some code
+
+###### S1 Section 8, Lecture 66 - Method Injection
+
+###### S1 Section 8, Lecture 67 - Field Injection - Overview
+
+###### S1 Section 8, Lecture 68 - Field Injection - Write some code
+
+###### S1 Section 8, Lecture 69 - Which Injection Type Should You Use? 
+
+###### S1 Section 8, Lecture 70 - Qualifiers for Dependency Injection - Overview
+
+###### S1 Section 8, Lecture 71,72 - Qualifiers for Dependency Injection - Write some code
+
+###### S1 Section 8, Lecture 73 - Annotations - Default Bean Names (special case)
+
+###### S1 Section 8, Lecture 74 - Using @Quantifiers with Constructors - Overview
+
+###### S1 Section 8, Lecture 75 - How to inject properties file using Java annotations
+
+###### S1 Section 8, Lecture 76 - Practical Activity #5 - Dependency Injection with Annotations
+
+
+
+
+
 # Junit
 
 ###### Commit: S2 Section 3, Lecture 6 - Junit intro
@@ -578,5 +737,5 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
 
 #### Technical Stuff:
 JDK: jdk1.8.0_112  
-Spring:   
+Spring: 5
 Junit: 5  
