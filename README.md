@@ -391,7 +391,7 @@ public class CricketCoach implements Coach{
     <property name="fortuneService" ref="myFortuneService" />
 </bean>
 ```
-- at bottom, the dependency is injecting using the propoerty name
+- at bottom, the dependency is injecting using the property name
 - the ref refers to the bean id above
 - property name="fortuneService" ref="myFortuneService"
     - Spring will take the property name and call the setter method on your class for that giving property 
@@ -437,12 +437,43 @@ myCricketCoach.setFortuneService(myFortuneService);
         - this is what happens BTS when Spring processes the configuration file
 
 ###### S1 Section 5, Lecture 36,37 - Practical Setter Injection - Write some code
-- Here: 
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7d99ff96264053325c751e136d7c26bf5af09711
 
 ###### S1 Section 5, Lecture 38 - Injecting Literal Values - Overview
 
-placeholder
+- How to inject literal values into Spring Objects
+- ![Injecting Literal values]()
+- Development Process steps
+    - Create setter method(s) in your class for injections
+    - Configure the injection in Spring config file
+**Step 1: Create setter method(s) in your class for injections**
+```java
+//File: CricketCoach.java
+public class CricketCoach implements Coach{
+    //create private fields to hold those values
+    private String emailAddress; 
+    private String team; 
+    
+    //create setter methods
+    public void setEmailAddress(String emailAddress) ...
+    public void setTeam(String team) ...
+    ...
+}
+```  
+**Step 2: Configure the injection in Spring config file**
+```java
+<bean id="myCricketCoach"
+    class="com.springdemo.CricketCoach">
+    
+    <property name="fortuneService" ref="myFortuneService" />
+    
+    //value is used for literal values while ref is used for refer to other objects
+    <property name="emailAddress" value="thebestcoach@luv2code.com" />
+    <property name="team" value="Sunrisers Hyderabad"/>
+</bean>
+```
 
+placeholder
 ###### S1 Section 5, Lecture 39 - Injecting Literal Values - Write some code
 
 ###### S1 Section 5, Lecture 40 - FAQ - Why use CricketCoach class instead of Coach Interface?
@@ -510,6 +541,43 @@ placeholder
 ###### S1 Section 8, Lecture 75 - How to inject properties file using Java annotations
 
 ###### S1 Section 8, Lecture 76 - Practical Activity #5 - Dependency Injection with Annotations
+
+###### S1 Section 9, Lecture 77 - @Scope Annotation - Overview
+
+###### S1 Section 9, Lecture 78 - @Scope Annotation - Write Some Code
+
+###### S1 Section 9, Lecture 79 - Bean Lifecycle Method Annotations - Overview
+
+###### S1 Section 9, Lecture 80 - Note about @PostConstruct and @PreDestroy Method Signatures
+
+###### S1 Section 9, Lecture 81 - Note For Java 9 users - @PostConstruct and @PreDestroy Method Signatures
+
+###### S1 Section 9, Lecture 82 - Bean Lifecycle Method Annotations - Write some code
+
+###### S1 Section 9, Lecture 83 - Note about Destroy Lifecycle and Prototype Scope
+
+###### S1 Section 9, Lecture 84 - Practical Activity #6 - Bean Scopes with Annotations
+
+###### S1 Section 10, Lecture 85 - Spring Configuration with Java Code - Overview
+
+###### S1 Section 10, Lecture 86 - Spring Configuration with Java Code - Write Some code
+
+###### S1 Section 10, Lecture 87 - Defining Spring Beans with Java Code - Overview
+
+###### S1 Section 10, Lecture 88,89 - Defining Spring Beans with Java Code - Write some code
+
+###### S1 Section 10, Lecture 90 - Injecting Values from Properties File - Overview
+
+###### S1 Section 10, Lecture 91, 92 - Injecting Values from Properties File - Write some code
+
+###### S1 Section 10, Lecture 93 - FAQ - Problems with Injecting Values - Value not returning ${foo.e-mail}
+
+###### S1 Section 10, Lecture 94 - Practice Activity #7 - IoC and DI with Java Configuration
+
+###### S1 Section 11, Lecture 90 - 
+  
+
+
 
 
 
@@ -731,7 +799,7 @@ S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/Mockit
             - org.hamcrest.CoreMatchers.*
     - Now, as soon as you type in the methods, eclipse will automatically suggest the imports
  - In Intellij to add a Maven jar file,
-    - Go to Maven Repository, find Mockito, download Jar file, move to lib folder
+    - Go to Maven Repository on the internet, find Mockito, download Jar file, move to lib folder
     - go to File->Project Structure->Dependencies->+->add Jar files, select the jar file
  - Import a Maven project in Intellij
     - File-> New -> Module from Existing Source -> navigate to where the folder with pom.xml file is-> OK -> Just use the default stuff -> should eventually see the packages as another project
