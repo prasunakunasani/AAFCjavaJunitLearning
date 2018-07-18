@@ -294,14 +294,14 @@ public class BaseballCoach implements Coach{
     - the private field is assigned in the constructor
 
 **Step 3: Configure the dependency injection in Spring config file**
-```java
+```xml
 //File: applicationContext.xml
 //Define dependency/helper
 <bean id="myFortuneService" class="springdemo.HappyFortuneService">
 </bean>
 
 <bean id="myCoach" class="springdemo.BaseballCoach">
-//Inject the dependency/helper using constructor injection
+!<--Inject the dependency/helper using constructor injection-->
     <constructor-arg ref="myFortuneService" />
 </bean>
 ``` 
@@ -317,14 +317,14 @@ public class BaseballCoach implements Coach{
 ###### Commit: S1 Section 5, Lecture 30 - Behind the scene - Spring Dependency Injection + More on Dependency Injection        
 **How Spring Performs your Config file BTS**
 - In config file, you had the following: 
-```java
-//File: applicationContext.xml
-//Define dependency/helper
+```xml
+<!--File: applicationContext.xml-->
+<!--Define dependency/helper-->
 <bean id="myFortuneService" class="springdemo.HappyFortuneService">
 </bean>
 
 <bean id="myCoach" class="springdemo.BaseballCoach">
-//Inject the dependency/helper using constructor injection
+<!--Inject the dependency/helper using constructor injection-->
     <constructor-arg ref="myFortuneService" />
 </bean>
 ```     
@@ -379,8 +379,8 @@ public class CricketCoach implements Coach{
 ```
 
 **Step 2: Configure the dependency injection in Spring config file**
-```java
-//File: applicationContext.xml
+```xml
+<!--File: applicationContext.xml-->
 <bean id="myFortuneService"
     class = "com.springdemo.HappyFortuneService">
 </bean>
@@ -413,7 +413,8 @@ public class CricketCoach implements Coach{
     - Spring will look for a public method called setBestAthlete and make the method call on the fly 
 
 **How Spring Processes your Config file**
- ```java
+ ```xml
+<!--File: applicationContext.xml-->
 <bean id="myFortuneService"
     class ="com.springdemo.HappyFortuneService">
 </bean>
@@ -424,7 +425,7 @@ public class CricketCoach implements Coach{
     <property name="fortuneService" ref="myFortuneService"
 </bean>
 ```
-    What Spring Framework does internally:
+- What Spring Framework does internally:
 ```java
 HappyFortuneService myFortuneService = new HappyFortuneService();
 
@@ -461,7 +462,8 @@ public class CricketCoach implements Coach{
 }
 ```  
 **Step 2: Configure the injection in Spring config file**
-```java
+```xml
+<!--File: applicationContext.xml-->
 <bean id="myCricketCoach"
     class="com.springdemo.CricketCoach">
     
@@ -476,7 +478,6 @@ public class CricketCoach implements Coach{
 ###### S1 Section 5, Lecture 39 - Injecting Literal Values - Write some code
 - Here: 
 
-placeholder
 ###### S1 Section 5, Lecture 40 - FAQ - Why use CricketCoach class instead of Coach Interface?
 
 ***Question:*** 
@@ -504,9 +505,47 @@ placeholder
 - The bottom line is it depends on how you retrieve the object and assign it ... that determines the visibility you have to the methods.
 
 ###### S1 Section 5, Lecture 41 - Injecting Literal Values from a Properties File - Overview
+- So far, able to inject literal values. But the problem was that the information was hardcoded in the config file
+- Now, want to be able to read from a properties file
+- ![Read from properties file]()
+- Step by Step Development process: 
+    1) Create the properties file
+    2) Load Properties File in Spring config file
+    3) Reference values from Properties file
+**Step 1: Create Properties File**
+- left is property name and right is the value. 
+    - foo is the property name. It doesn't mater what the properties name is as long as you are consistent in config file and spring setup. 
+File: sport.properties
+```properties
+foo.email=myeasycoach@luv2code.com
+food.team=Royal Challengers Bangalore
+```
+**Step 2: Load Properties file in Spring config file**
+```xml
+<!--File: applicationContext.xml-->
+<!--sport.properties is the file name-->
+    <context:property-placeholder Location="classpath:sport.properties"/>
+```
+- the properties file is sport.properties. 
+    - Spring will load the properties file into memory and you can use it within the Spring Config file
+
+**Step 3: Reference Values from Properties File**
+```xml
+<!--File: applicationContext.xml-->
+<bean id="myCricketCoach"
+    class="com.springdemo.CricketCoach">
+    ...
+    <property name="emailAddress" value="${foo.email}" />
+    <property name="team" value="${foo.team}"/>
+</bean>
+```
+- General syntax: ${the property name}
+    - Spring will substitute the property value there based on information from properties file 
 
 ###### S1 Section 5, Lecture 42 - Injecting Literal Values from a Properties File - Write some code
+- 
 
+placeholder
 ###### S1 Section 5, Lecture 43 - Practical Activity #2: Dependency Injection with XML Configuration
 
 ###### S1 Section 6, Lecture 44 - Bean Scopes - Overview
