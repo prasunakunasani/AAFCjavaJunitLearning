@@ -543,13 +543,24 @@ food.team=Royal Challengers Bangalore
     - Spring will substitute the property value there based on information from properties file 
 
 ###### S1 Section 5, Lecture 42 - Injecting Literal Values from a Properties File - Write some code
-- 
+- Here: 
+- For step 2 (loading properties file), it's done at the top of the applicationContext.xml before you define the beans
+- Question: what if you have multiple properties file? do you put the context line for each of them? will spring go through all the properties files? 
+- Answer:  https://www.udemy.com/spring-hibernate-tutorial/learn/v4/questions/3582594 
+    - In case multiple <property-placeholder> elements are present in the Spring context, there are a few best practices that should be followed:
+    - the order attribute needs to be specified to fix the order in which these are processed by Spring
+    - all property placeholders minus the last one (highest order) should have ignore-unresolvable=”true” to allow the resolution mechanism to pass to others in the context without throwing an exception
+    - Here's a good discussions on this topic. Check the links below.
+        - https://stackoverflow.com/questions/3403773/using-multiple-property-files-via-propertyplaceholderconfigurer-in-multiple-pr
+        - https://stackoverflow.com/questions/14456577/contextproperty-placeholder-not-working-for-multiple-files?noredirect=1&lq=1
 
-placeholder
+
 ###### S1 Section 5, Lecture 43 - Practical Activity #2: Dependency Injection with XML Configuration
 
-###### S1 Section 6, Lecture 44 - Bean Scopes - Overview
 
+
+###### S1 Section 6, Lecture 44 - Bean Scopes - Overview
+placeholder
 ###### S1 Section 6, Lecture 45,46 - Bean Scopes - Write some Code  
 
 ###### S1 Section 6, Lecture 47 - Bean Lifecycle - Overview
