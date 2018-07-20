@@ -438,12 +438,11 @@ myCricketCoach.setFortuneService(myFortuneService);
         - this is what happens BTS when Spring processes the configuration file
 
 ###### S1 Section 5, Lecture 36,37 - Practical Setter Injection - Write some code
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/7d99ff96264053325c751e136d7c26bf5af09711
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/1bc67b2f872c942f6946a9983a0364953015af15
 
 ###### S1 Section 5, Lecture 38 - Injecting Literal Values - Overview
-
 - How to inject literal values into Spring Objects
-- ![Injecting Literal values]()
+- ![Injecting Literal values](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-07-16%2016_34_51-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - Development Process steps
     - Create setter method(s) in your class for injections
     - Configure the injection in Spring config file
@@ -476,12 +475,13 @@ public class CricketCoach implements Coach{
 ```
 
 ###### S1 Section 5, Lecture 39 - Injecting Literal Values - Write some code
-- Here: 
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/b0b82fe3a34008912910db24d1e8776acb331e68 
 
 ###### S1 Section 5, Lecture 40 - FAQ - Why use CricketCoach class instead of Coach Interface?
 
 ***Question:*** 
 - For the CricketCoach example with Setter Injection, why do we use the CricketCoach class instead of the Coach interface?
+
 ***Answer:***
 - The getTeam() method is only defined in the CricketCoach class. It is not part of the Coach interface.
 - As a result, you would need the following code:
@@ -490,7 +490,6 @@ public class CricketCoach implements Coach{
 ```
 - The Coach interface has two methods: getDailyWorkout and getDailyFortune
 - The CricketCoach class has four methods: getDailyWorkout, getDailyFortune, getTeam and setTeam
-    
 - When you retrieve a bean from the Spring container using the Coach interface:
 ```java
     Coach theCricketCoach = context.getBean("myCricketCoach", Coach.class);
@@ -507,14 +506,15 @@ public class CricketCoach implements Coach{
 ###### S1 Section 5, Lecture 41 - Injecting Literal Values from a Properties File - Overview
 - So far, able to inject literal values. But the problem was that the information was hardcoded in the config file
 - Now, want to be able to read from a properties file
-- ![Read from properties file]()
+- ![Read from properties file](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-07-17%2012_17_24-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - Step by Step Development process: 
     1) Create the properties file
     2) Load Properties File in Spring config file
     3) Reference values from Properties file
+
 **Step 1: Create Properties File**
 - left is property name and right is the value. 
-    - foo is the property name. It doesn't mater what the properties name is as long as you are consistent in config file and spring setup. 
+    - foo is the property name. It doesn't mater what the properties name is as long as you are consistent in config file and spring setup.   
 File: sport.properties
 ```properties
 foo.email=myeasycoach@luv2code.com
@@ -543,10 +543,10 @@ food.team=Royal Challengers Bangalore
     - Spring will substitute the property value there based on information from properties file 
 
 ###### S1 Section 5, Lecture 42 - Injecting Literal Values from a Properties File - Write some code
-- Here: 
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/b0b82fe3a34008912910db24d1e8776acb331e68 
 - For step 2 (loading properties file), it's done at the top of the applicationContext.xml before you define the beans
-- Question: what if you have multiple properties file? do you put the context line for each of them? will spring go through all the properties files? 
-- Answer:  https://www.udemy.com/spring-hibernate-tutorial/learn/v4/questions/3582594 
+- **Question:** what if you have multiple properties file? do you put the context line for each of them? will spring go through all the properties files? 
+- **Answer:**  https://www.udemy.com/spring-hibernate-tutorial/learn/v4/questions/3582594 
     - In case multiple <property-placeholder> elements are present in the Spring context, there are a few best practices that should be followed:
     - the order attribute needs to be specified to fix the order in which these are processed by Spring
     - all property placeholders minus the last one (highest order) should have ignore-unresolvable=”true” to allow the resolution mechanism to pass to others in the context without throwing an exception
@@ -555,6 +555,7 @@ food.team=Royal Challengers Bangalore
         - https://stackoverflow.com/questions/14456577/contextproperty-placeholder-not-working-for-multiple-files?noredirect=1&lq=1
 
 ###### S1 Section 5, Lecture 43 - Practical Activity #2: Dependency Injection with XML Configuration
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/fd8f927a92e72ece2db165b776104692c807fe27
 - Practice Activity #2 - Dependency Injection with XML Configuration
 - 1. Define a new implementation for the FortuneService.
     - a. When the getFortune() method is called it should return a random fortune from the array.
@@ -584,9 +585,63 @@ food.team=Royal Challengers Bangalore
             - More details here: https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-factory-lazy-init 
         
 ###### S1 Section 6, Lecture 44 - Bean Scopes - Overview
+- Bean Scopes are available in Spring
+- What are **Scopes**: 
+    - Scope refers to the lifecycle of a bean, as in:  
+            - How long the bean will live?   
+            - How many instances are created?  
+            - How is the bean shared in the Spring environment?
+- Default Scope: Singleton
+```xml
+<beans ...>
+    <bean id="myCoach" class="springdemo.TrackCoach">
+    ...
+    </bean>
+</beans>
+```
+- this is how beans were set up so far and since we didn't explicity define a scope, the default was Singleton
 
-placeholder
-###### S1 Section 6, Lecture 45,46 - Bean Scopes - Write some Code  
+**What is a Singleton**
+- Spring Container creates only one instance of the bean, by default
+- It is cached in memory
+- All requests for the bean will reture a SHARED reference to the SAME bean
+- So, the end result is that there only be one bean and everyone will all share it. 
+![What is a singleton]()
+- In this eg, if you do Coach theCoach = ..., this might give a reference to something like a TrackCoach that you defined
+- If you do that again later on in the code like Coach, alphaCoach = ... with the same bean id, it'll give you the reference to the same bean
+- These two object references here point to the same area in memory where they point to the same bean
+- So, Spring will create one bean and everyone will share that bean (Sigleton by default)
+- Use case for this: A stateless bean, where you don't need to maintain any state
+
+**Explicity Specify the Bean Scope**
+ ```xml
+ <beans ...>
+     <bean id="myCoach" class="springdemo.TrackCoach" scope="singleton">
+     ...
+     </bean>
+ </beans>
+ ```
+- Can use the scope attribute to speciy as well to minimize the number of beans that are created
+**Additional Spring Bean Scopes**
+![Additional Spring Bean Scopes table]()
+
+**Prototype Scope Example**
+- Prototype scope: A new object is created for each request.
+```xml
+ <beans ...>
+     <bean id="myCoach" class="springdemo.TrackCoach" scope="prototype">
+     ...
+     </bean>
+ </beans>
+``` 
+- So, time a request is made for myCoach, it'll create a new instance each time
+![Prototype Scope Example]()
+- theCoach part will create a new instance of that bean and get a reference to it
+- alphaCoach part will create new object and it's own reference
+- Prototype scope is good for keepting stateful data
+    - with prototype, think 'new' keyword. It will create a new bean for each request for each component
+
+###### S1 Section 6, Lecture 45,46 - Bean Scopes - Write some Code 
 
 ###### S1 Section 6, Lecture 47 - Bean Lifecycle - Overview
 
@@ -597,7 +652,7 @@ placeholder
 ###### S1 Section 6, Lecture 50 - Destroying Lifecycle and Prototype Scope
 
 ###### S1 Section 6, Lecture 51 - Practical Activity #3 - Bean Scopes with XML Configuration  
-
+placeholder
 ###### S1 Section 7, Lecture 52 - Spring configuration with Java Annotations Inversion of Control Overview - Component Scanning
 
 ###### S1 Section 7, Lecture 53 - Annotations Project Setup
@@ -720,9 +775,100 @@ placeholder
 
 ###### S1 Section 13, Lecture 123 - FAQ: How does "processForm" work for "/hello"?
 
+###### S1 Section 14, Lecture 124 - Spring MVC Form Tags Overview
 
+###### S1 Section 14, Lecture 125 - Text Fields - Overview
 
+###### S1 Section 14, Lecture 126,127,128 - Text Fields - Write some Code  
 
+###### S1 Section 14, Lecture 129 - Drop-Down Lists - Overview 
+
+###### S1 Section 14, Lecture 130,131 - Drop-Down Lists - Write Some Code
+
+###### S1 Section 14, Lecture 132 - FAQ: Use properties file to load country options
+
+###### S1 Section 14, Lecture 133 - Radio Buttons - Overview
+
+###### S1 Section 14, Lecture 134 - Radio Buttons - Write Some Code
+
+###### S1 Section 14, Lecture 135 - FAQ: How to populate radiobuttons with items from Java class?
+
+###### S1 Section 14, Lecture 136 - Checkboxes - Overview
+
+###### S1 Section 14, Lecture 137,138 - Checkboxes - Write Some Code
+
+###### S1 Section 15, Lecture 139 - Spring MVC Form Validation - Overview
+
+###### S1 Section 15, Lecture 140 - Setting up Dev Environment for Form Validation 
+
+###### S1 Section 15, Lecture 141 - Installing Validation Files
+
+###### S1 Section 15, Lecture 142 - Checking for Required Fields - Overview
+
+###### S1 Section 15, Lecture 143 - Special Notes about BindingResult and Parameter Order
+
+###### S1 Section 15, Lecture 144 - Add Validation Rule to Coustomer Class
+
+###### S1 Section 15, Lecture 145 - Display Validation Error Messages on HTML form
+
+###### S1 Section 15, Lecture 146,147 - Perform Validation in Controller Class
+
+###### S1 Section 15, Lecture 148 - Update Confirmation Page
+
+###### S1 Section 15, Lecture 149 -  Test the Validation Rule for Required Fields
+
+###### S1 Section 15, Lecture 150 - Add Pre-processing Code with @InitBinder - Overview
+
+###### S1 Section 15, Lecture 151 - Add Pre-processing Code with @InitBinder - Write Some code
+
+###### S1 Section 16, Lecture 152 - Validating a Number Range - Overview
+
+###### S1 Section 16, Lecture 153 - Validating a Number Range - Write Some Code
+
+###### S1 Section 16, Lecture 154 - Applying Regular Expressions - Overview
+
+###### S1 Section 16, Lecture 155 - Applying Regular Expressions - Write Some Code 
+
+###### S1 Section 16, Lecture 156 - How to make Integer Field Required: freePasses
+
+###### S1 Section 16, Lecture 157 - How to Handle String input for Integer Fields - Custom Message
+
+###### S1 Section 16, Lecture 158 - How to Handle String input for Integer Fields - Configure Resource Bundle
+
+###### S1 Section 16, Lecture 159 - How to Handle String input for Integer Fields - Deep Dive
+
+###### S1 Section 16, Lecture 160 - FAQ: How to make Integer field required and handle Strings: freePasses
+
+###### S1 Section 17, Lecture 161 - Custom Form Validation - Overview
+
+###### S1 Section 17, Lecture 163,164 - Creating a Custome Java Annotation
+
+###### S1 Section 17, Lecture 165 - Developing the ConstraintValidator
+
+###### S1 Section 17, Lecture 166 - Adding Validation Rule to the Entity and Form
+
+###### S1 Section 17, Lecture 167 - Testing the Custom Validation Rule
+
+###### S1 Section 17, Lecture 168 - FAQ: Spring MVC Custom Validation - Possible to validate with multiple strings?
+
+###### S1 Section 18, Lecture 169 - Hibernate Overview
+
+###### S1 Section 18, Lecture 170 - Hibernate and JDBC
+
+###### S1 Section 18, Lecture 171 - Hiberate 5.2 Requires Java 8
+
+###### S1 Section 18, Lecture 172 - Hiberate Development Environment Overview
+
+###### S1 Section 18, Lecture 173,174 - Installing MySQL on MS Windows and Mac 
+ 
+###### S1 Section 18, Lecture 175 - Setting up Database Table
+
+###### S1 Section 18, Lecture 176 - Setting up Hiberate in Eclipse 
+
+###### S1 Section 18, Lecture 177 - Testing your JDBC Connection 
+
+###### S1 Section 18, Lecture 178 -
+ 
 
 
 # Junit
