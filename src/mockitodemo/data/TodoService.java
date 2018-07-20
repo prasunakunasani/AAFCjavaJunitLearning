@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface TodoService {
     List<String> retrieveTodos(String user);
-    public void deleteTodo(String todo);
+    void deleteTodo(String todo);
 
 }

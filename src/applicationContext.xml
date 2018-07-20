@@ -19,6 +19,10 @@
 
     </bean>
 
+    <!--define another dependency for practice activity 2-->
+    <bean id="myRandomFortuneService" class="springdemo.RandomFortuneService">
+
+    </bean>
     <!--Step 1 - This configures the spring bean-->
     <!--the "id" here is like an alias-->
     <!--the class is the fully qualified class name(means packageName.className) of implementation class-->
@@ -28,8 +32,10 @@
         <constructor-arg ref="myFortuneService"/>
     </bean>
 
+
     <!--Step 2: Configure the dependency injection in Spring Config file-->
-    <bean id="myCricketCoach" class="springdemo.CricketCoach">
+    <!--The lazy init was added to make sure this bean isn't created unless specically called since I just needed BoxingCoach to run for Practical Activity 2-->
+    <bean id="myCricketCoach" class="springdemo.CricketCoach" lazy-init="true">
         <!--set up setter injection. So, spring will call setFortuneService based on the name fortuneService-->
         <property name="fortuneService" ref="myFortuneService"/>
 
@@ -39,7 +45,11 @@
         <property name="team" value="${foo.team}"/>
     </bean>
 
-
+    <!--injected fortuneservice into new bean for practice activity 2-->
+    <bean id="myBoxingCoach" class = "springdemo.BoxingCoach">
+        <!--Set up constructor injection-->
+        <constructor-arg ref="myRandomFortuneService"/>
+    </bean>
 
     
 </beans>

@@ -6,6 +6,13 @@ public class CricketCoach implements Coach {
 
     //add new fields for emailAddress and team
     private String emailAddress;
+    private String team;
+
+    //create a no-arg constructor cause' Spring will call this constructor when they make a reference to our bean
+    public CricketCoach()
+    {
+        System.out.println("CriketCoach: inside no-arg constructor");
+    }
 
     public String getEmailAddress() {
         return emailAddress;
@@ -23,14 +30,6 @@ public class CricketCoach implements Coach {
     public void setTeam(String team) {
         System.out.println("CricketCoach: inside setter method - setTeam");
         this.team = team;
-    }
-
-    private String team;
-
-    //create a no-arg constructor cause' Spring will call this constructor when they make a reference to our bean
-    public CricketCoach()
-    {
-        System.out.println("CriketCoach: inside no-arg constructor");
     }
 
     //create a setter method that's called by Spring for the actual dependency injection

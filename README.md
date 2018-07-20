@@ -554,12 +554,37 @@ food.team=Royal Challengers Bangalore
         - https://stackoverflow.com/questions/3403773/using-multiple-property-files-via-propertyplaceholderconfigurer-in-multiple-pr
         - https://stackoverflow.com/questions/14456577/contextproperty-placeholder-not-working-for-multiple-files?noredirect=1&lq=1
 
-
 ###### S1 Section 5, Lecture 43 - Practical Activity #2: Dependency Injection with XML Configuration
-
-
-
+- Practice Activity #2 - Dependency Injection with XML Configuration
+- 1. Define a new implementation for the FortuneService.
+    - a. When the getFortune() method is called it should return a random fortune from the array.
+    - b. Your fortune service should define three fortunes in an array. 
+- 2. Inject your new dependency into your Coach implementation.
+- 3. Test your application to verify you are retrieving random fortunes.
+- Compare your code to the solution. The solution is available here: http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
+- Lessons Learned: 
+    - If you configure a bean in applicationContext.xml, even if that's not the bean you're using in your main app, all the constructors, etc get called. 
+        - Eg: You did this practical thing using a BoxingCoach implementation but then all the CricketCoach setters, getters and constructors ran. 
+            - You had to comment out the CricketCoach bean setup in applicationContext.xml to get it to work alone...
+            - But not sure why the trackCoach stuff wasn't run though...
+        - Answer: 
+            - By default, Spring will automatically create all beans in memory at application startup. This is known as "eager" initialization. The beans will always be created up front.
+            - This is why you see the startup methods being called for other beans. Also, when the context is closed, it calls the shutdown methods on all beans in memory. However, Spring also allows you to make use of "lazy" initialization. With "lazy" initialization, the bean will only be created when explicity requested with "applicationContext.getBean(...)"
+            - To configure yoru bean for "lazy" initialization, you make use of the lazy-init="true" configuration for example, to mark class TrackCoach for lazy initalization: 
+            ```xml
+              <bean id="myCoach" class="springdemo.TrackCoach" lazy-init="true"...>
+            ```
+            - By using lazy init configuration, class TrackCoach will only be initaalized when it is explicityly reference by "applicationContext.getBean(...)" or used as a dependency
+            - For Java annotations, you can use @Lazy
+            ```java
+              @Component
+              @Lazy
+              public class TrackCoach{...}
+            ```
+            - More details here: https://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-factory-lazy-init 
+        
 ###### S1 Section 6, Lecture 44 - Bean Scopes - Overview
+
 placeholder
 ###### S1 Section 6, Lecture 45,46 - Bean Scopes - Write some Code  
 
@@ -649,9 +674,51 @@ placeholder
 
 ###### S1 Section 10, Lecture 94 - Practice Activity #7 - IoC and DI with Java Configuration
 
-###### S1 Section 11, Lecture 90 - 
-  
+###### S1 Section 11, Lecture 95 - Spring MVC Overview
 
+###### S1 Section 11, Lecture 96 - Spring MVC - Behind the Scenes
+
+###### S1 Section 11, Lecture 97 - Development Environment Checkpoint
+
+###### S1 Section 11, Lecture 98,99 - Spring MVC Configuration - Overview
+
+###### S1 Section 11, Lecture 100 - Spring MVC Configuration - JAR files
+
+###### S1 Section 11, Lecture 101 - Spring MVC Configuration - Config files
+
+###### S1 Section 11, Lecture 102 - FAQ: How to configure the Spring Dispatcher Servlet using all Java Code (no xml)
+
+###### S1 Section 12, Lecture 103 - Creating a Spring Home Controller and View - Overview
+
+###### S1 Section 12, Lecture 104,105 - Creating a Spring Home Controller and View - Write Some Code
+
+###### S1 Section 12, Lecture 106 - FAQ: HELP! My Spring MVC Controller is not working. What to do?
+
+###### S1 Section 12, Lecture 107 - FAQ: HELP! Can't Start Tomcat - Ports are in Use! 
+
+###### S1 Section 12, Lecture 108 - FAQ: How does Component Scan Work - Your Package Names are Different! 
+
+###### S1 Section 12, Lecture 109 - Reading HTML Form Data - Overview
+
+###### S1 Section 12, Lecture 110,111,112 - Reading HTML Form Data - Write Some Code
+  
+###### S1 Section 12, Lecture 113 - Adding Data to the Spring Model - Overview
+ 
+###### S1 Section 12, Lecture 114, 115 - Adding Data to the Spring Model - Write some code
+
+###### S1 Section 12, Lecture 116 -  FAQ: How to use CSS, JavaScript and Images in Spring MVC Web App
+
+###### S1 Section 12, Lecture 117 - Bonus: Deploying To Tomcat using WAR files
+
+###### S1 Section 13, Lecture 118 - Spring MVC: Binding Request Params - Overview
+
+###### S1 Section 13, Lecture 119 - Binding Request Params - Write Some Code 
+
+###### S1 Section 13, Lecture 120 - Controller Level Request Mapping - Overview
+
+###### S1 Section 13, Lecture 121, 122 - Controller Level Request Mapping - Write Some Code
+
+###### S1 Section 13, Lecture 123 - FAQ: How does "processForm" work for "/hello"?
 
 
 
