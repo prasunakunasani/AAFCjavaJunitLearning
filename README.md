@@ -606,7 +606,7 @@ food.team=Royal Challengers Bangalore
 - It is cached in memory
 - All requests for the bean will reture a SHARED reference to the SAME bean
 - So, the end result is that there only be one bean and everyone will all share it. 
-![What is a singleton]()
+![What is a singleton](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-07-20%2014_42_03-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - In this eg, if you do Coach theCoach = ..., this might give a reference to something like a TrackCoach that you defined
 - If you do that again later on in the code like Coach, alphaCoach = ... with the same bean id, it'll give you the reference to the same bean
 - These two object references here point to the same area in memory where they point to the same bean
@@ -623,7 +623,7 @@ food.team=Royal Challengers Bangalore
  ```
 - Can use the scope attribute to speciy as well to minimize the number of beans that are created
 **Additional Spring Bean Scopes**
-![Additional Spring Bean Scopes table]()
+![Additional Spring Bean Scopes table](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-07-20%2014_50_47-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 
 **Prototype Scope Example**
 - Prototype scope: A new object is created for each request.
@@ -635,13 +635,23 @@ food.team=Royal Challengers Bangalore
  </beans>
 ``` 
 - So, time a request is made for myCoach, it'll create a new instance each time
-![Prototype Scope Example]()
+![Prototype Scope Example](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-07-20%2014_55_58-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - theCoach part will create a new instance of that bean and get a reference to it
 - alphaCoach part will create new object and it's own reference
 - Prototype scope is good for keepting stateful data
     - with prototype, think 'new' keyword. It will create a new bean for each request for each component
 
 ###### S1 Section 6, Lecture 45,46 - Bean Scopes - Write some Code 
+- Here: 
+- create a new version of applicationContext.xml file and put the copy in the same place
+    - called beanScope-applicationContext.xml
+- project can have multiple config files - you just have to reference the one you want
+- Clean up beanScope-applicationContext.xml
+    - delete everythign except the fortuneService and myCoach
+    - right now, the beans are singletons
+- In BeanScopeDemoApp.java, when the Beans are loaded, since default is singleton scope, the same reference is used.
+    - comparing the object reference to see if they are pointing to the same area in memory can be acheived through a boolean
+- later, in app context, change scope to prototype and check app again (should get dif memory locations)  
 
 ###### S1 Section 6, Lecture 47 - Bean Lifecycle - Overview
 

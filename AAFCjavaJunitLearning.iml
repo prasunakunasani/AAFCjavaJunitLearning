@@ -6,6 +6,9 @@
         <fileset id="fileset" name="ApplicationContext" removed="false">
           <file>file://$MODULE_DIR$/src/applicationContext.xml</file>
         </fileset>
+        <fileset id="fileset2" name="BeanScope ApplicationContext" removed="false">
+          <file>file://$MODULE_DIR$/src/beanScope-applicationContext.xml</file>
+        </fileset>
       </configuration>
     </facet>
   </component>
