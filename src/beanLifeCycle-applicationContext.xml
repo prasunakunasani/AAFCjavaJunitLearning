@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--XML namespaces that are required for Spring to be able to process this file using it's grammer and XML schema -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Define your beans here -->
+
+
+    <!--define the dependency-->
+    <bean id="myFortuneService" class="springdemo.HappyFortuneService">
+    </bean>
+
+    <bean id="myCoach" class = "springdemo.TrackCoach" init-method="doMyStartupStuff" destroy-method="doMyCleanupStuffYoYo">
+        <!--Set up constructor injection-->
+        <constructor-arg ref="myFortuneService"/>
+    </bean>
+
+</beans>
+
+
+
+
+

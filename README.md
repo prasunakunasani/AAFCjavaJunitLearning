@@ -654,12 +654,75 @@ food.team=Royal Challengers Bangalore
 - later, in app context, change scope to prototype and check app again (should get dif memory locations)  
 
 ###### S1 Section 6, Lecture 47 - Bean Lifecycle - Overview
+- When Spring container first starts, a few things happen: 
+- ![]()
+- 1st, beans are instantiated
+    - then the dependencies are injected
+    - then internal spring processing occurs with the bean factory
+    - then you have the option to add your own custom initalization code
+    - then, the bean is ready for use (call methods on it, work with the bean, etc)
+- At certain point, the app/container is shut down (context.shutdown)
+    - then, have the chance to call the custom destroy method that will execute before the actual application is stoped or before the bean's lifecyle is over 
+**Bean Lifecyle Methods/Hooks**
+- You can add custom code during *bean initalization*
+    - Calling custom business logic methods
+    - Setting up handle to resources (db, sockets, file, etc)
+- You can also add custome code during *bean destruction*
+    - Calling custom business logic methods
+    - Setting up handle to {clean up}resources (db, sockets, file, etc)
+- Basically, during the bean lifecyle, Spring allows you to call your custom code (hooks) that can be hooked during bean initalization and destruction
 
-###### S1 Section 6, Lecture 48 - Defining init and destroy methods - Method Signatures 
+**Init: method configuration**
+```xml
+<beans ...>
+    <bean id="myCoach" class="springdemo.TrackCoach" init-method="doMyStartupStuff">
+    </bean>
+</beans>
+```
+- Set up bean initalization using init-method and give the method name
+    - any method name
+
+**Destroy: method configuration**
+```xml
+<beans ...>
+    <bean id="myCoach" class="springdemo.TrackCoach" init-method="doMyStartupStuff" destroy-method="doMyCleanupStuff">
+    </bean>
+</beans>
+```
+- Again, destroy-method and any name
+**Development Process**
+1) Define your methods for init and destroy
+2) Configure the method name in Spring config file
+
+###### S1 Section 6, Lecture 48 - Special Note: Defining init and destroy methods - Method Signatures 
+*Special Note about init and destroy Method Signatures*  
+When using XML configuration, I want to provide additional details regarding the method signatures of the `init-method`  and `destroy-method`.
+
+*Access modifier*  
+The method can have any access modifier (public, protected, private)
+
+*Return type*  
+The method can have any return type. However, "void' is most commonly used. If you give a return type just note that you will not be able to capture the return value. As a result, "void" is commonly used.
+
+*Method name*  
+The method can have any method name.
+
+*Arguments*  
+The method can not accept any arguments. The method should be no-arg.
 
 ###### S1 Section 6, Lecture 49 - Bean Lifecycle - Write some code
+- create the init and destroy methods in the coach file which the bean is created from
+- if everything is working, know that you can add custom hooks to Spring Bean Lifecycle
 
-###### S1 Section 6, Lecture 50 - Destroying Lifecycle and Prototype Scope
+###### S1 Section 6, Lecture 50 - Special Note: Destroying Lifecycle and Prototype Scope
+There is a subtle point you need to be aware of with "prototype" scoped beans.
+
+*For "prototype" scoped beans, Spring does not call the destroy method.  Gasp!*  
+
+*In contrast to the other scopes, Spring does not manage the complete lifecycle of a prototype bean:* the container instantiates, configures, and otherwise assembles a prototype object, and hands it to the client, with no further record of that prototype instance.
+
+Thus, although initialization lifecycle callback methods are called on all objects regardless of scope, *in the case of prototypes, configured destruction lifecycle callbacks are not called.* The client code must clean up prototype-scoped objects and release expensive resources that the prototype bean(s) are holding. 
+This also applies to both XML configuration and Annotation-based configuration.
 
 ###### S1 Section 6, Lecture 51 - Practical Activity #3 - Bean Scopes with XML Configuration  
 placeholder
