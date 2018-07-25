@@ -19,9 +19,6 @@
 
     </bean>
 
-    <!--define another dependency for practice activity 2-->
-    <bean id="myRandomFortuneService" class="springdemo.RandomFortuneService">
-
     </bean>
     <!--Step 1 - This configures the spring bean-->
     <!--the "id" here is like an alias-->
@@ -45,15 +42,7 @@
         <property name="team" value="${foo.team}"/>
     </bean>
 
-    <!--injected fortuneservice into new bean for practice activity 2-->
-    <bean id="myBoxingCoach" class = "springdemo.BoxingCoach">
-        <!--Set up constructor injection-->
-        <constructor-arg ref="myRandomFortuneService"/>
-    </bean>
-
-    
 </beans>
-
 
 
 

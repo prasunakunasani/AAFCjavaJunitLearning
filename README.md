@@ -724,12 +724,22 @@ There is a subtle point you need to be aware of with "prototype" scoped beans.
 Thus, although initialization lifecycle callback methods are called on all objects regardless of scope, *in the case of prototypes, configured destruction lifecycle callbacks are not called.* The client code must clean up prototype-scoped objects and release expensive resources that the prototype bean(s) are holding. 
 This also applies to both XML configuration and Annotation-based configuration.
 
-###### S1 Section 6, Lecture 51 - Practical Activity #3 - Bean Scopes with XML Configuration  
-placeholder
+###### S1 Section 6, Lecture 51 - Practical Activity #3 - Bean Scopes with XML Configuration
+**Practice Activity #3 - Bean Scopes with XML Configuration**
+
+1. Add bean scopes to your new Coach implementation that you created in one of the previous activities.
+
+2. Test singleton scope and prototype scope as I did in the videos.
+
+3. Verify that the bean scopes are being applied as desired.
+
+Compare your code to the solution. The solution is available here:
+- http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
+
 ###### S1 Section 7, Lecture 52 - Spring configuration with Java Annotations Inversion of Control Overview - Component Scanning
 
 ###### S1 Section 7, Lecture 53 - Annotations Project Setup
-
+placeholder
 ###### S1 Section 7, Lecture 54,55 - Explicit Component Names - Write some code
 
 ###### S1 Section 7, Lecture 56 - Default Component Names - Overview

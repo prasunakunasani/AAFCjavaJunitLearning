@@ -9,6 +9,12 @@
         <fileset id="fileset2" name="BeanScope ApplicationContext" removed="false">
           <file>file://$MODULE_DIR$/src/beanScope-applicationContext.xml</file>
         </fileset>
+        <fileset id="fileset3" name="BeanLifeCycle ApplicationContext" removed="false">
+          <file>file://$MODULE_DIR$/src/beanLifeCycle-applicationContext.xml</file>
+        </fileset>
+        <fileset id="fileset4" name="Practice ApplicationContext" removed="false">
+          <file>file://$MODULE_DIR$/src/practice-applicationContext.xml</file>
+        </fileset>
       </configuration>
     </facet>
   </component>

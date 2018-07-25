@@ -18,4 +18,5 @@ public class BoxingCoach implements Coach {
     public String getDailyFortune() {
         return fortuneService.getFortune();
     }
+
 }
