@@ -737,6 +737,71 @@ Compare your code to the solution. The solution is available here:
 - http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
 
 ###### S1 Section 7, Lecture 52 - Spring configuration with Java Annotations Inversion of Control Overview - Component Scanning
+**What are Java Annotations**
+- Special labels/marks added to Java classes
+- Provide meta-data about class
+    - eg: the shoe info below
+    - Java annotations are simply meta data about the class
+- Processed at compile time or run-time for special processing
+- ![Boot metadata]()
+**Annotation Example**
+- ![Annotations example]()
+- The annotation here tells the compiler: "Hey, we're gonna implement the interface, extend the class and override the method exactly as listed in the interface or the parent class". 
+- Compiler will check class and make sure you are actually overiding the method
+    - as long as you override exactly as advertised, everything will work just fine
+    - If there are problems, compiler will just give a compilation error
+    
+**Why Spring Configuratio with Annotations?**
+- XML configuration can be verbose
+    - for large projects like 30 or 100 beans. Each would be have to be listed and it's a lot of work. So, instead, can: 
+- Configure your Spring beans with Annotations
+- Annotations minimizes the XML configuration 
+    - Annotations are like metadata where an annotation is given to a given class
+
+**Scanning for Component Classes**
+- Spring will scan your Java classes for special annotations
+    - when it finds a class with a special spring annotation, it'll: 
+- Automatically register the beans in the Spring container
+    - Spring will help out and do a lot of work in the background by scanning your classes
+    
+**Development Process**
+1) Enable component scanning in Spring config file
+2) Add the @Component Annotation to your Java classes
+3) Retrieve bean from Spring container
+
+**Step 1: enable component scanning in Spring config file**
+```xml
+<beans ... >
+    <context:component-scan base-package="springdemo"/>
+</beans>
+```
+- Spring will scan this base-package (recursively)
+    - spring will scan all classes in this package and sub-packages and identify all the @component annotation and register them with the Spring container
+        - happens in the background automatically
+
+**Step 2: Add the @Component Annotation to your Java classes**
+
+```java
+@Component("thatSillyCoach")
+public class TennisCoach implements Coach{
+    @Override
+    public String getDailyWorkout() {
+        return "Practice your backhand volley"; 
+    }
+}
+```
+- @Component tells Spring that this class is a special Spring bean that needs to be registered
+    - "thatSillyCoach" is the bean ID that we want to use
+        - Spring will register this bean automatically as a Spring bean and have this bean ID
+        - bean ID can be anything
+-Spring will scan for @Component annotation, automatically register it with the given bean id
+
+**Step 3: Retrive bean from Spring container**
+- Same coding as before....nothing changes
+```java
+Coach theCoach = context.getBean("thatSillyCoach", Coach.class)
+```
+- the bean ID just has to match what you put in the @Component annotation 
 
 ###### S1 Section 7, Lecture 53 - Annotations Project Setup
 placeholder
@@ -938,20 +1003,95 @@ placeholder
 
 ###### S1 Section 18, Lecture 170 - Hibernate and JDBC
 
-###### S1 Section 18, Lecture 171 - Hiberate 5.2 Requires Java 8
+###### S1 Section 19, Lecture 171 - Hiberate 5.2 Requires Java 8
 
-###### S1 Section 18, Lecture 172 - Hiberate Development Environment Overview
+###### S1 Section 19, Lecture 172 - Hiberate Development Environment Overview
 
-###### S1 Section 18, Lecture 173,174 - Installing MySQL on MS Windows and Mac 
+###### S1 Section 19, Lecture 173,174 - Installing MySQL on MS Windows and Mac 
  
-###### S1 Section 18, Lecture 175 - Setting up Database Table
+###### S1 Section 19, Lecture 175 - Setting up Database Table
 
-###### S1 Section 18, Lecture 176 - Setting up Hiberate in Eclipse 
+###### S1 Section 19, Lecture 176 - Setting up Hiberate in Eclipse 
 
-###### S1 Section 18, Lecture 177 - Testing your JDBC Connection 
+###### S1 Section 19, Lecture 177 - Testing your JDBC Connection 
 
-###### S1 Section 18, Lecture 178 -
- 
+###### S1 Section 20, Lecture 178 - Hibernate Development Process Overview
+
+###### S1 Section 20, Lecture 178 - Creating the Hibernate Configuration File
+
+###### S1 Section 20, Lecture 178 - Hibernate Annotations - Part 1
+
+###### S1 Section 20, Lecture 178 - HEADS UP - for Java 9 USERS
+
+###### S1 Section 20, Lecture 178 - HEADS UP - Java 9 USERS - Eclipse Generate toString() fails
+
+###### S1 Section 20, Lecture 178 - Hibernate Annotations - Part 2
+
+###### S1 Section 20, Lecture 178 - FAQ: Why we are using JPA Annotation instead of Hibernate?
+
+###### S1 Section 21, Lecture 185,186 - Creating and Saving Java Objects
+
+###### S1 Section 21, Lecture 187 - Primary Keys - Overview
+
+###### S1 Section 21, Lecture 188 - Primary Keys - Write some code
+
+###### S1 Section 21, Lecture 189 - Primary Keys - Changing the Starting Index
+
+###### S1 Section 21, Lecture 190 - Reading Objects with Hibernate
+
+###### S1 Section 21, Lecture 191 - Querying Objects with Hibernate - Overview
+
+###### S1 Section 21, Lecture 192 - Special Note: About Deprecated Method in Hibernate 5.2 
+
+###### S1 Section 21, Lecture 193,194 - Querying Objects with Hibernate - Write Some Code
+
+###### S1 Section 21, Lecture 195 - FAQ: How To View Hibernate SQL Parameter Values
+
+###### S1 Section 21, Lecture 196 - Updating Objects with Hibernate - Overview
+
+###### S1 Section 21, Lecture 197 - Updating Objects with Hibernate - Write some code
+
+###### S1 Section 21, Lecture 198 - Deleting Objects with Hibernate - Overview
+
+###### S1 Section 21, Lecture 199 - Deleting Objects with Hibernate - Write some code
+
+###### S1 Section 21, Lecture 200 - Practice Activity #8 - Hibernate Development
+
+###### S1 Section 21, Lecture 201 - FAQ: How to read Dates with Hibernate
+
+###### S1 Section 22, Lecture 202 - Advanced Mappings Overview
+
+###### S1 Section 22, Lecture 203 - Database Concepts
+
+###### S1 Section 23, Lecture 204,205,206 - @OneToOne - Overview
+
+###### S1 Section 23, Lecture 207 - @OneToOne - Run Database Scripts
+
+###### S1 Section 23, Lecture 208 - @OneToOne - Write Some Code - Prep Work
+
+###### S1 Section 23, Lecture 209 - @OneToOne - Write Some Code - Create InstructorDetail class
+
+###### S1 Section 23, Lecture 210 - @OneToOne - Write Some Code - Create Instructor class
+
+###### S1 Section 23, Lecture 211,212 - @OneToOne - Write Some Code - Build Main App
+
+###### S1 Section 23, Lecture 213 - @OneToOne - Delete an Entry
+
+###### S1 Section 23, Lecture 214 - @OneToOne - Bi-Directional Overview
+
+###### S1 Section 23, Lecture 215 - @OneToOne - Bi-Directional - Create Relationship
+
+###### S1 Section 23, Lecture 216 - @OneToOne - Bi-Directional - Develop Main App
+
+###### S1 Section 23, Lecture 217 - @OneToOne - Refactoring and Exception Handling
+
+###### S1 Section 23, Lecture 218 - @OneToOne - Bi-Directional - Cascade Delete
+
+###### S1 Section 23, Lecture 219,220 - @OneToOne - Bi-Directional - Delete Only InstructorDetail
+
+
+
+
 
 
 # Junit
