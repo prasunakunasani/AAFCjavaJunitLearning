@@ -72,7 +72,7 @@ Junit Learning:
     - Retrieve Beans from Spring Container  
     
 **Step 1: Configure your Spring Beans - XML Configuration file way** Eg: 
-```java
+```xml
 //File: applicationContext.xml
 <beans ...>
     <bean id="myCoach"
@@ -804,8 +804,21 @@ Coach theCoach = context.getBean("thatSillyCoach", Coach.class)
 - the bean ID just has to match what you put in the @Component annotation 
 
 ###### S1 Section 7, Lecture 53 - Annotations Project Setup
-placeholder
+- Go into Eclipse
+- This lecture wasn't done in completion since not currently using Eclispe
+- In Idea, right click 'AAFCjavaJunitLearning', add module call 'spring-demo-annoatation'
+    - selected Spring 4.3.18.RELEASE
+- in the future to add more jars specific to Spring MVC, can just try to add a module with those specific jars, copy the jars over and then delete the temp module
+- Create a new xml file: 
+    - Right click src folder, New->XML Configuration File->Spring config->just write the name 'applicationContext' or something
+    - configure it when Idea prompts you to
+- I think you f'd up before but now, know that you can right click on the src folder, click 'Load/Unload Modules'
+
 ###### S1 Section 7, Lecture 54,55 - Explicit Component Names - Write some code
+- To applicationContext.xml, add the context:component scan line
+    - this line will scan all the @component annotated classes
+- whatever package name you write in the application context, you need to make sure that you right click src, New->package, give the exact same name
+- 
 
 ###### S1 Section 7, Lecture 56 - Default Component Names - Overview
 
