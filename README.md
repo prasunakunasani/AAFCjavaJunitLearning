@@ -23,6 +23,198 @@ Mockito Learning:
 Junit Learning:    
 [Junit Intro](#commit-s2-section-3-lecture-6---junit-intro)  
 
+
+
+
+# Junit
+
+###### Commit: S2 Section 3, Lecture 6 - Junit intro
+From: http://www.vogella.com/tutorials/JUnit/article.html  
+Where should the test be located?  
+Typical, unit tests are created in a separate project or separate source folder to keep the test code separate from the real code. The standard convention from the Maven and Gradle build tools is to use:
+
+src/main/java - for Java classes
+src/test/java - for test classes
+- See Shortcuts on how to run a test
+
+# Mockito
+
+###### Commit: S3 Step 1, 2, 3
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/d62b14117679c0fe427f097b3b0f1f0cdc21ff9e 
+- TodoBusinessImpl is SUT - System Under test
+- TodoService is a dependency for TodoBusinessImpl
+- A stub: A class that returns dummy data
+- Stubs are not the right way to go because: 
+    - assume you want to test different output based on dif user, you'll have to add more logic to the stubs
+        - code becomes complex when you want to do dynamic conditions 
+            - wanting to get different values for dif scenarios
+    - assume the TodoService interfaces to more functions, then you'll have to add more functions in the stub
+        - service definition - more maintenance 
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step01.md  
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step02.md  
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step03.md  
+
+###### Commit: S3 Step 4
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/42117a4e337dc4dcc4022b74d51eee81368c78e5
+- Static imports - Eg- assertEquals is a static method that's in org.junit.Assert class
+- Mocks
+    - mocking is creating objects that simulate the behaviour of real objects
+    - unlike stubs, mocks can be dynamically created from code - at runtime 
+    - frameworks like mockito allow one to create a dummy class 
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step04.md  
+
+###### Commit: S3 Step 5
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/1753387520e39c16d6e338ac91b7018ff713964f 
+- Building a mock for List in java - List in an interface 
+- ListTest.java code contains: 
+    - a minimum setup stuff needed to use @Mock annotation vs the one shown in the course using mock(blah.class)
+    - How to mock methods with or without parameters
+    - How to mock multiple responses for the same method
+    - How to use Argument Matchers
+    - How to mock ThrowException stuff - PS - the test for it doesn't work but may work for real life
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step05.md  
+
+###### Commit: S3 Step 6 
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/5bb1dbb1796399feeee0f78beb1b4003383d5ebb 
+- BDD - Behaviour driven development (http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/BDDMockito.html)
+- Eg - Agile projects use user stories that are split to scenarios
+    - A user story is a very high-level definition of a requirement, containing just enough information so that the developers can produce a reasonable estimate of the effort to implement it and test it. 
+> Story: Returns go to Stock   
+In order to keep track of stock   
+As a store owner
+I want to add items back to stock when they're returned
+
+> Scenario 1: Refunded items should be returned to stock    
+Given that a customer previously bought a black sweater from me  
+And I have three black sweaters in stock.   
+When he returns the black sweater for a refund  
+Then I should have four black sweater in stock  
+
+> Scenario 2: Replaced items should be returned to stock  
+Given that a customer previously bought a blue garment from me  
+And I have two blue garments in stock  
+And three black garments in stock  
+When he returns the blue garments for a replacement in black  
+Then I should have three blue garments in stock   
+And two black garments in stock  
+
+- Tests should be written in a *Given, When, Then*  
+- At the beginning of the test, 
+    - Given is the setup
+    - When is the actual method call
+    - Then all the asserts show that something has happened
+- Mockito BDD has specific methods that help one to write tests in that particular manner
+- Egs in code: 
+    - given(mockList.get(anyInt())).willReturn("Blah"); 
+    - given(todoServiceMock.retrieveTodos("DummyName")).willReturn(todos); 
+    - assertThat(expected,is(actual)); 
+    - assertThat(filteredTodos.size(),is(2));
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step06.md  
+
+###### Commit: S1 Section 4, Lecture 22
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/5e3fbe5c052025847c6b6ec1c7d36477927488e8 
+- one requirement - The whole point of using interfaces is so one can easily change the coach for another sport: 
+        - Hockey, Cricket, Tennis, Gymnastics, etc...
+- the other requirement - App should be configurable
+    - not configurable yet since the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
+
+###### Commit: S3 Step 7 - Verify Calls on Mocks
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/185d012e13ed194804573ff234466ed60345ece4
+- May want to check if a method is called or not! and also how many times a method is called
+- until now, we used something like given(mockList.get(anyInt())).willReturn("Blah")
+    - but no idea if mockList.get(anyInt()) was called at all
+- Basically, we need to know how to test void functions
+    - verify methods in Mockito let you check if some method is called
+        - It internally uses: verify(mock, times(1)).someMethod("was called once"); 
+- Egs in Code: 
+    - verify(todoServiceMock).deleteTodo("Learn Mockito");
+    - verify(todoServiceMock, never()).deleteTodo("Learn Spring");
+    - verify(todoServiceMock, times(2)).deleteTodo("Learn Junit");
+    - verify(todoServiceMock, atLeastOnce()).deleteTodo("Learn Junit");
+    - verify(todoServiceMock, atLeast(5)).deleteTodo("Learn Mockito");
+- Just reference in general (https://stackoverflow.com/questions/27787487/java-verify-void-method-calls-n-times-with-mockito): 
+    - verify(mock, times(5)).someMethod("was called five times");
+    - verify(mock, never()).someMethod("was never called");
+    - verify(mock, atLeastOnce()).someMethod("was called at least once");
+    - verify(mock, atLeast(2)).someMethod("was called at least twice");
+    - verify(mock, atMost(3)).someMethod("was called at most 3 times");
+    - verify(mock, atLeast(0)).someMethod("was called any number of times"); // useful with captors
+    - verify(mock, only()).someMethod("no other method has been called on the mock");
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step07.md
+
+###### Commit: S3 Step 8 - Capturing Arguments passed to a Mock
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/0b8d9ec532f0fe08fb5f23fde769b0ae07d39a29 
+- How to capture an argument that's passed to a mock?
+- Side note: Before, used verify but for BDD, can use then(mockedObjectInstance).should(never()).method("argument");
+- Argument Capture can be used to capture more complex objects 
+- Egs in code: 
+    - given(todoServiceMock.retrieveTodos("DummyName")).willReturn(todos);
+    - then(todoServiceMock).should().deleteTodo("Learn Mockito");
+    - then(todoServiceMock).should(never()).deleteTodo("Learn Spring");
+    - ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+    - then(todoServiceMock).should(times(3)).deleteTodo(stringArgumentCaptor.capture());
+    - assertThat(stringArgumentCaptor.getAllValues().size(),is(3)); 
+- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step08.md
+
+###### S3 Step 9 - Hamcrest Matchers (skipped)
+###### Commit: S3 Step 10 - Mockito Annotations @Mock @InjectMocks @RunWith, @Captor
+- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/88cf0c64d31b9365bf0476d58553c9a0c132be97
+- @Mock will make an mock
+    - ~~can add @RunWith(MockitoJunitRunner.class) on top of the test class~~ - Works with out. Don't know the details of what this is for. 
+    - Needs to be placed just below the class
+- @InjectMock
+    - eg, in TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock), 
+        - we are creating a new instance of TodoBusinessImpl using the todoServiceMock as a constructor parameter. 
+            - So, we are trying to inject the todoServiceMock into the TodoBusinessImpl 
+                - instead of doing this manually, mockito can do it
+        - Mockito can look at look at all things declared as InjectMock 
+        - If you do: 
+            - @InjectMocks
+            - TodoBusinessImpl todoBusinessImpl
+                - Mockito will look at all things present in actual class todoBusinessImpl
+                    - in there, the things that are declared are todoService
+        - So, it will look at all the dependencies of todoBusinessImpl and see if there is a mock that matches it
+            - So, it will automatically inject the todoService so the original line can be removed
+    - Therefore, if there are 5 dependencies, can just mock them and using InjectMock then mockito will inject the dependencies.
+    - This makes the test more readable
+ - @Captor
+    - Before, to declare an argument captor, you did this: 
+        -  ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);  
+    - Now, can do: 
+        - @Captor
+        - ArgumentCaptor<String> stringArgumentCaptor
+            - this automatically creates a captor of a particular type
+
+###### S3 Step 11 - Mockito Junit Rules - Skipped cause' not in Junit 5
+###### S3 Step 12 - Real World Mockito example with Spring - No actual implementation. Just random notes: 
+- Eg - For a more complicated project, you might have components such as 'Data' and 'Business'
+    - Each of these might have 'api' and 'impl'
+        - API is the interface stuff while impl is the actual implementation
+    - Therefore, if the business has to talk to the database side, it will use the API part of it. 
+###### Commit - S3 Step 13 - Mockito Spy
+- With mocks, we don't care about the impl of class but sometimes might want to override specific functionality of class - then we need a spy
+- A Spy gets all logic from the class. 
+    - So, you can override specific methods (using stubbing (when().thenReturn()...))
+        - Only the overridden method changes. The rest of the methods are still working normally. 
+- With a spy, you let the real action happen while listening onto it
+    - Like a spy watching what's happening
+- Some takeaways 
+    - If you call verify on a mock, you can check what methods are being called related to the mocked class
+    - If you call verify on a spy, you can check what methods are being called related to the actually class which you are testing
+        - Probably more useful during Integration testing (Nvm...I don't know...)
+    - spies are apparently used usually when you don't have access to the code or dependencies in a legacy system
+        - in general, apparently stick to mocks since with spys, you're using a bit of actual logic and mocked methods where it can get confusing
+    - https://stackoverflow.com/questions/15052984/what-is-the-difference-between-mocking-and-spying-when-using-mockito 
+        - When Mockito creates a mock – it does so from the Class of a Type, not from an actual instance. The mock simply creates a bare-bones shell instance of the Class, entirely instrumented to track interactions with it. On the other hand, the spy will wrap an existing instance. It will still behave in the same way as the normal instance – the only difference is that it will also be instrumented to track all the interactions with it.
+        - If there is an object with 8 methods and you have a test where you want to call 7 real methods and stub one method you have two options:
+        - Using a mock you would have to set it up by invoking 7 callRealMethod and stub one method
+        - Using a spy you have to set it up by stubbing one method
+        - The official documentation on doCallRealMethod recommends using a spy for partial mocks.
+###### S3 Step 13 - Why does Mockito not allow stubbing final and private methods. Just random notes: 
+- With unit testing, we are suppose to test the public interfaces of the class
+    - Mockito wants to promote that and doesn't allow mocking of private methods
+- Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
+
 # Spring
 
 ###### Commit: S1 Section 4, Lecture 20, 21
@@ -735,568 +927,6 @@ This also applies to both XML configuration and Annotation-based configuration.
 
 Compare your code to the solution. The solution is available here:
 - http://www.luv2code.com/downloads/udemy-spring-hibernate/solution-practice-activities.zip
-
-###### S1 Section 7, Lecture 52 - Spring configuration with Java Annotations Inversion of Control Overview - Component Scanning
-**What are Java Annotations**
-- Special labels/marks added to Java classes
-- Provide meta-data about class
-    - eg: the shoe info below
-    - Java annotations are simply meta data about the class
-- Processed at compile time or run-time for special processing
-- ![Boot metadata]()
-**Annotation Example**
-- ![Annotations example]()
-- The annotation here tells the compiler: "Hey, we're gonna implement the interface, extend the class and override the method exactly as listed in the interface or the parent class". 
-- Compiler will check class and make sure you are actually overiding the method
-    - as long as you override exactly as advertised, everything will work just fine
-    - If there are problems, compiler will just give a compilation error
-    
-**Why Spring Configuratio with Annotations?**
-- XML configuration can be verbose
-    - for large projects like 30 or 100 beans. Each would be have to be listed and it's a lot of work. So, instead, can: 
-- Configure your Spring beans with Annotations
-- Annotations minimizes the XML configuration 
-    - Annotations are like metadata where an annotation is given to a given class
-
-**Scanning for Component Classes**
-- Spring will scan your Java classes for special annotations
-    - when it finds a class with a special spring annotation, it'll: 
-- Automatically register the beans in the Spring container
-    - Spring will help out and do a lot of work in the background by scanning your classes
-    
-**Development Process**
-1) Enable component scanning in Spring config file
-2) Add the @Component Annotation to your Java classes
-3) Retrieve bean from Spring container
-
-**Step 1: enable component scanning in Spring config file**
-```xml
-<beans ... >
-    <context:component-scan base-package="springdemo"/>
-</beans>
-```
-- Spring will scan this base-package (recursively)
-    - spring will scan all classes in this package and sub-packages and identify all the @component annotation and register them with the Spring container
-        - happens in the background automatically
-
-**Step 2: Add the @Component Annotation to your Java classes**
-
-```java
-@Component("thatSillyCoach")
-public class TennisCoach implements Coach{
-    @Override
-    public String getDailyWorkout() {
-        return "Practice your backhand volley"; 
-    }
-}
-```
-- @Component tells Spring that this class is a special Spring bean that needs to be registered
-    - "thatSillyCoach" is the bean ID that we want to use
-        - Spring will register this bean automatically as a Spring bean and have this bean ID
-        - bean ID can be anything
--Spring will scan for @Component annotation, automatically register it with the given bean id
-
-**Step 3: Retrive bean from Spring container**
-- Same coding as before....nothing changes
-```java
-Coach theCoach = context.getBean("thatSillyCoach", Coach.class)
-```
-- the bean ID just has to match what you put in the @Component annotation 
-
-###### S1 Section 7, Lecture 53 - Annotations Project Setup
-- Go into Eclipse
-- This lecture wasn't done in completion since not currently using Eclispe
-- In Idea, right click 'AAFCjavaJunitLearning', add module call 'spring-demo-annoatation'
-    - selected Spring 4.3.18.RELEASE
-- in the future to add more jars specific to Spring MVC, can just try to add a module with those specific jars, copy the jars over and then delete the temp module
-- Create a new xml file: 
-    - Right click src folder, New->XML Configuration File->Spring config->just write the name 'applicationContext' or something
-    - configure it when Idea prompts you to
-- I think you f'd up before but now, know that you can right click on the src folder, click 'Load/Unload Modules'
-
-###### S1 Section 7, Lecture 54,55 - Explicit Component Names - Write some code
-- To applicationContext.xml, add the context:component scan line
-    - this line will scan all the @component annotated classes
-- whatever package name you write in the application context, you need to make sure that you right click src, New->package, give the exact same name
-- 
-
-###### S1 Section 7, Lecture 56 - Default Component Names - Overview
-
-###### S1 Section 7, Lecture 57 - Default Component Names - Write some code
-
-###### S1 Section 7, Lecture 58 - Practical Activity #4 - Inversion of Control with Annotations
-
-###### S1 Section 8, Lecture 59 - Spring configuration with Java Annotations Dependency Injection - Constructor Injection - Overview
-
-###### S1 Section 8, Lecture 60 - FAQ - What if there are Multiple Implementations
-
-###### S1 Section 8, Lecture 61, 62 - Constructor Injection - Write some code
-
-###### S1 Section 8, Lecture 63 - FAQ - Constructor Injection - Autowired Optional? 
-
-###### S1 Section 8, Lecture 64 - Setter Injection - Overview
-
-###### S1 Section 8, Lecture 65 - Setter Injection - Write some code
-
-###### S1 Section 8, Lecture 66 - Method Injection
-
-###### S1 Section 8, Lecture 67 - Field Injection - Overview
-
-###### S1 Section 8, Lecture 68 - Field Injection - Write some code
-
-###### S1 Section 8, Lecture 69 - Which Injection Type Should You Use? 
-
-###### S1 Section 8, Lecture 70 - Qualifiers for Dependency Injection - Overview
-
-###### S1 Section 8, Lecture 71,72 - Qualifiers for Dependency Injection - Write some code
-
-###### S1 Section 8, Lecture 73 - Annotations - Default Bean Names (special case)
-
-###### S1 Section 8, Lecture 74 - Using @Quantifiers with Constructors - Overview
-
-###### S1 Section 8, Lecture 75 - How to inject properties file using Java annotations
-
-###### S1 Section 8, Lecture 76 - Practical Activity #5 - Dependency Injection with Annotations
-
-###### S1 Section 9, Lecture 77 - @Scope Annotation - Overview
-
-###### S1 Section 9, Lecture 78 - @Scope Annotation - Write Some Code
-
-###### S1 Section 9, Lecture 79 - Bean Lifecycle Method Annotations - Overview
-
-###### S1 Section 9, Lecture 80 - Note about @PostConstruct and @PreDestroy Method Signatures
-
-###### S1 Section 9, Lecture 81 - Note For Java 9 users - @PostConstruct and @PreDestroy Method Signatures
-
-###### S1 Section 9, Lecture 82 - Bean Lifecycle Method Annotations - Write some code
-
-###### S1 Section 9, Lecture 83 - Note about Destroy Lifecycle and Prototype Scope
-
-###### S1 Section 9, Lecture 84 - Practical Activity #6 - Bean Scopes with Annotations
-
-###### S1 Section 10, Lecture 85 - Spring Configuration with Java Code - Overview
-
-###### S1 Section 10, Lecture 86 - Spring Configuration with Java Code - Write Some code
-
-###### S1 Section 10, Lecture 87 - Defining Spring Beans with Java Code - Overview
-
-###### S1 Section 10, Lecture 88,89 - Defining Spring Beans with Java Code - Write some code
-
-###### S1 Section 10, Lecture 90 - Injecting Values from Properties File - Overview
-
-###### S1 Section 10, Lecture 91, 92 - Injecting Values from Properties File - Write some code
-
-###### S1 Section 10, Lecture 93 - FAQ - Problems with Injecting Values - Value not returning ${foo.e-mail}
-
-###### S1 Section 10, Lecture 94 - Practice Activity #7 - IoC and DI with Java Configuration
-
-###### S1 Section 11, Lecture 95 - Spring MVC Overview
-
-###### S1 Section 11, Lecture 96 - Spring MVC - Behind the Scenes
-
-###### S1 Section 11, Lecture 97 - Development Environment Checkpoint
-
-###### S1 Section 11, Lecture 98,99 - Spring MVC Configuration - Overview
-
-###### S1 Section 11, Lecture 100 - Spring MVC Configuration - JAR files
-
-###### S1 Section 11, Lecture 101 - Spring MVC Configuration - Config files
-
-###### S1 Section 11, Lecture 102 - FAQ: How to configure the Spring Dispatcher Servlet using all Java Code (no xml)
-
-###### S1 Section 12, Lecture 103 - Creating a Spring Home Controller and View - Overview
-
-###### S1 Section 12, Lecture 104,105 - Creating a Spring Home Controller and View - Write Some Code
-
-###### S1 Section 12, Lecture 106 - FAQ: HELP! My Spring MVC Controller is not working. What to do?
-
-###### S1 Section 12, Lecture 107 - FAQ: HELP! Can't Start Tomcat - Ports are in Use! 
-
-###### S1 Section 12, Lecture 108 - FAQ: How does Component Scan Work - Your Package Names are Different! 
-
-###### S1 Section 12, Lecture 109 - Reading HTML Form Data - Overview
-
-###### S1 Section 12, Lecture 110,111,112 - Reading HTML Form Data - Write Some Code
-  
-###### S1 Section 12, Lecture 113 - Adding Data to the Spring Model - Overview
- 
-###### S1 Section 12, Lecture 114, 115 - Adding Data to the Spring Model - Write some code
-
-###### S1 Section 12, Lecture 116 -  FAQ: How to use CSS, JavaScript and Images in Spring MVC Web App
-
-###### S1 Section 12, Lecture 117 - Bonus: Deploying To Tomcat using WAR files
-
-###### S1 Section 13, Lecture 118 - Spring MVC: Binding Request Params - Overview
-
-###### S1 Section 13, Lecture 119 - Binding Request Params - Write Some Code 
-
-###### S1 Section 13, Lecture 120 - Controller Level Request Mapping - Overview
-
-###### S1 Section 13, Lecture 121, 122 - Controller Level Request Mapping - Write Some Code
-
-###### S1 Section 13, Lecture 123 - FAQ: How does "processForm" work for "/hello"?
-
-###### S1 Section 14, Lecture 124 - Spring MVC Form Tags Overview
-
-###### S1 Section 14, Lecture 125 - Text Fields - Overview
-
-###### S1 Section 14, Lecture 126,127,128 - Text Fields - Write some Code  
-
-###### S1 Section 14, Lecture 129 - Drop-Down Lists - Overview 
-
-###### S1 Section 14, Lecture 130,131 - Drop-Down Lists - Write Some Code
-
-###### S1 Section 14, Lecture 132 - FAQ: Use properties file to load country options
-
-###### S1 Section 14, Lecture 133 - Radio Buttons - Overview
-
-###### S1 Section 14, Lecture 134 - Radio Buttons - Write Some Code
-
-###### S1 Section 14, Lecture 135 - FAQ: How to populate radiobuttons with items from Java class?
-
-###### S1 Section 14, Lecture 136 - Checkboxes - Overview
-
-###### S1 Section 14, Lecture 137,138 - Checkboxes - Write Some Code
-
-###### S1 Section 15, Lecture 139 - Spring MVC Form Validation - Overview
-
-###### S1 Section 15, Lecture 140 - Setting up Dev Environment for Form Validation 
-
-###### S1 Section 15, Lecture 141 - Installing Validation Files
-
-###### S1 Section 15, Lecture 142 - Checking for Required Fields - Overview
-
-###### S1 Section 15, Lecture 143 - Special Notes about BindingResult and Parameter Order
-
-###### S1 Section 15, Lecture 144 - Add Validation Rule to Coustomer Class
-
-###### S1 Section 15, Lecture 145 - Display Validation Error Messages on HTML form
-
-###### S1 Section 15, Lecture 146,147 - Perform Validation in Controller Class
-
-###### S1 Section 15, Lecture 148 - Update Confirmation Page
-
-###### S1 Section 15, Lecture 149 -  Test the Validation Rule for Required Fields
-
-###### S1 Section 15, Lecture 150 - Add Pre-processing Code with @InitBinder - Overview
-
-###### S1 Section 15, Lecture 151 - Add Pre-processing Code with @InitBinder - Write Some code
-
-###### S1 Section 16, Lecture 152 - Validating a Number Range - Overview
-
-###### S1 Section 16, Lecture 153 - Validating a Number Range - Write Some Code
-
-###### S1 Section 16, Lecture 154 - Applying Regular Expressions - Overview
-
-###### S1 Section 16, Lecture 155 - Applying Regular Expressions - Write Some Code 
-
-###### S1 Section 16, Lecture 156 - How to make Integer Field Required: freePasses
-
-###### S1 Section 16, Lecture 157 - How to Handle String input for Integer Fields - Custom Message
-
-###### S1 Section 16, Lecture 158 - How to Handle String input for Integer Fields - Configure Resource Bundle
-
-###### S1 Section 16, Lecture 159 - How to Handle String input for Integer Fields - Deep Dive
-
-###### S1 Section 16, Lecture 160 - FAQ: How to make Integer field required and handle Strings: freePasses
-
-###### S1 Section 17, Lecture 161 - Custom Form Validation - Overview
-
-###### S1 Section 17, Lecture 163,164 - Creating a Custome Java Annotation
-
-###### S1 Section 17, Lecture 165 - Developing the ConstraintValidator
-
-###### S1 Section 17, Lecture 166 - Adding Validation Rule to the Entity and Form
-
-###### S1 Section 17, Lecture 167 - Testing the Custom Validation Rule
-
-###### S1 Section 17, Lecture 168 - FAQ: Spring MVC Custom Validation - Possible to validate with multiple strings?
-
-###### S1 Section 18, Lecture 169 - Hibernate Overview
-
-###### S1 Section 18, Lecture 170 - Hibernate and JDBC
-
-###### S1 Section 19, Lecture 171 - Hiberate 5.2 Requires Java 8
-
-###### S1 Section 19, Lecture 172 - Hiberate Development Environment Overview
-
-###### S1 Section 19, Lecture 173,174 - Installing MySQL on MS Windows and Mac 
- 
-###### S1 Section 19, Lecture 175 - Setting up Database Table
-
-###### S1 Section 19, Lecture 176 - Setting up Hiberate in Eclipse 
-
-###### S1 Section 19, Lecture 177 - Testing your JDBC Connection 
-
-###### S1 Section 20, Lecture 178 - Hibernate Development Process Overview
-
-###### S1 Section 20, Lecture 178 - Creating the Hibernate Configuration File
-
-###### S1 Section 20, Lecture 178 - Hibernate Annotations - Part 1
-
-###### S1 Section 20, Lecture 178 - HEADS UP - for Java 9 USERS
-
-###### S1 Section 20, Lecture 178 - HEADS UP - Java 9 USERS - Eclipse Generate toString() fails
-
-###### S1 Section 20, Lecture 178 - Hibernate Annotations - Part 2
-
-###### S1 Section 20, Lecture 178 - FAQ: Why we are using JPA Annotation instead of Hibernate?
-
-###### S1 Section 21, Lecture 185,186 - Creating and Saving Java Objects
-
-###### S1 Section 21, Lecture 187 - Primary Keys - Overview
-
-###### S1 Section 21, Lecture 188 - Primary Keys - Write some code
-
-###### S1 Section 21, Lecture 189 - Primary Keys - Changing the Starting Index
-
-###### S1 Section 21, Lecture 190 - Reading Objects with Hibernate
-
-###### S1 Section 21, Lecture 191 - Querying Objects with Hibernate - Overview
-
-###### S1 Section 21, Lecture 192 - Special Note: About Deprecated Method in Hibernate 5.2 
-
-###### S1 Section 21, Lecture 193,194 - Querying Objects with Hibernate - Write Some Code
-
-###### S1 Section 21, Lecture 195 - FAQ: How To View Hibernate SQL Parameter Values
-
-###### S1 Section 21, Lecture 196 - Updating Objects with Hibernate - Overview
-
-###### S1 Section 21, Lecture 197 - Updating Objects with Hibernate - Write some code
-
-###### S1 Section 21, Lecture 198 - Deleting Objects with Hibernate - Overview
-
-###### S1 Section 21, Lecture 199 - Deleting Objects with Hibernate - Write some code
-
-###### S1 Section 21, Lecture 200 - Practice Activity #8 - Hibernate Development
-
-###### S1 Section 21, Lecture 201 - FAQ: How to read Dates with Hibernate
-
-###### S1 Section 22, Lecture 202 - Advanced Mappings Overview
-
-###### S1 Section 22, Lecture 203 - Database Concepts
-
-###### S1 Section 23, Lecture 204,205,206 - @OneToOne - Overview
-
-###### S1 Section 23, Lecture 207 - @OneToOne - Run Database Scripts
-
-###### S1 Section 23, Lecture 208 - @OneToOne - Write Some Code - Prep Work
-
-###### S1 Section 23, Lecture 209 - @OneToOne - Write Some Code - Create InstructorDetail class
-
-###### S1 Section 23, Lecture 210 - @OneToOne - Write Some Code - Create Instructor class
-
-###### S1 Section 23, Lecture 211,212 - @OneToOne - Write Some Code - Build Main App
-
-###### S1 Section 23, Lecture 213 - @OneToOne - Delete an Entry
-
-###### S1 Section 23, Lecture 214 - @OneToOne - Bi-Directional Overview
-
-###### S1 Section 23, Lecture 215 - @OneToOne - Bi-Directional - Create Relationship
-
-###### S1 Section 23, Lecture 216 - @OneToOne - Bi-Directional - Develop Main App
-
-###### S1 Section 23, Lecture 217 - @OneToOne - Refactoring and Exception Handling
-
-###### S1 Section 23, Lecture 218 - @OneToOne - Bi-Directional - Cascade Delete
-
-###### S1 Section 23, Lecture 219,220 - @OneToOne - Bi-Directional - Delete Only InstructorDetail
-
-
-
-
-
-
-# Junit
-
-###### Commit: S2 Section 3, Lecture 6 - Junit intro
-From: http://www.vogella.com/tutorials/JUnit/article.html  
-Where should the test be located?  
-Typical, unit tests are created in a separate project or separate source folder to keep the test code separate from the real code. The standard convention from the Maven and Gradle build tools is to use:
-
-src/main/java - for Java classes
-src/test/java - for test classes
-- See Shortcuts on how to run a test
-
-# Mockito
-
-###### Commit: S3 Step 1, 2, 3
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/d62b14117679c0fe427f097b3b0f1f0cdc21ff9e 
-- TodoBusinessImpl is SUT - System Under test
-- TodoService is a dependency for TodoBusinessImpl
-- A stub: A class that returns dummy data
-- Stubs are not the right way to go because: 
-    - assume you want to test different output based on dif user, you'll have to add more logic to the stubs
-        - code becomes complex when you want to do dynamic conditions 
-            - wanting to get different values for dif scenarios
-    - assume the TodoService interfaces to more functions, then you'll have to add more functions in the stub
-        - service definition - more maintenance 
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step01.md  
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step02.md  
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step03.md  
-
-###### Commit: S3 Step 4
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/42117a4e337dc4dcc4022b74d51eee81368c78e5
-- Static imports - Eg- assertEquals is a static method that's in org.junit.Assert class
-- Mocks
-    - mocking is creating objects that simulate the behaviour of real objects
-    - unlike stubs, mocks can be dynamically created from code - at runtime 
-    - frameworks like mockito allow one to create a dummy class 
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step04.md  
-
-###### Commit: S3 Step 5
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/1753387520e39c16d6e338ac91b7018ff713964f 
-- Building a mock for List in java - List in an interface 
-- ListTest.java code contains: 
-    - a minimum setup stuff needed to use @Mock annotation vs the one shown in the course using mock(blah.class)
-    - How to mock methods with or without parameters
-    - How to mock multiple responses for the same method
-    - How to use Argument Matchers
-    - How to mock ThrowException stuff - PS - the test for it doesn't work but may work for real life
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step05.md  
-
-###### Commit: S3 Step 6 
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/5bb1dbb1796399feeee0f78beb1b4003383d5ebb 
-- BDD - Behaviour driven development (http://static.javadoc.io/org.mockito/mockito-core/2.13.0/org/mockito/BDDMockito.html)
-- Eg - Agile projects use user stories that are split to scenarios
-    - A user story is a very high-level definition of a requirement, containing just enough information so that the developers can produce a reasonable estimate of the effort to implement it and test it. 
-> Story: Returns go to Stock   
-In order to keep track of stock   
-As a store owner
-I want to add items back to stock when they're returned
-
-> Scenario 1: Refunded items should be returned to stock    
-Given that a customer previously bought a black sweater from me  
-And I have three black sweaters in stock.   
-When he returns the black sweater for a refund  
-Then I should have four black sweater in stock  
-
-> Scenario 2: Replaced items should be returned to stock  
-Given that a customer previously bought a blue garment from me  
-And I have two blue garments in stock  
-And three black garments in stock  
-When he returns the blue garments for a replacement in black  
-Then I should have three blue garments in stock   
-And two black garments in stock  
-
-- Tests should be written in a *Given, When, Then*  
-- At the beginning of the test, 
-    - Given is the setup
-    - When is the actual method call
-    - Then all the asserts show that something has happened
-- Mockito BDD has specific methods that help one to write tests in that particular manner
-- Egs in code: 
-    - given(mockList.get(anyInt())).willReturn("Blah"); 
-    - given(todoServiceMock.retrieveTodos("DummyName")).willReturn(todos); 
-    - assertThat(expected,is(actual)); 
-    - assertThat(filteredTodos.size(),is(2));
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step06.md  
-
-###### Commit: S1 Section 4, Lecture 22
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/5e3fbe5c052025847c6b6ec1c7d36477927488e8 
-- one requirement - The whole point of using interfaces is so one can easily change the coach for another sport: 
-        - Hockey, Cricket, Tennis, Gymnastics, etc...
-- the other requirement - App should be configurable
-    - not configurable yet since the new TrackCoach() or the new BaseballCoach() is still hardcoded in MyApp.java
-
-###### Commit: S3 Step 7 - Verify Calls on Mocks
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/185d012e13ed194804573ff234466ed60345ece4
-- May want to check if a method is called or not! and also how many times a method is called
-- until now, we used something like given(mockList.get(anyInt())).willReturn("Blah")
-    - but no idea if mockList.get(anyInt()) was called at all
-- Basically, we need to know how to test void functions
-    - verify methods in Mockito let you check if some method is called
-        - It internally uses: verify(mock, times(1)).someMethod("was called once"); 
-- Egs in Code: 
-    - verify(todoServiceMock).deleteTodo("Learn Mockito");
-    - verify(todoServiceMock, never()).deleteTodo("Learn Spring");
-    - verify(todoServiceMock, times(2)).deleteTodo("Learn Junit");
-    - verify(todoServiceMock, atLeastOnce()).deleteTodo("Learn Junit");
-    - verify(todoServiceMock, atLeast(5)).deleteTodo("Learn Mockito");
-- Just reference in general (https://stackoverflow.com/questions/27787487/java-verify-void-method-calls-n-times-with-mockito): 
-    - verify(mock, times(5)).someMethod("was called five times");
-    - verify(mock, never()).someMethod("was never called");
-    - verify(mock, atLeastOnce()).someMethod("was called at least once");
-    - verify(mock, atLeast(2)).someMethod("was called at least twice");
-    - verify(mock, atMost(3)).someMethod("was called at most 3 times");
-    - verify(mock, atLeast(0)).someMethod("was called any number of times"); // useful with captors
-    - verify(mock, only()).someMethod("no other method has been called on the mock");
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step07.md
-
-###### Commit: S3 Step 8 - Capturing Arguments passed to a Mock
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/0b8d9ec532f0fe08fb5f23fde769b0ae07d39a29 
-- How to capture an argument that's passed to a mock?
-- Side note: Before, used verify but for BDD, can use then(mockedObjectInstance).should(never()).method("argument");
-- Argument Capture can be used to capture more complex objects 
-- Egs in code: 
-    - given(todoServiceMock.retrieveTodos("DummyName")).willReturn(todos);
-    - then(todoServiceMock).should().deleteTodo("Learn Mockito");
-    - then(todoServiceMock).should(never()).deleteTodo("Learn Spring");
-    - ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
-    - then(todoServiceMock).should(times(3)).deleteTodo(stringArgumentCaptor.capture());
-    - assertThat(stringArgumentCaptor.getAllValues().size(),is(3)); 
-- https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step08.md
-
-###### S3 Step 9 - Hamcrest Matchers (skipped)
-###### Commit: S3 Step 10 - Mockito Annotations @Mock @InjectMocks @RunWith, @Captor
-- Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/88cf0c64d31b9365bf0476d58553c9a0c132be97
-- @Mock will make an mock
-    - ~~can add @RunWith(MockitoJunitRunner.class) on top of the test class~~ - Works with out. Don't know the details of what this is for. 
-    - Needs to be placed just below the class
-- @InjectMock
-    - eg, in TodoBusinessImpl todoBusinessImpl = new TodoBusinessImpl(todoServiceMock), 
-        - we are creating a new instance of TodoBusinessImpl using the todoServiceMock as a constructor parameter. 
-            - So, we are trying to inject the todoServiceMock into the TodoBusinessImpl 
-                - instead of doing this manually, mockito can do it
-        - Mockito can look at look at all things declared as InjectMock 
-        - If you do: 
-            - @InjectMocks
-            - TodoBusinessImpl todoBusinessImpl
-                - Mockito will look at all things present in actual class todoBusinessImpl
-                    - in there, the things that are declared are todoService
-        - So, it will look at all the dependencies of todoBusinessImpl and see if there is a mock that matches it
-            - So, it will automatically inject the todoService so the original line can be removed
-    - Therefore, if there are 5 dependencies, can just mock them and using InjectMock then mockito will inject the dependencies.
-    - This makes the test more readable
- - @Captor
-    - Before, to declare an argument captor, you did this: 
-        -  ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);  
-    - Now, can do: 
-        - @Captor
-        - ArgumentCaptor<String> stringArgumentCaptor
-            - this automatically creates a captor of a particular type
-
-###### S3 Step 11 - Mockito Junit Rules - Skipped cause' not in Junit 5
-###### S3 Step 12 - Real World Mockito example with Spring - No actual implementation. Just random notes: 
-- Eg - For a more complicated project, you might have components such as 'Data' and 'Business'
-    - Each of these might have 'api' and 'impl'
-        - API is the interface stuff while impl is the actual implementation
-    - Therefore, if the business has to talk to the database side, it will use the API part of it. 
-###### Commit - S3 Step 13 - Mockito Spy
-- With mocks, we don't care about the impl of class but sometimes might want to override specific functionality of class - then we need a spy
-- A Spy gets all logic from the class. 
-    - So, you can override specific methods (using stubbing (when().thenReturn()...))
-        - Only the overridden method changes. The rest of the methods are still working normally. 
-- With a spy, you let the real action happen while listening onto it
-    - Like a spy watching what's happening
-- Some takeaways 
-    - If you call verify on a mock, you can check what methods are being called related to the mocked class
-    - If you call verify on a spy, you can check what methods are being called related to the actually class which you are testing
-        - Probably more useful during Integration testing (Nvm...I don't know...)
-    - spies are apparently used usually when you don't have access to the code or dependencies in a legacy system
-        - in general, apparently stick to mocks since with spys, you're using a bit of actual logic and mocked methods where it can get confusing
-    - https://stackoverflow.com/questions/15052984/what-is-the-difference-between-mocking-and-spying-when-using-mockito 
-        - When Mockito creates a mock – it does so from the Class of a Type, not from an actual instance. The mock simply creates a bare-bones shell instance of the Class, entirely instrumented to track interactions with it. On the other hand, the spy will wrap an existing instance. It will still behave in the same way as the normal instance – the only difference is that it will also be instrumented to track all the interactions with it.
-        - If there is an object with 8 methods and you have a test where you want to call 7 real methods and stub one method you have two options:
-        - Using a mock you would have to set it up by invoking 7 callRealMethod and stub one method
-        - Using a spy you have to set it up by stubbing one method
-        - The official documentation on doCallRealMethod recommends using a spy for partial mocks.
-###### S3 Step 13 - Why does Mockito not allow stubbing final and private methods. Just random notes: 
-- With unit testing, we are suppose to test the public interfaces of the class
-    - Mockito wants to promote that and doesn't allow mocking of private methods
-- Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
-
-
 #### Source: 
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course  
