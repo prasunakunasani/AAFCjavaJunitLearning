@@ -196,6 +196,7 @@ And two black garments in stock
     - Each of these might have 'api' and 'impl'
         - API is the interface stuff while impl is the actual implementation
     - Therefore, if the business has to talk to the database side, it will use the API part of it. 
+    
 ###### Commit - S3 Step 13 - Mockito Spy
 - With mocks, we don't care about the impl of class but sometimes might want to override specific functionality of class - then we need a spy
 - A Spy gets all logic from the class. 
@@ -215,10 +216,13 @@ And two black garments in stock
         - Using a mock you would have to set it up by invoking 7 callRealMethod and stub one method
         - Using a spy you have to set it up by stubbing one method
         - The official documentation on doCallRealMethod recommends using a spy for partial mocks.
+        
 ###### S3 Step 13 - Why does Mockito not allow stubbing final and private methods. Just random notes: 
 - With unit testing, we are suppose to test the public interfaces of the class
     - Mockito wants to promote that and doesn't allow mocking of private methods
+    
 - Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
+
 
 # Spring
 
