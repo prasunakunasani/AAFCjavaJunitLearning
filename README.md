@@ -230,8 +230,6 @@ And two black garments in stock
 
 # Spring
 
-# Spring
-
 ###### Commit: S1 Section 4, Lecture 20, 21
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/316b77c98d22dbeea751792cae8c579bcde97e8b  
 - Inversion of Control: The approach of outsourcing the construction and management of objects  
