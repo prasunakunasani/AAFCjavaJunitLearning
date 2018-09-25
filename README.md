@@ -13,6 +13,10 @@ Spring Learning:
 [Setter Injection](#s1-section-5-lecture-35---setter-injection---overview)
 [Injecting Literal values](#s1-section-5-lecture-38---injecting-literal-values---overview)
 [Injecting Literal values from properties file](#s1-section-5-lecture-41---injecting-literal-values-from-a-properties-file---overview)
+[Bean Scopes](#s1-section-6-lecture-44---bean-scopes---overview)
+[Bean Lifecycle](#s1-section-6-lecture-47---bean-lifecycle---overview)
+[Defining init and destroy method signatures](#s1-section-6-lecture-48---special-note-defining-init-and-destroy-methods---method-signatures)
+
 
 Mockito Learning:  
 [Mockito Intro - Stubbing](#commit-s3-step-1-2-3)  
