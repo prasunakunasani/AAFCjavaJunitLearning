@@ -23,14 +23,6 @@ Mockito Learning:
 Junit Learning:    
 [Junit Intro](#commit-s2-section-3-lecture-6---junit-intro)  
 
-
-
-
-
-
-
-
-
 # Junit
 
 ###### Commit: S2 Section 3, Lecture 6 - Junit intro
@@ -162,6 +154,7 @@ And two black garments in stock
 - https://github.com/in28minutes/MockitoTutorialForBeginners/blob/master/Step08.md
 
 ###### S3 Step 9 - Hamcrest Matchers (skipped)
+
 ###### Commit: S3 Step 10 - Mockito Annotations @Mock @InjectMocks @RunWith, @Captor
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/88cf0c64d31b9365bf0476d58553c9a0c132be97
 - @Mock will make an mock
@@ -191,6 +184,7 @@ And two black garments in stock
             - this automatically creates a captor of a particular type
 
 ###### S3 Step 11 - Mockito Junit Rules - Skipped cause' not in Junit 5
+
 ###### S3 Step 12 - Real World Mockito example with Spring - No actual implementation. Just random notes: 
 - Eg - For a more complicated project, you might have components such as 'Data' and 'Business'
     - Each of these might have 'api' and 'impl'
