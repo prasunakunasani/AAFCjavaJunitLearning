@@ -1,5 +1,5 @@
 # AAFCspringLearning
-Trying to figure out Java, Spring, Groovy, Grails, Junit and Mockito
+Trying to figure out Spring (beginning), Junit and Mockito
 
 # Painfully detailed notes 
 
@@ -225,6 +225,10 @@ And two black garments in stock
     
 - Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
 
+
+# Spring
+
+# Spring
 
 # Spring
 
