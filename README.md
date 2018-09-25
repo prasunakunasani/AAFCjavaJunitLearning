@@ -9,6 +9,10 @@ Spring Learning:
 [Configuring IoC, What is a Spring Bean](#commit-s1-section-4-lecture-23---spring-inversion-of-control)  
 [Practical Spring IoC](#commit-s1-section-4-lecture-25---practical-spring-inversion-of-control)  
 [Dependency Injection](#commit-s1-section-5-lecture-29---spring-dependency-injection)
+[Dependency Injection BTS](#commit-s1-section-5-lecture-30---behind-the-scene---spring-dependency-injection--more-on-dependency-injection)
+[Setter Injection](#s1-section-5-lecture-35---setter-injection---overview)
+[Injecting Literal values](#s1-section-5-lecture-38---injecting-literal-values---overview)
+[Injecting Literal values from properties file](#s1-section-5-lecture-41---injecting-literal-values-from-a-properties-file---overview)
 
 Mockito Learning:  
 [Mockito Intro - Stubbing](#commit-s3-step-1-2-3)  
