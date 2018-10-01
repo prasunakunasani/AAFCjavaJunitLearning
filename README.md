@@ -460,7 +460,59 @@ And two black garments in stock
     - this allows one to manage projects locally and then send to subversion server {??}
 
 - Skipped sections on how to have own VisualSVN server on Windows and Mac
+
+**Command Line client - Possible garbage**
+- svn client is installed, this should work: 
+    - $where svn
+        - else, need to play with environment variables
+- $svn --version
+- $svn info <https://nameofURLfromSVNserver/blah/>
+    - enter username and passwrod and SVN will remove who the last user you authenticated as
+    - and won't prompt for the username again
+    - gives info on repository
+    - HTTPS access is 443 so make sure that's not used
+        - can go to 'resource monitor' in Windows and then can click on 'Listening Ports'
+        - then see what's listening on 443
+- On client, there will be sample configuration files in %APPDATE%\Subversion on machine
+    - these are created when the client is installed
+    - $cd %APPDATA%\subversion
+- skipped on how to use svn on mac because' you will never do such things!
+
+**TortoiseSVN**
+- Download Tortoise SVN and can also install 'Command line client tools' in the Custom Setup if you want
+    -{I think you need them for David's script to work cause' it uses the command line tool - same with toad I think}
+- TortoiseSVN is a shell extension so can't just double click icon or something
+    - might need to right click folder and then use tortoise svn 
+
+**SVN Plugins for Eclipse**
+- subclipse plugin
+- subversive plugin {todo - which is used in SMS documentation?}
+- these are the two common ones and you can just pick one
+- In Eclipse, install new software, work with: eclipse release
+    - this will contact eclipse and gets software specific for the verison you're using
+    - eg. subversive revision graph and team provider
+    - this will give a 'Subversion Overview' thing in Overview page
+        - If you can't see it, go to Window-Preference->team->Subversion Connector Discovery popup or...
+        - OR Window->Preference->SVN->Get Connectors
+        - this asks which connector to use
+        
+**SVN Connector Types**
+- SVNKit is native Java (a total rewrite) on all platforms
+- JavaHL is a binary JNI library, wrapper around SVN, and platform specifc (different package for Win64, Linux, and Mac). 
+- You probably won't notice a difference.
+
+**Using SVNKit**
+- Usually "just works"
+- If you want to use JavaHL, use the same version as your comman-line tools
+- JavaHL install tips: http://subclipse.tigris.org/wiki/JavaHL
+
+- Skipped 'Version of SVN, forwards/backwards compatibility and links'
+
+**Deffered/Skipped Connecting to a Project**
+
 ****
+
+
 
 # Spring
 
