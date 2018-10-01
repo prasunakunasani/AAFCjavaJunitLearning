@@ -226,7 +226,241 @@ And two black garments in stock
 - Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
 
 
-# Spring
+# Subversion
+**What's a Repository**
+- Stores all the files in the version control system
+- Think of it like a file server..that can time travel
+- Stores files in a folder structure
+- Stores file revision
+    - can say who changed a file, and when, what changed in file
+    
+**Central Repository**
+- Files and revisions are stored on a server
+    - a cental repo can be a piece of software running on your local machine as well so it doesn't actually have to be a dedicated server
+- Clients connect across a network
+    - like a browser connects to a server
+    - when changes are ready for the repo, can use client to send changes to server
+    - with central repo setup, it takes care of figuring out what files were changed and how they were changed
+    - cause' now, you can figure out what changed and the local one will just ask and get the info
+- Clients send changed files to the server
+- Server determines changes (who, what, and when)
+- Subversion uses centralized setup
+
+**Distributed Repositories**
+- Files are stored on the client(s) and server (if any)
+    - all the files are stored on the client machines who work on the code
+    - each client is essentially it's own full repository
+    - you can have a server in this setup but then the server acts like any other client
+- Clients connect across a network
+    - clients can connect to each other across a network in order to share changes
+- Clients create and share changesets (patches)
+    - but unlike a cereal repo where you send files to server, distributed setup only sends change sets
+    - so if you change 3 lines of a 3mb file, and saved as a distributed repo, only the two change lines of code are saved
+        - no need to make a new copy of the file
+        - so this setup is much smaller and faster cause' dealing with less data
+        - but clients have to be smarter since they have to figure out what changed between two revisions of a file
+- Git and Mercurial use distributed repo setup.  
+
+**How are They the Same**
+- People work on local copies of a file
+    - When you make changes in a day, you'll not making changes directly in the repository
+- Changes to local copies are merged together
+    - you work on local copies of the code until you're ready to save the changes, then you merge the changes
+    - even if you made changes all day and desice to start all over, no need to save changes to the repo at all
+    - can get fresh copies of the original files and start over
+- Editing software does not have to be version control aware (the client can be seperate)
+
+**Which is Better**
+- Neither...with a good client, it's hard to tell the difference
+    - cause' they abstract away the way to actually save the data
+- It's possible to convert subversion to git
+
+**Projects and Repositories**
+- A repository is like a directory tree, and a ****project**** is like a subdirectory
+- A repository can have multiple projects
+- A project is a collection of related files that share the same root directory  
+    - a repository can store all the dif changes to the project
+    - as you commit changes to repository, it's like making a brand new project folder underneath the current one
+- The simple project structure is linear
+
+**Linear Project Structure**
+![LinearTrunk]()
+- Just make changes to the project directly and commit them
+    - we don't have copies of project other than the main copy
+        - {think smsp in subversion}
+        - {think committing to the master directly each time}
+    - In this case, every time we send changes, we make a new revision of the project under the main project directory
+-  So to see the latest changes in a project, have to find the latest revision of the project
+-  If the whole team is sending changes to the same project root, changes will be merged together immediately
+    - easy to follow revision cycle
+    - but bad way to set project up
+
+**Tree Structure**
+![treeStructure]()
+- It is a common setup with Subversion
+- The trunk, branch, tag structure is what many svn clients set for you
+- Main project directory is called a ****trunk****
+    - has the latest 'good' version of project where code compiles and code works
+- Changes can be made in a ****branch**** that will be merged back into the trunk.
+    - branch holds copies of project that people use while working on changes
+    - These can be multiple branches of same project if people are working on dif sets of changes
+    - can even have branches of branches if you want
+    - Once a branch is ready, the changes in that branch are merged back into the trunk
+       - using a trunk/branch structure, can be sure that code in branch remains stable
+        - all the changes have tested or deemed ready to test
+        - risky development can happen in branches so code in trunk doesn't get broken
+- Important snapshots are saved as ****tags****
+    - tags directory is a special branch that holds snapshots of the trunk at a particular point of time
+
+**One Tree for Each Project**
+![org1]()
+- this trunk/branch/tag structure there are two ways to set project at root of directory
+- One way: setup a single top level trunk tag and branch folder and put all projects below those folders
+    - this keeps the trunks/tags/branches together
+
+![org2]()
+- Other way: Each project is a top level folder and each project gets it's own trunk/branch/tag sub folder
+- either is fine and depends on how you like it
+    - can start with one folder structure, can change to the other. 
+- {todo: I think sms is set up this way}
+ 
+
+**When to Branch?**
+- Unstable trunk: There is no branching. All work happens in the trunk
+    - simple and everything happens in trunk
+    - will always know where latest code change are
+    - gives unstable code in trunk
+        - eg - writing complicated code but not done so unfinished changes will go to trunk 
+        - now, the trunk might not compile (bad for team)
+- Semi-stable trunk: Most work happens in the trunk; a branch is used for large changes
+    - might work for agile teams if project is broken in small changes everyday
+    - here, so sort of testing is needed so trunk is tested often and problems are caught early
+- Stable trunk: Most/all work happens in the branches; nothing gets merged with the trunk until you know it works
+    - testing will happen in branches before merging to trunk
+    - stable cause' no code gets moved to trunk till changes work
+    - trunk is safe version of project and ready for release
+    - downside - if many members of teams are working on dif branches, merging back can require a lot of testing, merging and lot of conflict resolution
+
+**Release Branches and Tags**
+- When a new software version is ready, it's common to create a release branch (e.g., ****/branch/release/1.0).
+    - this is a copy of trunk frozen in time so testers can do QA do release branch while developers can keep doing new stuff 
+- The release can be tested while development continues in the trunk 
+    - if problems are found in release branch, bug fixes can be merged with release branch and trunk
+    - this way, can only copy bug fixes to the release instead of teh entire trunk back over
+    - this is imp cause' if trunk has no changes that don't belong in release yet
+- Release can be copied to a ****tag**** - which is really just a branch - once testing is finished. 
+    - once release is fully tested and ready to ship, it's usually copied to a special branch called 'tag'
+    - a tag acts like a snapshot of code so it's easy to go back and find a specific copy if need to
+         eg- after 1.0 release, might do 1.0-tag with a copy of project when it's released
+            - when 1.1 is release, create a 1.1 tag
+                - this way, can go back adn see what the code looked like for a specific release
+
+**Plenty of Variations**
+- If you're just starting, you can take a middle-of-the-road approach (semi-stable trunk) and adjust from there
+
+**Working Copies**
+- You never work with files directly in the repository
+    - think of repo as final server and always use a local copy (working copy)
+- You use a local copy called a ****working copy****
+- Files are stored on your computer, not the server
+- You can edit the files in any program. SVN integration is not required since only editiing local files.
+    - but first might have to pull files 
+
+**Checking Out**
+- To create a working copy, you ****check out**** the project files from trunk or a branch
+    - can checkout from branch or trunk or switch by making a working copy
+- This only make a local copy of all the files; no changes are made on the server
+- Multiple people can check out the same set of files
+    - VCS doesn't care about how many copies. Just when changes come in
+
+**Updating your working copy**
+- If multiple people are working on the same project, you can ****update**** your copy to get the latest changes
+    - it's imp for testing to see if your code works. 
+    - but since it's part of a larger code, need to know if code compiles by integrating your changes
+    - update also shows conflict between your and other's changes
+- Any ****conflicts**** between your changes and the changes of others will be shown
+    - eg. changed same line of code or delete something one is working on
+    - can overdie one over other, do manually or ignore for now
+- You decide how to resolve conflicts
+
+**Committing changes**
+- Making a ****commit**** will save your local changes back to the repository
+    - when commited, they are merged back into the project. 
+    - can merge into branch or trunk. Usulally it's teh branch or trunk you are working in
+- SVN server will merge the changes
+- You need to update and resolve conflicts before you commit!
+    - update and then commit!
+
+**Commit Messages**
+- You can add a ****log message**** when you commit, explaining what changes
+    - eg. even if you fixed a type, say you fixed a typo
+- You must always write good commit messages
+- Eg - what feature you added, what problem you fixed, what problems you ran into when writing the code, bug tracking ticket numbers, etc
+- useful for searching later
+
+**History and Revisions**
+- Every time you commit your changes, the SVN server adds a new ****revision number**** to entire repository
+    - the revision number applies to every single file in the project
+    - later on, revision 100 will give every file in the exact state when the change was made
+- Revision numbers are incremental and are shared among all projects
+    - repo doesn't keep a dif set of numbers for each project
+    - if commit made to project a and get 100 and someone else makes a revision to project b in same repo, they'll get 101
+        -  So, when looking at a project, will see only revision numbers specific to your project
+- ****History**** can show what changes in prior revisions
+    - when you want to see what changed between dif revision
+- History shows commit messages too
+
+**Commit Strategies**
+- Frequency often depends on how many people are working on the same branch as you are
+- Alone in the branch? Commit often!
+    - might even commit multiple times a day if making a lot of changes
+        - can find changes easily in small commits than large
+- Sharing the branch? At lease make sure your code compiles before committing - and update often
+    - want to make sure that code compiles!
+- Some people recommend at least ****daily**** commits
+    - if scared to commit to branch cause' you don't wanna annoy them, make your own branch, commit often and then merge back. 
+
+**What about File Locking?**
+- If changes can be merged, no need for locking but can
+- Locking files for long periods of time can slow down teams
+- Why lock when you can merge?
+- If you do not want to lock, SVN allows you to lock individual files (not entire projects) of specific users
+
+**What about Binary Files?**
+- can't merge changes to a binary file since it messes it up
+- Text files can be merged, but how do you merge a binary file? You can't
+- SVN can usually detect binary files automatically, and not try to merge them. 
+- It might be good to store binaries in a separate project. 
+    - Eg. those that work with image can get their own branch
+
+**Do I need a server?**
+- Yes, although the server can be on your local machine if working alone or so
+- Because SVN is a centralized VCS, the server does a lot of the work
+    - and the server is the master copy and has all versions of files
+- If you are using a distributed system like Git, a server generally isn't required
+
+**Do I Always Need Access to the Server**
+- No, your working copy is local
+- Server access is needed when you want to ****udpate**** and ****commit**** (or get info from the server)
+- Otherwise, you can do all your work offline until you're ready to talk to the server
+    - only need to connect when you need the server
+
+**Multiple Repositories on One Server?**
+- Yes, you can have multiple repositories on the same server
+    - eg. dif repository for dif software projects
+- You can also move projects from one repository to a another one. 
+    - but this is an admin thing
+        - {think of that person who gave the un/p for sms svn account}
+
+**Same Project on Multiple Servers?**
+- eg. customer has own svn server and you want to manage the project on their server at same time
+    - In general, no cause' not simple
+- There are mirroring solutions, but ultimately you should'nt try to have the same project on more than one server
+- Interesting alternative is git-svn
+    - this allows one to manage projects locally and then send to subversion server {??}
+
+- Skipped sections on how to have own VisualSVN server on Windows and Mac
+****
 
 # Spring
 
@@ -944,6 +1178,7 @@ Compare your code to the solution. The solution is available here:
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course  
 S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/MockitoTutorialForBeginners)
+S4 - SVN for Java Developers
 
 #### Shortcuts:
 - In Idea, 
