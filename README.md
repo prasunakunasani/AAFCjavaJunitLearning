@@ -31,6 +31,11 @@ Mockito Learning:
 Junit Learning:    
 [Junit Intro](#commit-s2-section-3-lecture-6---junit-intro)  
 
+Web Logic  Learning: 
+[Understanding WebLogic Domains]()
+[]()
+
+
 # Junit
 
 ###### Commit: S2 Section 3, Lecture 6 - Junit intro
@@ -228,7 +233,7 @@ And two black garments in stock
 
 ###### Understanding Weblogic concepts
 
-![WeblogicDomains]()
+![WeblogicDomains](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-09-25%2011_47_16-Beginning%20Oracle%20WebLogic%20for%20Administrators%20_%20Udemy.png)
 - Web Domain 
     - a logically related group of web logic servers and resources
     - a domain always includes an administration server
@@ -239,7 +244,7 @@ And two black garments in stock
     - where you deploy resources like web apps, web services, ejs, data sources, messaging resources, etc
     - where the bulk of app lives
 
-![WebLogicDeployment]()
+![WebLogicDeployment](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-09-25%2011_50_39-Beginning%20Oracle%20WebLogic%20for%20Administrators%20_%20Udemy.png)
 - Since the weblogic domain is logical in nature, it can be deployed in a distributed fashion across many servers or against a single server
 - In diagram, got admin server deployed in single server and then Managed servers 1 and 2 deployed on another server
 - Then server 3 is deployed on another stand alone machine
@@ -268,7 +273,7 @@ And two black garments in stock
     - If transactions are enabled in the app
 
 **What is a WebLogic Server**
-![WeblogicService]()
+![WeblogicService](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-09-27%2013_06_25-Beginning%20Oracle%20WebLogic%20for%20Administrators%20_%20Udemy.png)
 - It's a combination of the domain configuration above associated with a set of configuration files that define it's parameters(run time parameters and configuration)
 - WLS 12c Runtime is a set of java libraries
     - that runs on top of Java. 
@@ -291,21 +296,156 @@ And two black garments in stock
         - Diagnostics & Monitoring
         - Clusters
 
+**Installing Java**
+- In order to run Weblogic, need; 
+    - at least JDK 7
+    - Oracle Generic Installed (Oracle Weblogic 12.1.3)
+        - need Java to installed generic installer
+- Java installation link: https://www.oracle.com/technetwork/java/javase/downloads/index.html
+- Look for an installation guide for the version that you are installing on google
+
 **Installing Oracle**
+
+- Random info: 
+    - - Working directory - can organize it however you want. 
+          - Eg: /u01/udemy
+              - Then can point WEBLOGIC_HOME and ORACLE_HOME back to /u01/udemy
+
 - Oracle WebLogic 12.1.3 (Generic 880 MB Installer)
     - Need JDK separately since it no longer comes with Java JDK installation
 - Oracle installation link: https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html
+- Eg: Assume fmw_12.1.3.0.0_wls_jar (file name for generic installer) is saved in /u01/udemy directory
 - Step 1: Run generic WebLogic installer
     - $java -jar fmw_12.1.3.0.0_wls.jar
+        - this will execute the java program
 - Step 2: Specify Oracle Inventory location
-    - Keep defaults? Not sure what to do here
+    - Inventory directory is used to maintain an inventory of all the oracle products installed in system
+    - Eg: /u01/udemy/oraInventory
+    - 'Operating system group' is the system group that will have access to the inventory
+        - Eg: staff, whatever. 
 - Step 3: Specify Oracle Home Location 
     - Basically where you want the wls12130 to go (eg: for SMS it was C:\Oracle\wls12130)
+    - eg: /u01/udemy/Oracle/Middleware/Oracle_home
+    - where teh core of weblogic will be installed
 - Step 4: Specify installation type
-    - For SMS you picked WebLogic Server (tutorial says Complete with Examples)
-        - todo - need to figure out what the dif is (super low priority compared to spring)
-- Just go through the rest of the defaults
+    - Example code can be used to deploy sample projects to weblogic.
+        - It also includes sample scripts to do administration type activities
+    - The guy picked 'Complete with Examples', Next 
+    - For SMS you picked WebLogic Server on Nicolas's computer. Don't know what David picked on yours. 
+- Just go through the rest of the stuff
+    - Deselect 'Automatically launch the Quickstart Configuration Wizard'
+- In the terminal window, if you do a ls, you'll see the new files and stuff 
 
+**Creating a WebLogic Domain**
+- Eg: Go back to /u01/udemy
+- In order to run a weblogic domain, need the configuration wizard
+    - this is a shell script that will launch a wizard driven UI that will walk you through a creating of a weblogic domain
+- cd to where the 'wlserver\common\bin' folder is 
+    - It has shell scripts and we care about config.sh
+    - Eg: $cd \u01\udemy\Oracle\Middleware\Oracle_Home\wlserver\common\bin
+    - SMS eg: C:\Oracle\wls12130\wlserver\common\bin
+- $config.exe 
+    - ./config.sh on mac
+- First find location of domain you want to create. 
+    - Select 'Create a new domain'
+    - Eg: For purpose of tutorial, it can be created in u01\udemy\domains\base_domain directory
+        - base_domain is the name of the domain and can be whatever
+    - SMS Eg: C:\Oracle\wls12130\user_projects\domains\SMS_domain
+- Next page: Templates page
+    - Within weblogic you can create a domain based off a number of templates
+        - 'Basic WebLogic Domain' defines a basic configuration of a web logic domain
+        - templates are used to speed up the configuration and creating of a domain
+    - Select Basic WebLogic Domain
+- Next: Define a username and password for administrator account of weblogic
+    - this account will be used to startup weblogic sever and log into the admin console
+    - SMS Eg: This is probably the credentials you enter into the console when you run SMS
+- Next: Configuration wizard
+    - Can create web logic domain in two modes
+        - Development
+            - strictly used for dev and qa environments
+            - For Continuous integration model, can drop stuff into a directory and web logic will automatically deploy it
+                - this is also possible in dev mode and not prod
+            Eg: - just pick this
+        - Production
+            - a more secure configuration of web logic
+            - requires you to enter username and password to startup the server 
+            - does not put to application for deployment
+    - jdk can just be the default one
+- Next: Advanced configuration page: 
+    - Can modify these settings later so can leave these unchecked
+- Next: Review screen
+    - if you click on the Admin Server, can see the default settings for admin server
+        - eg: 
+            - Listen Addresses: All Local Addresses
+            - Listen Port: 7001
+                - this is the default weblogic port
+            - Server Name: AdminServer 
+    - these settings can be changed later in admin console if you want. 
+- Next, you'll get the Domain Location and Admin Server URL and click finish
+    - eg: Domain location: /u01/udemy/domains/base_domain
+    - eg: Admin Server URL: http://blah.local:7001/console
+- Now, if you ls in /u01/udemy, you should see a domains directory and the base_domain directory
+
+**Domain directory layout (within blah_domain directory) and how to read WLS output**
+- Below are a list of directories you'll see the domain directory
+- autodeploy
+- bin
+    - has a series of shell scripts for starting and stopping weblogic and nodemanager
+- config
+    - this directory maintains the configuration for every server and resource within domain
+    - imp - don't modify anything in here. If any was to change, it would be changed from the admin console
+    - has config.xml file
+        - main configuration file for weblogic
+        - here, all the servers and domain configurations are specified
+        - all the stuff in there are the configuration stuff that you see in the admin console
+            - eg: Adminserver is defined as a <server> element
+- console-ext
+- fileRealm.properties
+- init-info
+- lib
+- nodemanager
+- security
+- servers
+    - will have a list of all web logic servers you create
+    - when you create a weblogic domain, only server you'll see is AdminServer
+    - as you create additional managed servers, they will appear in this directory
+    - has AdminServer directory
+        - security directory in here
+        - when we start AdminServer for the first time, will see additional directories including log files
+        - will find log files for admin server and domain later on 
+- startWebLogic.sh
+
+**Starting weblogic using script**
+- Within the domain directory, look for bin directory
+- bin
+    - to Start weblogic, startWebLogic.exe
+        - execute in script and you'll see output
+            - You'll know weblogic started successfully and you'll know it's running when you see 'Server state changed to RUNNING'
+            - if you look up a couple lines, you'll see channel messages
+                - Channel "Default" is now listening on <ip address:port number that web logic is listening on> then the protocols it will respond to like iiop, t3 (weblogic propriotory protocol), ldap, snmp and http
+                    - can look for this message to see what port web logic server is running on 
+        - SMS eg: I think this happens in eclipse...
+- To see log files: 
+- Go to $cd u01/udemy/domains/servers/AdminServer/logs
+    - AdminServer.log
+        - server log for AdminServer
+    - access.log
+        - http access log
+        - if we didn't access the admin console, there might not be anything in here (requests)
+    - base_domain.log
+        - individual web logic servers have their own log files and the domain itself has a overarching log file
+        - if you 'cat' the log, you'll see all the logging from when we started the AdminServer
+        - the running messages are here
+
+**Weblogic admin console**
+- Once you start running the server, can go to console using the http://localhost:7001/console
+- use the username and password specific when you ran the installation wizard
+- From within console, can access the weblogic 'Environment' ![]()
+    - You'll see a list of servers that are part of your weblogic domain
+    - Might only see one server: AdminServer with state, heath, listen port 
+    - ![]() 
+    - table is customizable 
+        
 
 # Subversion
 **What's a Repository**
@@ -365,7 +505,7 @@ And two black garments in stock
 - The simple project structure is linear
 
 **Linear Project Structure**
-![LinearTrunk]()
+![LinearTrunk](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/Screen%20Shot%202018-09-30%20at%205.45.11%20PM.png)
 - Just make changes to the project directly and commit them
     - we don't have copies of project other than the main copy
         - {think smsp in subversion}
@@ -377,7 +517,7 @@ And two black garments in stock
     - but bad way to set project up
 
 **Tree Structure**
-![treeStructure]()
+![treeStructure](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/Screen%20Shot%202018-09-30%20at%205.51.15%20PM.png)
 - It is a common setup with Subversion
 - The trunk, branch, tag structure is what many svn clients set for you
 - Main project directory is called a ****trunk****
@@ -394,17 +534,16 @@ And two black garments in stock
     - tags directory is a special branch that holds snapshots of the trunk at a particular point of time
 
 **One Tree for Each Project**
-![org1]()
+![org1](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/Screen%20Shot%202018-09-30%20at%206.32.26%20PM.png)
 - this trunk/branch/tag structure there are two ways to set project at root of directory
 - One way: setup a single top level trunk tag and branch folder and put all projects below those folders
     - this keeps the trunks/tags/branches together
+    - SMS is setup up this way. 
 
-![org2]()
+![org2](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/Screen%20Shot%202018-09-30%20at%207.02.37%20PM.png)
 - Other way: Each project is a top level folder and each project gets it's own trunk/branch/tag sub folder
 - either is fine and depends on how you like it
     - can start with one folder structure, can change to the other. 
-- {todo: I think sms is set up this way}
- 
 
 **When to Branch?**
 - Unstable trunk: There is no branching. All work happens in the trunk
@@ -461,13 +600,13 @@ And two black garments in stock
     - update also shows conflict between your and other's changes
 - Any ****conflicts**** between your changes and the changes of others will be shown
     - eg. changed same line of code or delete something one is working on
-    - can overdie one over other, do manually or ignore for now
+    - can override one over other, do manually or ignore for now
 - You decide how to resolve conflicts
 
 **Committing changes**
 - Making a ****commit**** will save your local changes back to the repository
-    - when commited, they are merged back into the project. 
-    - can merge into branch or trunk. Usulally it's teh branch or trunk you are working in
+    - when committed, they are merged back into the project. 
+    - can merge into branch or trunk. Usually it's the branch or trunk you are working in
 - SVN server will merge the changes
 - You need to update and resolve conflicts before you commit!
     - update and then commit!
@@ -522,7 +661,7 @@ And two black garments in stock
 
 **Do I Always Need Access to the Server**
 - No, your working copy is local
-- Server access is needed when you want to ****udpate**** and ****commit**** (or get info from the server)
+- Server access is needed when you want to ****update**** and ****commit**** (or get info from the server)
 - Otherwise, you can do all your work offline until you're ready to talk to the server
     - only need to connect when you need the server
 
@@ -548,7 +687,7 @@ And two black garments in stock
         - else, need to play with environment variables
 - $svn --version
 - $svn info <https://nameofURLfromSVNserver/blah/>
-    - enter username and passwrod and SVN will remove who the last user you authenticated as
+    - enter username and password and SVN will remove who the last user you authenticated as
     - and won't prompt for the username again
     - gives info on repository
     - HTTPS access is 443 so make sure that's not used
@@ -1311,7 +1450,9 @@ Compare your code to the solution. The solution is available here:
 S1 - Spring and Hibernate for Beginners tutorials  
 S2 - JUnit and Mockito Crash Course  
 S3 - Mockito Tutorial with Junit Examples (https://github.com/in28minutes/MockitoTutorialForBeginners)
-S4 - SVN for Java Developers
+S4 - Beginning Oracle WebLogic for Administrators
+S5 - SVN for Java Developers
+
 
 #### Shortcuts:
 - In Idea, 
