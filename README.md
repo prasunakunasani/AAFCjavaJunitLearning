@@ -226,6 +226,87 @@ And two black garments in stock
 - Static methods is apparently bad for OOD so also not allowed (PowerMock allows this - but the code is still bad) 
 
 
+###### Understanding Weblogic concepts
+
+![WeblogicDomains]()
+- Web Domain 
+    - a logically related group of web logic servers and resources
+    - a domain always includes an administration server
+- Admin server 
+    - a central point in which you can create, manage and monitor resources and servers within a domain
+    - can also contain 0 or more managed servers 
+- Managed Servers
+    - where you deploy resources like web apps, web services, ejs, data sources, messaging resources, etc
+    - where the bulk of app lives
+
+![WebLogicDeployment]()
+- Since the weblogic domain is logical in nature, it can be deployed in a distributed fashion across many servers or against a single server
+- In diagram, got admin server deployed in single server and then Managed servers 1 and 2 deployed on another server
+- Then server 3 is deployed on another stand alone machine
+- So, weblogic domains allow a scalable architecture to deploy resources across multiple servers (think cloud scale)
+
+- Domains can be defined based on a lot of factors
+    - Eg: by department (HR, etc), geographic region, function (security, operations, etc)
+ 
+**What's in a Domain**
+- Domain consists of a admin server and web logic server and very logical in nature
+- Domain has one admin server and 0 or many managed servers
+    - 0 is allowed with just an admin server but this might only be used in dev environments (when you just create a domain)
+    - In prod, you'd create managed servers and off load processes onto the managed servers
+
+**Contents of a Domain**
+- XML configuration files that define all the Servers, Resources, Services contained within that domain
+- Security Stores
+    - eg: embedded ldap info, key store info for configuring SSL and trust
+- Log files
+    - for app services and services themselves
+- May contain application files
+    - eg: enterprise archive, web archive or ejb
+- Persistent file stores
+    - eg: persisting jsm messages
+- Transaction Logs
+    - If transactions are enabled in the app
+
+**What is a WebLogic Server**
+![WeblogicService]()
+- It's a combination of the domain configuration above associated with a set of configuration files that define it's parameters(run time parameters and configuration)
+- WLS 12c Runtime is a set of java libraries
+    - that runs on top of Java. 
+    - Weblogic is a JVM process listening in on network ports that you defined and configuration
+    
+**WebLogic Resources**
+- Domains also contain resources and services
+- Some are used by managed servers and some by the application itself
+- Administrators can define these resources and deploy them to WL servers with the domain
+- For managed servers, you can define such resources as machine definitions which identify an association between a managed server and a physical or virtual host
+- Most of the resources you'll define are application specific
+     - such as: 
+        - Security Providers
+        - Machines
+        - Virtual Hosts
+        - JDBC
+        - JMS messaging services (like JMS destination or a foreign JMS provider)
+        - Persistent Stores
+        - Logging
+        - Diagnostics & Monitoring
+        - Clusters
+
+**Installing Oracle**
+- Oracle WebLogic 12.1.3 (Generic 880 MB Installer)
+    - Need JDK separately since it no longer comes with Java JDK installation
+- Oracle installation link: https://www.oracle.com/technetwork/middleware/weblogic/downloads/wls-main-097127.html
+- Step 1: Run generic WebLogic installer
+    - $java -jar fmw_12.1.3.0.0_wls.jar
+- Step 2: Specify Oracle Inventory location
+    - Keep defaults? Not sure what to do here
+- Step 3: Specify Oracle Home Location 
+    - Basically where you want the wls12130 to go (eg: for SMS it was C:\Oracle\wls12130)
+- Step 4: Specify installation type
+    - For SMS you picked WebLogic Server (tutorial says Complete with Examples)
+        - todo - need to figure out what the dif is (super low priority compared to spring)
+- Just go through the rest of the defaults
+
+
 # Subversion
 **What's a Repository**
 - Stores all the files in the version control system
@@ -236,7 +317,7 @@ And two black garments in stock
     
 **Central Repository**
 - Files and revisions are stored on a server
-    - a cental repo can be a piece of software running on your local machine as well so it doesn't actually have to be a dedicated server
+    - a central repo can be a piece of software running on your local machine as well so it doesn't actually have to be a dedicated server
 - Clients connect across a network
     - like a browser connects to a server
     - when changes are ready for the repo, can use client to send changes to server
@@ -266,9 +347,9 @@ And two black garments in stock
     - When you make changes in a day, you'll not making changes directly in the repository
 - Changes to local copies are merged together
     - you work on local copies of the code until you're ready to save the changes, then you merge the changes
-    - even if you made changes all day and desice to start all over, no need to save changes to the repo at all
+    - even if you made changes all day and desire to start all over, no need to save changes to the repo at all
     - can get fresh copies of the original files and start over
-- Editing software does not have to be version control aware (the client can be seperate)
+- Editing software does not have to be version control aware (the client can be separate)
 
 **Which is Better**
 - Neither...with a good client, it's hard to tell the difference
@@ -485,11 +566,11 @@ And two black garments in stock
     - might need to right click folder and then use tortoise svn 
 
 **SVN Plugins for Eclipse**
-- subclipse plugin
+- subclipse  plugin
 - subversive plugin {todo - which is used in SMS documentation?}
 - these are the two common ones and you can just pick one
 - In Eclipse, install new software, work with: eclipse release
-    - this will contact eclipse and gets software specific for the verison you're using
+    - this will contact eclipse and gets software specific for the version you're using
     - eg. subversive revision graph and team provider
     - this will give a 'Subversion Overview' thing in Overview page
         - If you can't see it, go to Window-Preference->team->Subversion Connector Discovery popup or...
@@ -498,17 +579,17 @@ And two black garments in stock
         
 **SVN Connector Types**
 - SVNKit is native Java (a total rewrite) on all platforms
-- JavaHL is a binary JNI library, wrapper around SVN, and platform specifc (different package for Win64, Linux, and Mac). 
+- JavaHL is a binary JNI library, wrapper around SVN, and platform specific (different package for Win64, Linux, and Mac). 
 - You probably won't notice a difference.
 
 **Using SVNKit**
 - Usually "just works"
-- If you want to use JavaHL, use the same version as your comman-line tools
+- If you want to use JavaHL, use the same version as your command-line tools
 - JavaHL install tips: http://subclipse.tigris.org/wiki/JavaHL
 
 - Skipped 'Version of SVN, forwards/backwards compatibility and links'
 
-**Deffered/Skipped Connecting to a Project**
+**Deferred/Skipped Connecting to a Project**
 
 ****
 
@@ -551,7 +632,7 @@ And two black garments in stock
     - The container gets it's instructions on what objects to instantiate, configure and assemble by reading the configuration metadata.  
 - When asked, Spring provides an object based on an configuration file or annotation and give the appropriate implementation (make app configurable). 
 - Primary Functions of Spring Object Factory: 
-    - Create and manage objects (Inversion of Control (IoC))
+    - Create and manage objects (Inversion of Control (IoC)
     - Inject object's dependencies (Dependency Injection)
 - 3 ways of Configuring Spring container: 
     1) XML configuration file (legacy, but most legacy apps still use this)
@@ -697,9 +778,9 @@ public class Foo {
 ![Problem-Solution](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_15_07-Dependency%20Injection%20-%20YouTube.png)
 - Problem - Each of our classes require all the adopted dependencies
     - So, to construct each class, need to figure out what dependencies they need and how to instantiate those dependencies
-- Solution - Using a container: The container is a map of dependecies that your class needs with the logic to create those dependencies if they haven't been created yet
+- Solution - Using a container: The container is a map of dependencies that your class needs with the logic to create those dependencies if they haven't been created yet
 ![Container](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_19_33-Dependency%20Injection%20-%20YouTube.png)
-- Everytime you ask for a dependency, the map will figure out which dependency to use and then the container will check to see if it created one of those dependencies already
+- Every time you ask for a dependency, the map will figure out which dependency to use and then the container will check to see if it created one of those dependencies already
     - If it has, it'll just use that one. 
     - Else, it'll create the dependency, store it and then return it. (Think Spring Container)
 ![Container DI](https://github.com/whereismybaymax/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-04-20%2009_22_29-Dependency%20Injection%20-%20YouTube.png)
@@ -1062,7 +1143,7 @@ food.team=Royal Challengers Bangalore
         - Answer: 
             - By default, Spring will automatically create all beans in memory at application startup. This is known as "eager" initialization. The beans will always be created up front.
             - This is why you see the startup methods being called for other beans. Also, when the context is closed, it calls the shutdown methods on all beans in memory. However, Spring also allows you to make use of "lazy" initialization. With "lazy" initialization, the bean will only be created when explicity requested with "applicationContext.getBean(...)"
-            - To configure yoru bean for "lazy" initialization, you make use of the lazy-init="true" configuration for example, to mark class TrackCoach for lazy initalization: 
+            - To configure your bean for "lazy" initialization, you make use of the lazy-init="true" configuration for example, to mark class TrackCoach for lazy initialization: 
             ```xml
               <bean id="myCoach" class="springdemo.TrackCoach" lazy-init="true"...>
             ```
@@ -1138,7 +1219,7 @@ food.team=Royal Challengers Bangalore
     - called beanScope-applicationContext.xml
 - project can have multiple config files - you just have to reference the one you want
 - Clean up beanScope-applicationContext.xml
-    - delete everythign except the fortuneService and myCoach
+    - delete everything except the fortuneService and myCoach
     - right now, the beans are singletons
 - In BeanScopeDemoApp.java, when the Beans are loaded, since default is singleton scope, the same reference is used.
     - comparing the object reference to see if they are pointing to the same area in memory can be acheived through a boolean
@@ -1146,22 +1227,22 @@ food.team=Royal Challengers Bangalore
 
 ###### S1 Section 6, Lecture 47 - Bean Lifecycle - Overview
 - When Spring container first starts, a few things happen: 
-- ![]()
+- ![WhenSpringStarts](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-07-23%2016_39_22-Spring%20%26%20Hibernate%20for%20Beginners%20_%20Udemy.png)
 - 1st, beans are instantiated
     - then the dependencies are injected
     - then internal spring processing occurs with the bean factory
-    - then you have the option to add your own custom initalization code
+    - then you have the option to add your own custom initialization code
     - then, the bean is ready for use (call methods on it, work with the bean, etc)
 - At certain point, the app/container is shut down (context.shutdown)
-    - then, have the chance to call the custom destroy method that will execute before the actual application is stoped or before the bean's lifecyle is over 
-**Bean Lifecyle Methods/Hooks**
-- You can add custom code during *bean initalization*
+    - then, have the chance to call the custom destroy method that will execute before the actual application is stopped or before the bean's lifecycle is over 
+**Bean Lifecycle Methods/Hooks**
+- You can add custom code during *bean initialization*
     - Calling custom business logic methods
     - Setting up handle to resources (db, sockets, file, etc)
-- You can also add custome code during *bean destruction*
+- You can also add custom code during *bean destruction*
     - Calling custom business logic methods
     - Setting up handle to {clean up}resources (db, sockets, file, etc)
-- Basically, during the bean lifecyle, Spring allows you to call your custom code (hooks) that can be hooked during bean initalization and destruction
+- Basically, during the bean lifecycle, Spring allows you to call your custom code (hooks) that can be hooked during bean initialization and destruction
 
 **Init: method configuration**
 ```xml
@@ -1170,7 +1251,7 @@ food.team=Royal Challengers Bangalore
     </bean>
 </beans>
 ```
-- Set up bean initalization using init-method and give the method name
+- Set up bean initialization using init-method and give the method name
     - any method name
 
 **Destroy: method configuration**
