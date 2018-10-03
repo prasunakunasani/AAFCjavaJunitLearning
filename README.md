@@ -440,10 +440,10 @@ And two black garments in stock
 **Weblogic admin console**
 - Once you start running the server, can go to console using the http://localhost:7001/console
 - use the username and password specific when you ran the installation wizard
-- From within console, can access the weblogic 'Environment' ![]()
+- From within console, can access the weblogic 'Environment' ![ServersLink](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-10-02%2015_42_21-Beginning%20Oracle%20WebLogic%20for%20Administrators%20_%20Udemy.png)
     - You'll see a list of servers that are part of your weblogic domain
     - Might only see one server: AdminServer with state, heath, listen port 
-    - ![]() 
+    - ![ServersList](https://github.com/prasunakunasani/AAFCjavaJunitLearning/blob/master/Notes/Images/2018-10-02%2015_47_49-Beginning%20Oracle%20WebLogic%20for%20Administrators%20_%20Udemy.png) 
     - table is customizable 
         
 
@@ -735,6 +735,71 @@ And two black garments in stock
 
 
 # Spring
+
+###### S1 Section 3, Lecture 14,15,16,17
+**Spring Dev Environment Overview**
+
+- Need JDK installed (not JRE)
+    - download from http://www.oracle.com/technetwork/java/javase/downloads
+    - Need Java 8 or higher
+- Java Application Server (Tomcat for simplicity) 
+- For IDE: Eclipse 
+- In your case, you used Intellij
+     
+**Installing Tomcat on Windows**
+- Step 1: Download Tomcat
+    - http://tomcat.apache.org
+        - Download Tomcat 9 or something
+        - Binary Distributions - 32/64-bit Windows Service Installer msi file that will install tomcat as a windows service
+        - Double click installer
+- Step 2: Installing
+    - Type of install
+        - Eg: use Full since it give examples and host manager
+        - but since you wanna use oracle, maybe do Minimum..
+        - tomcat installs it as a service so make sure 'Service Startup' is checked of
+    - By default, tomcat listens on port 8080 
+        - can set up admin login (any is okay)
+    - Accept default JRE (Eg: C:\Program Files\Java\jre-9.0.1)
+    - Default installation directory 
+        - Eg: C:\Program Files\Apache Software Foundation\Tomcat 9.0
+    - Check of 'Run Apache Tomcat' - so it starts tomcat as a windows service
+        - Later, you'll run it through eclipse so this is just to test. 
+- Step 3: Verify Installation
+    - http://localhost:8080
+    - Should bring up tomcat page "If you're seeing this, you're successfully installed Tomcat. Congratulations!"
+    - Configure Tomcat: 
+        - on main page, right click on running tomcat icon
+            - Click Configure
+        - Configuration windows - can change the display name of service, description, logging, status, etc. 
+            - For now, just keep defaults
+    - Administer Tomcat via Services control panel
+        - In Windows Settings->services->Apache Tomcat 9.0 Tomcat9
+            - Like any standard service, can start, stop, resume, etc. 
+         
+**Installing Eclipse**
+- Download Eclipse: http://www.eclipse.org
+- Download -> Download Packages -> Dif distributions of Eclipse
+- Eclipse IDE for Java EE Developers
+    - it has built in support for java web applications 
+- unzip eclipse, install to C:\ {Program files? who downloads into C?}
+     - it will install into a C:\Eclipse
+ -Eclipse asks for workspace
+    - workspace is a folder where you'll store all your projects 
+    - can give any name and any location you want
+    - SMS Eg: C:\_a\SMS\workspaces\workspace_photon_branch
+    
+**Connecting Eclipse and Tomcat**
+- Benefits: 
+    - Start Tomcat from Eclipse
+    - Easily deploy applications directly to Tomcat
+- Servers tab in Eclipse
+    - Create new server->Apache folder -> Select Tomcat v9.0->autopopulates teh below
+        - Server's host name: localhost
+        - Server name: Tomcat v9.0 Server at localhost
+    - Browse to where tomcat is
+        - Eg: C:\Program Files\Apache Software Foundation\Tomcat x.x
+    - Add or Remove would be empty at this point. 
+    
 
 ###### Commit: S1 Section 4, Lecture 20, 21
 - Here: https://github.com/whereismybaymax/AAFCjavaJunitLearning/commit/316b77c98d22dbeea751792cae8c579bcde97e8b  
