@@ -728,9 +728,205 @@ And two black garments in stock
 
 - Skipped 'Version of SVN, forwards/backwards compatibility and links'
 
-**Deferred/Skipped Connecting to a Project**
+**Deferred/Skipped Connecting a new Java Project in Eclipse**
+    - it talks about setting up a folder to SVN server
+    - you don't need this since whoever is managing the svn server at aafc is probably creating a folder...maybe...
+    
+**Connecting to an existing Java Project using Eclipse**
+- For SMS, this isn't necessary since David's script does it for you. But for any old svn project...or understanding what the script is doing..
+- In eclipse, create worksapce
+- File->New project->SVN->project on SVN
+- URL of the base repository the project is in and not the project url itself
+     - the one that has multiple projects
+     - username and password
+ - Select Resource : is which project to check out
+    - Can just paste the url of project branch or trunk
+    - By default, pick the "head revision"
+        - 'Head Revision' = latest revision of the chosen trunk or branch  
+- Check out as: has to do with how project appears in eclipse and nothing to with svn
+    - Depth - check out whole project = 'Recursively'
+    - Just select the same revision as before
+
+**Dealing with proejcts that move to a new location**
+- Where a project is moved to a new repository or a different place in the same repository
+- Server dies
+- You need to clean up to restructure the repository
+- You went crazy and thought this is something that's necessary
+- Can create a new Eclipse workspace and point it to the new respository
+- You skipped the rest about how to move the project yourself since you won't do that...
+
+
+**Skipped Create/connect using command line**
+**Skipped/Deferred Create/connect using TortoiseSVN**
 
 ****
+
+Maven 
+###### S1 Section 46, Lecture 385, 386 - Maven Overview
+**What is Maven?**
+- Maven is a Project Management tool
+- Most popular use of Maven is for build management and dependencies
+
+**What Problems Does Maven Solve?**
+- When building your Java project, you may need additional JAR files
+    - Eg: Spring, Hibernate, Commons Logging, JSON, etc
+- One approach is to download the JAR files from each project web site
+    - Then, manually add the JAR files in your build path/classpath
+
+**Project WITHOUT maven**
+![]()
+- Developer will have to find the jar files and manually add them to build path
+
+**Maven Solution**
+- Tell Maven the projects you're working with (dependencies)
+    - Spring, Hibernate, etc
+- Maven will go out and download the JAR files for those projects for you
+- And Maven will make those JAR files available during compile/run time
+- Like giving Maven the list of what you want and it'll find it itself
+
+**Project WITH Maven**
+![]()
+- Maven will download them and pull to your computer and make them available for you to us
+
+**Maven - How it Works**
+![]()
+
+- Maven will read the config file
+- Then it'll check the local repo on your computer
+- If it's not in your repo, it'll pull from maven central repo into local repo so you can build yoru local cache
+- Then Maven will use it to build and run your application
+
+
+**Handling JAR Dependencies**
+- When Maven retrieves a project dependency
+    - It will also download supporting dependencies
+    - Eg: Spring depends on commons-logging
+        - so it will grab that one as well
+- Maven will handle this automagically
+
+**Building and Running**
+- When you build and run your app, Maven will handle class/build path for you
+- Based on config file, Maven will add JAR files accordingly
+
+
+**Standard Directory Structure**
+- Normally when you join a new project, 
+    - Each development team dreams up their own directory structure
+    - Not ideal for new comers and not standardized
+- Maven solves this problem by providing a standard directory structure
+
+![]()
+- At root of directory, will have a pom.xml file
+    - this is the maven configuration file 
+- src/main/java
+    - where you place the main java source code
+- src/main/resources
+    - where you'll place your properties files or config files used by your application
+- src/main/webapp
+    - where you'll place jsp files, web config files, images, etc
+- src/test/java
+    - where unit testing source code goes
+- src/test/resources
+    - any any properties or config files used by the unit test code
+- target
+    - actual destination directory for compiled code. 
+    - any artifacts that maven will generate
+    
+- eg standard directory structure
+![]()
+
+![]()
+
+**Standard Directory Structure Benefits**
+- For new developers joining a project,
+    - they can easily find code, properties files, unit tests, web files, etc
+- Most major IDEs have built-in support for Maven
+    - Eclipse, Intellij, NetBeans, etc
+    - IDEs can easily read/import Maven projects
+- Maven projects are portable
+    - Developers can easily share projects between IDEs
+    - So can create a maven project in eclipse and open it in intellij
+        - maybe not sms...
+
+**Advantages of Maven**
+- Dependency Management
+    - Maven will find JAR files for you
+    - No more missing JARs
+- Building and Running your project
+    - No more build path/classpath issues
+- Standard directory structure
+- You can build and run a project with minimal local configuration
+
+###### S1 Section 46, Lecture 387, 388 - POM file and Coordinates
+**POM File - pom.xml**
+- POM.xml: Project Object Model file
+- Configuration file for your project
+    - Eg: "Shopping list" for Maven
+    - where you tell maven that the proejct depends on X number of dependencies and ask it to go find them
+- Located in the root of your Maven project
+
+**POM File structure**
+![]()
+- project meta data
+    - list of dependenceis and list of plugins
+    - info about project like project name, version, output type
+- dependencies
+    - tell that this is the list of projects we depend on so gonna list those dependcies there
+- plugins
+    - additional custom tasks to run
+    
+**Simple POM File**
+![]()
+
+**Project Coordinates**
+- Project Coordinates uniquely identify a project
+    - Similar to GPS coordinates for your house: latitude/longitude
+- Precise information for finding your house (city, street, house#)
+
+![]() 
+
+**Project Coordinates - Elements**
+![]()
+
+**Eg of Project Coordinates**
+![]()
+- The Spring one is defined by Spring people and similar for hibernate
+- Their development teams cam up with the GroupID, artificateID and version for their given project
+
+**Adding Dependencies**
+- You want to add support of Spring and Hibernate in your project, 
+    - you simply add those as dependencies in the pom.xml
+- Maven will go on internate, pull those jar files so we can use in our application
+![]()
+
+**Dependency Coordinates**
+- To add given dependency project, we need: 
+    - ****Group ID****, ****Artifact ID****
+    - ****Version**** is optional
+        - Best practice is to include the version (for repeatable builds)
+            - using devops
+                - So can say our project works with x, y, z of a given project so you know it's been tested and verified
+- May see this refereed to as: GAV
+    - ****G****roup ID, ****A****rtifact ID and ****V****ersion
+    - "what's teh GAV of project"
+
+**How to Find Dependency Coordinates**
+- Option 1: Visit the project page (spring.io, hibernate.org, etc)
+    - If there's a maven section, they'll give the dependency that you can copy and paste to the maven pom.xml file
+- Option 2: Visit http://search.maven.org 
+    - easiest approach
+    - it will also have older versions and when each version was updated
+    - project information has teh GAV as well as dependency information that can be copy and pasted. 
+- Option 3: http://mvnrepository.com
+    - 3rd party site (see indexed repositories to see where it's searching)
+    - will search central repository and other repositories 
+    - also gives versions and last updated
+
+###### S1 Section 46, Lecture 389 - Maven Archetypes
+
+
+
+
 
 
 
